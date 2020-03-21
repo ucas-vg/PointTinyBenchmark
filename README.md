@@ -12,7 +12,7 @@ The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rl
 [Baidu Pan](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ)   password: pmcq<br/>
 [Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)<br/>
 
-For more details about TinyPerson dataset, please see [Dataset](dataset/)
+For more details about TinyPerson dataset, please see [Dataset](dataset/).
 
 ![](figure/annotation_rule.jpg)
 
