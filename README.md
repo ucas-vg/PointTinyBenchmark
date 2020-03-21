@@ -14,7 +14,7 @@ The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rl
 
 For more detail to dataset, see [Dataset](dataset/)
 
-![](figure/annotation_rule.jpg)|
+![](figure/annotation_rule.jpg)
 
 ## Tiny Benchmark
 The benchmark are based on [maskrcnn_benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and [citypersons code](https://bitbucket.org/shanshanzhang/citypersons/src/default/evaluation/).
