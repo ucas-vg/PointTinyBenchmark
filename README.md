@@ -5,7 +5,7 @@
 
 ## TinyPerson Dataset
 
-The dataset will used to hold [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/index.html).
+The dataset will be used to hold [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/index.html).
 
 #### Download link:
 [Official Site](http://vision.ucas.ac.cn/resource.asp)<br/>
