@@ -12,14 +12,14 @@ The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rl
 [Baidu Pan](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ)   password: pmcq<br/>
 [Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)<br/>
 
-For more detail to dataset, see [Dataset](dataset/)
+For more detail about TinyPerson dataset, please see [Dataset](dataset/)
 
 ![](figure/annotation_rule.jpg)
 
 ## Tiny Benchmark
-The benchmark are based on [maskrcnn_benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and [citypersons code](https://bitbucket.org/shanshanzhang/citypersons/src/default/evaluation/).
+The benchmark is based on [maskrcnn_benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and [citypersons code](https://bitbucket.org/shanshanzhang/citypersons/src/default/evaluation/).
 
-For more detail, see [Tiny Benchmark](tiny_benchmark/).
+For more details about the benchmark, please see [Tiny Benchmark](tiny_benchmark/).
 
 ## Scale Match
 
@@ -28,7 +28,6 @@ For more detail, see [Tiny Benchmark](tiny_benchmark/).
 ## Citation
 
 If you use the code and benchmark in your research, please cite:
-
 ```
 @inproceedings{yu2020scale,
   title={Scale Match for Tiny Person Detection},
