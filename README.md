@@ -5,7 +5,7 @@
 
 ## TinyPerson Dataset
 
-The dataset will be used to hold [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/index.html).
+The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/index.html).
 
 #### Download link:
 [Official Site](http://vision.ucas.ac.cn/resource.asp)<br/>
@@ -27,7 +27,7 @@ For more detail, see [Tiny Benchmark](tiny_benchmark/).
 
 ## Citation
 
-If you use the code in your research, please cite:
+If you use the code and benchmark in your research, please cite:
 
 ```
 @inproceedings{yu2020scale,
