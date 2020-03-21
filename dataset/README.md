@@ -15,6 +15,7 @@
 --------------------
 
 Download link:<br/>
+[Official Site](http://vision.ucas.ac.cn/resource.asp)<br/>
 [Baidu Pan](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ)   password: pmcq<br/>
 [Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)
 
@@ -351,6 +352,7 @@ print('dense image count:', len([len(annos) for img_id, annos in with_dense_img_
 print('dense image count:', len(set(with_dense_img_id2annos.keys()) - set(img_id2annos.keys())))
 ```
 
+
 ```
 train origin image count: 746
 train orgin image + dense image count: 794
@@ -358,6 +360,7 @@ train orgin image + dense image count: 794
 dense image count: 48
 dense image count: 48
 ```
+
 
 # 3. Dataset introduction <a name="3."></a>
 There are 1610 labeled images and 759 no labeled images(both them mainly from same video sets)
@@ -402,7 +405,3 @@ evaluating, which means a detection result which matched "ignore" box will not
 So in test set, There are 13787 positive annotations,  1989+2834 ignore("uncertain" treated
 same as "ignore") annotations. While Training in this benchmark, we treat "normal" box as positive box, and erase
 'ignore' and 'uncertain' region with mean in image, and dense images are not used.
-
-```{.python .input}
-
-```

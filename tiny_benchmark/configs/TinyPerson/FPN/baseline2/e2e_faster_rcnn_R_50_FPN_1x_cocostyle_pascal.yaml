@@ -1,0 +1,64 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+#  WEIGHT: "/home/hui/params/pretrained_model/ImageNetPretrained/MSRA/R-50.pkl"
+  WEIGHT: 'outputs/pascal/FPN/base//clear_key_model_only_model_final_aannann.pth'
+  BACKBONE:
+    CONV_BODY: "R-50-FPN"
+#    RESNET_STAGE_FIRST_STRIDE: (1, 2, 2, 2)
+#    REMOVE_STEM_POOL: true
+  RESNETS:
+    BACKBONE_OUT_CHANNELS: 256
+  RPN:
+    USE_FPN: True
+    ANCHOR_STRIDE: (4, 8, 16, 32, 64)
+    PRE_NMS_TOP_N_TRAIN: 2000
+    PRE_NMS_TOP_N_TEST: 1000
+    POST_NMS_TOP_N_TEST: 1000
+    FPN_POST_NMS_TOP_N_TEST: 1000
+    ANCHOR_SIZES: (8.31, 12.5, 18.55, 30.23, 60.41)  # (4, 8, 16, 32, 64) will be better
+    ASPECT_RATIOS: (0.5, 1.3, 2)
+  ROI_HEADS:
+    USE_FPN: True
+    DETECTIONS_PER_IMG: 200
+  ROI_BOX_HEAD:
+    POOLER_RESOLUTION: 7
+    POOLER_SCALES: (0.25, 0.125, 0.0625, 0.03125)
+    POOLER_SAMPLING_RATIO: 2
+    FEATURE_EXTRACTOR: "FPN2MLPFeatureExtractor"
+    PREDICTOR: "FPNPredictor"
+    NUM_CLASSES: 2                                                    # not forget
+INPUT:
+  USE_SCALE: true
+  SCALES: (1,)
+DATASETS:
+  TRAIN: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
+  TEST: ("tiny_set_corner_sw640_sh512_test_all_coco",)
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+#  USE_MORE_DA: 4
+#  DA4_COLOR_AUG: False
+#  DA4_SCALE_RANGE: (1.0, 1.0)
+#  DA4_SCALES: (0.5, 1.0, 2)
+#  DA4_OFFSET_X_RANGE: (-16, 16)
+#  DA4_OFFSET_Y_RANGE: (-16, 16)
+
+# 2 gpus, base 4
+SOLVER:
+  CHECKPOINT_PERIOD: 3206   # 2 epoch
+  TEST_ITER: 1603   # 1 epoch
+  BASE_LR: 0.01
+  WEIGHT_DECAY: 0.0001
+  STEPS: (9618, 16030)   # (6 epoch, 10 epoch)
+  MAX_ITER: 19236 # 12 epoch
+  IMS_PER_BATCH: 2
+  NUM_GPU: 2
+TEST:
+  IMS_PER_BATCH: 2
+  COCO_EVALUATE_STANDARD: 'tiny'  # tiny need change
+  MERGE_RESULTS: true
+  MERGE_GT_FILE: '/home/hui/dataset/tiny_set/annotations/task/tiny_set_test_all.json'
+  IGNORE_UNCERTAIN: true
+  USE_IOD_FOR_IGNORE: true
+#  DEBUG:
+#    USE_LAST_PREDICTION: True
+OUTPUT_DIR: ./outputs/tiny_set/FPN/baseline2_pascal_aannann

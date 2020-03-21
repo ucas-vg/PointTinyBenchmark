@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3edbe8a8-1f8d-42f9-832d-a8ba773f2c7b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../../cocoapi-master.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_MR_multisetup.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_MR_multisetup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../caltech/SSD_train3_vgg16_atros_reRatio.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../caltech/SSD_train3_vgg16_atros_reRatio.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../caltech/SSD_train4_FPN.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../caltech/SSD_train4_FPN.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../caltech/log_visualize.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../caltech/log_visualize.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/configs/RetRouting500-R-50_VOC0712_788_baseline.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/configs/RetRouting500-R-50_VOC0712_788_baseline.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/configs/RetinaNet500-R-50_VOC0712_788_baseline.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/configs/RetinaNet500-R-50_VOC0712_788_baseline.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/configs/RetinaNet800-R-50_VOC0712_795_baseline.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/configs/RetinaNet800-R-50_VOC0712_795_baseline.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/datasets/dataset_catalog.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/datasets/dataset_catalog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/cython_bbox.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/cython_bbox.cpython-36m-x86_64-linux-gnu.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/cython_bbox.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/cython_nms.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/cython_nms.cpython-36m-x86_64-linux-gnu.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/cython_nms.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/cython/setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/make.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/make.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/nms/src/nms_cuda_kernel.cu.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/nms/src/nms_cuda_kernel.cu.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_align/_ext/roi_align/_roi_align.so" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_align/_ext/roi_align/_roi_align.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_align/src/roi_align_kernel.cu.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_align/src/roi_align_kernel.cu.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_crop/_ext/roi_crop/_roi_crop.so" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_crop/_ext/roi_crop/_roi_crop.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_crop/src/roi_crop_cuda_kernel.cu.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_crop/src/roi_crop_cuda_kernel.cu.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_pooling/_ext/roi_pooling/_roi_pooling.so" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_pooling/_ext/roi_pooling/_roi_pooling.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_pooling/src/roi_pooling.cu.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/external/roi_pooling/src/roi_pooling.cu.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/modules/FPN.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/modules/FPN.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/train.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/train.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/train_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/train_net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../third/retnet_routing/utils/boxes.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../third/retnet_routing/utils/boxes.py" afterDir="false" />
+    </list>
+    <ignored path="eval_script.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/eval_script$eval_MR_multisetup.coverage" NAME="eval_MR_multisetup Coverage Results" MODIFIED="1541401330705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/eval_script$eval_demo.coverage" NAME="eval_demo Coverage Results" MODIFIED="1541581264761" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="1772746947">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.0" value="2" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="eval_script" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/eval_MR_multisetup.py" />
+        <option value="$PROJECT_DIR$/eval_demo.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1920" />
+    <option name="y" value="-4" />
+    <option name="width" value="1920" />
+    <option name="height" value="1084" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.eval_demo">
+    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="eval_script" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration name="eval_MR_multisetup" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="eval_script" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eval_MR_multisetup.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="eval_demo" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="eval_script" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eval_demo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.eval_demo" />
+      <item itemvalue="Python.eval_MR_multisetup" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.eval_demo" />
+        <item itemvalue="Python.eval_MR_multisetup" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3edbe8a8-1f8d-42f9-832d-a8ba773f2c7b" name="Default" comment="" />
+      <created>1541390253658</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1541390253658</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1920" y="-4" width="1920" height="1084" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26996806" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.40894902" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.5260274" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Python Console" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="4" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/eval_MR_multisetup.py</url>
+          <line>407</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/coco_citypersons_val_citypersons_1gpu_e2e_faster_rcnn_R-50-FPN_v1_60-69999_dt_sort.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_demo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_MR_multisetup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="285" column="56" lean-forward="true" selection-start-line="285" selection-start-column="56" selection-end-line="285" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

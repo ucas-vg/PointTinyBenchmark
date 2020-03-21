@@ -1,0 +1,52 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  WEIGHT: "catalog://ImageNetPretrained/MSRA/R-50"
+  RPN_ONLY: True
+  FCOS_ON: True
+  BACKBONE:
+    CONV_BODY: "R-50-FPN-RETINANET"
+  RESNETS:
+    BACKBONE_OUT_CHANNELS: 256
+  FCOS:
+    NUM_CLASSES: 2
+    FPN_STRIDES: (8, 16, 32, 64, 128)
+    PRE_NMS_TOP_N: 1000
+    LOSS_ALPHA: 0.25
+    LOSS_GAMMA: 2.0
+    PRIOR_PROB: 0.01
+    USE_STRIDE_SCALE_INIT: False
+    USE_GN: True
+#     OBJECT_SIZES: [[-1, 16], [16, 32], [32, 64], [64, 128], [128, 100000000]]
+  RETINANET:
+    USE_C5: False # FCOS uses P5 instead of C5
+    NUM_CLASSES: 2
+DATASETS:
+  TRAIN: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
+  TEST: ("tiny_set_corner_sw640_sh512_test_all_coco",)
+#  TEST: ("voc_2007_test",)
+INPUT:
+  USE_SCALE: true
+  SCALES: (1,)
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+
+# 1 gpu
+SOLVER:
+  CHECKPOINT_PERIOD: 3206   # 2 epoch
+  TEST_ITER: 1603   # 1 epoch
+  BASE_LR: 0.0025
+#  HEAD_LR_FACTOR: 10.
+  WEIGHT_DECAY: 0.0001
+  STEPS: (9618, 16030)   # (6 epoch, 10 epoch)
+  MAX_ITER: 19236 # 12 epoch
+  IMS_PER_BATCH: 2
+  NUM_GPU: 2
+  WARMUP_METHOD: "constant"
+TEST:
+  IMS_PER_BATCH: 2
+  COCO_EVALUATE_STANDARD: 'tiny'  # tiny need change
+  MERGE_RESULTS: true
+  MERGE_GT_FILE: '/home/hui/dataset/tiny_set/annotations/task/tiny_set_test_all.json'
+  IGNORE_UNCERTAIN: true
+  USE_IOD_FOR_IGNORE: true
+OUTPUT_DIR: ./outputs/tiny_set/fcos/baseline1_a4

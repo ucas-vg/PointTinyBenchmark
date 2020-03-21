@@ -1,0 +1,22 @@
+pretrained_model/
+dataset/cityscapes
+dataset/tiny_set
+dataset/coco
+tiny_benchmark/maskrcnn_benchmark.egg-info/
+tiny_benchmark/outputs/
+tiny_benchamrk/log/
+tiny_benchamrk/log2/
+tiny_benchmark/private/
+tiny_benchmark/build/
+tiny_benchmark/maskrcnn_benchmark/_C.*.so
+*/.idea
+*/.ipynb_checkpoints
+*/__pycache__
+*.pyc
+old_tmp/*
+tiny_benchmark/sds/outputs/
+tiny_benchmark/sds/log2/
+
+# tiny_benchmark/sds/standard_gaussian_100w_sample.npy
+# tiny_benchmark/tiny_benchmark/MyPackage/notebook/
+# tiny_benchmark/demo/

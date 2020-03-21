@@ -1,0 +1,126 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+import datetime
+import logging
+import time
+import os
+
+import torch
+from tqdm import tqdm
+
+from maskrcnn_benchmark.data.datasets.evaluation import evaluate
+from ..utils.comm import is_main_process, get_world_size
+from ..utils.comm import all_gather
+from ..utils.comm import synchronize
+
+
+def compute_on_dataset(model, data_loader, device):
+    model.eval()
+    results_dict = {}
+    cpu_device = torch.device("cpu")
+    for i, batch in enumerate(tqdm(data_loader)):
+        images, targets, image_ids = batch
+        images = images.to(device)
+        with torch.no_grad():
+            output = model(images, targets)  # changed by hui
+            output = [o.to(cpu_device) for o in output]
+        results_dict.update(
+            {img_id: result for img_id, result in zip(image_ids, output)}
+        )
+    return results_dict
+
+
+def _accumulate_predictions_from_multiple_gpus(predictions_per_gpu):
+    all_predictions = all_gather(predictions_per_gpu)
+    if not is_main_process():
+        return
+    # merge the list of dicts
+    predictions = {}
+    for p in all_predictions:
+        predictions.update(p)
+    # convert a dict where the key is the index in a list
+    image_ids = list(sorted(predictions.keys()))
+    if len(image_ids) != image_ids[-1] + 1:
+        logger = logging.getLogger("maskrcnn_benchmark.inference")
+        logger.warning(
+            "Number of images that were gathered from multiple processes is not "
+            "a contiguous set. Some images might be missing from the evaluation"
+        )
+
+    # convert to a list
+    predictions = [predictions[i] for i in image_ids]
+    return predictions
+
+
+def inference(
+        model,
+        data_loader,
+        dataset_name,
+        iou_types=("bbox",),
+        box_only=False,
+        device="cuda",
+        expected_results=(),
+        expected_results_sigma_tol=4,
+        output_folder=None,
+        ignore_uncertain=False,  # add by hui
+        use_iod_for_ignore=False,  # add by hui
+        eval_standard='coco',      # add by hui
+        use_last_prediction=False,  # add by hui for debug
+        evaluate_method='',  # add by hui
+        voc_iou_ths=(0.5,),       # add by hui
+        gt_file=None,         # add by hui
+        use_ignore_attr=True
+):
+    # convert to a torch.device for efficiency
+    device = torch.device(device)
+    num_devices = get_world_size()
+    logger = logging.getLogger("maskrcnn_benchmark.inference")
+    dataset = data_loader.dataset
+    logger.info("Start evaluation on {} dataset({} images).".format(dataset_name, len(dataset)))
+    start_time = time.time()
+    if not use_last_prediction:  # add by hui
+        predictions = compute_on_dataset(model, data_loader, device)
+
+        # wait for all processes to complete before measuring the time
+        synchronize()
+        total_time = time.time() - start_time
+        total_time_str = str(datetime.timedelta(seconds=total_time))
+        logger.info(
+            "Total inference time: {} ({} s / img per device, on {} devices)".format(
+                total_time_str, total_time * num_devices / len(dataset), num_devices
+            )
+        )
+
+        predictions = _accumulate_predictions_from_multiple_gpus(predictions)
+    else:  # add by hui
+        predictions = torch.load(os.path.join(output_folder, 'predictions.pth')) # add by hui
+    if not is_main_process():
+        return
+
+    if output_folder:
+        torch.save(predictions, os.path.join(output_folder, "predictions.pth"))
+
+    extra_args = dict(
+        box_only=box_only,
+        iou_types=iou_types,
+        expected_results=expected_results,
+        expected_results_sigma_tol=expected_results_sigma_tol,
+    )
+
+    # add by hui ##################################################3
+    from maskrcnn_benchmark.data import datasets
+    if isinstance(dataset, datasets.COCODataset):
+        extra_args.update(dict(
+            ignore_uncertain=ignore_uncertain,
+            use_iod_for_ignore=use_iod_for_ignore,
+            eval_standard=eval_standard,
+            gt_file=gt_file,
+            use_ignore_attr=use_ignore_attr
+        ))
+    extra_args.update(dict(evaluate_method=evaluate_method,
+                           voc_iou_ths=voc_iou_ths))
+    # ###################################################################################################3
+
+    return evaluate(dataset=dataset,
+                    predictions=predictions,
+                    output_folder=output_folder,
+                    **extra_args)
