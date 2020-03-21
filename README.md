@@ -8,7 +8,7 @@
 The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/index.html).
 
 #### Download link:
-[Official Site](http://vision.ucas.ac.cn/resource.asp)<br/>
+[Official Site](http://vision.ucas.ac.cn/resource.asp)<br/>   [recomended, download speed may be faster]
 [Baidu Pan](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ)   password: pmcq<br/>
 [Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)<br/>
 
