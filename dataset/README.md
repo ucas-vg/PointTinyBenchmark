@@ -45,7 +45,7 @@ such image are called "dense" boxes(annotation). "dense" boxes may have some ina
 
 ## 2.1 annotation format <a name="2.1"></a>
 
-the json annotation file is followed coco annotation format.
+The json annotation file just follows the format of coco annotation.
 
 ```py
 train_anno = json.load(open('./tiny_set/annotations/tiny_set_train.json'))
