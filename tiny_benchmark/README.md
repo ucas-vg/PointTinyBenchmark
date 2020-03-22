@@ -8,7 +8,7 @@
 # Install <a name='1.'/>
 
 ### Requirements:
-- PyTorch 1.0 from a nightly release. Installation instructions can be found in https://pytorch.org/get-started/locally/
+- PyTorch 1.0.1
 - torchvision from master
 - cocoapi
 - yacs
@@ -40,24 +40,17 @@ conda install opencv
 conda install scipy
 
 # install pycocotools
-cd $INSTALL_DIR
+cd ${TinyBenchmark}/tiny_benchmark
 git clone https://github.com/cocodataset/cocoapi.git
 cd cocoapi/PythonAPI
 python setup.py build_ext install
 
-# install PyTorch Detection
-cd $INSTALL_DIR
-git clone https://github.com/facebookresearch/maskrcnn-benchmark.git
-cd maskrcnn-benchmark
 # the following will install the lib with
 # symbolic links, so that you can modify
 # the files if you want and won't need to
 # re-build it
-
 # rm build # if needed
 python setup.py build develop
-
-unset INSTALL_DIR
 
 # or if you are on macOS
 # MACOSX_DEPLOYMENT_TARGET=10.9 CC=clang CXX=clang++ python setup.py build develop
