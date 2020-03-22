@@ -15,34 +15,33 @@
 --------------------
 
 Download link:<br/>
-[Official Site](http://vision.ucas.ac.cn/resource.asp)<br/>
+[Official Site](http://vision.ucas.ac.cn/resource.asp): recomended, download may faster<br/>
 [Baidu Pan](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ)   password: pmcq<br/>
-[Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)
+[Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)<br/>
 
 # 1. Annotation rules <a name="1."></a>
 ### "sea" and "earth" <a name="1.1"></a>
 In TinyPerson, we classify persons as “sea person” (persons in the sea) or “earth person” (persons
-on the land). We define four rules to determine which the label a person belongs to:
+on the land). We define four rules to determine the label of a person:
 1) Persons on boat are treated as “sea person”;
 2) Persons lying in the water are treated as “sea person”;
 3) Persons with more than half body in water are treated as “sea person”;
 4) others are treated as “earth person”.
 
 ### "ignore" <a name="1.2"></a>
-In TinyPerson, there are three conditions where persons are labeled it's “ignore” attribute as True:
-1. Crowds, which we can recognize as persons. But the crowds are hard to separate one by one when labeled with standard rectangles;
+In TinyPerson, there are three conditions where persons are labeled as “ignore”:
+1. Crowds, which we can recognize as persons in group. However, persons in the crowds are hard to be separated one by one with standard rectangles;
 2. Ambiguous regions, which are hard to clearly distinguish whether there is one or more persons;
-3. Reflections in Water.
+3. Reflections in the water.
 
 ### "uncertain" <a name="1.3"></a>
-In TinyPerson, some objects are hard to be recognized as human beings, we directly labeled they “uncertain” attribute as True.
+In TinyPerson, some objects are hard to be recognized as human beings, we directly labeled them “uncertain”.
 
 ### "dense" <a name="1.4"></a>
-In TinyPerson, image who contain more than 200 annotations are called "dense image", the annotation box in
-such image are called "dense" box(annotation). "dense" box may have some mistake labels, which means it may be a person or something
-like person("uncertain").
+In TinyPerson, image, which contains more than 220 annotations, is called "dense image", the annotation boxes in
+such image are called "dense" boxes(annotation). "dense" boxes may have some inaccurate labels, which is a person or an "uncertain" region.
 
-# 2. Json Annotation File Introduce and example <a name="2."></a>
+# 2. Json Annotation File Introduction and An Example <a name="2."></a>
 
 ## 2.1 annotation format <a name="2.1"></a>
 
@@ -160,7 +159,7 @@ plt.subplot(1, 2, 2);plt.imshow(erase_img); plt.title('erase image')
 
 ## 2.3 corner <a name="2.3"></a>
 
-corner dataset is trying cut image in dataset piece by piece, but not generate sub-images, just cut image on annotation file by add a keword 'cornor' and shift GT box in sub-images. For example, cut a image to K pieces.
+corner dataset is trying to cut images in dataset piece by piece. Different from generating sub-images, images is just cutted on annotation file by adding a keword 'cornor' and then shifting GT box in sub-images. For example, cutting an image into K pieces.
 
 ```
 images: {'file_name': origin_img_name, 'id': origin_img_id, ...}
@@ -181,7 +180,7 @@ annotations:
 ```
 
 
-these k sub images records share same 'file_name' as origin image, but add 'corner' which is area this sub-image inside origin image.
+the k sub-images share the same 'file_name' with origin image, 'corner' represents the sub-region of the sub-image in the origin image.
 
 ```python
 def img_id_to_annotations(coco_annos):
@@ -284,13 +283,13 @@ for i,  img_info in enumerate(img_infos):
 
 ## 2.4 task <a name="2.4"></a>
 
-'task' means make TinyPerson as binary-classification task, there are three kind task: 
+'task' means making TinyPerson as a binary-classification task, where there are three kinds of taskes: 
 
 task | note
 ---| ---
-'sea'| only keep annotations which category is sea_person, set other annotation as 'ignore'
+'sea'| only keeping annotations which category is sea_person, set other annotation as 'ignore'
 'earth'| only keep annotations which category is earth_person, set other annotation as 'ignore'
-'all'| set all annotations which categoriy is sea_person or earth_person as categorie 'person'
+'all'| set all annotations which categoriy is either sea_person or earth_person as 'person'
 
 ```py
 erase_image_dir = './tiny_set/erase_with_uncertain_dataset/'
@@ -320,9 +319,8 @@ print(info_f(corner_train_not_task_anno))
 
 ## 2.5 dense <a name="2.5"></a>
 
-In TinyPerson, image who contain more than DENSE_THRESHOLD(220) annotations are called "dense image", the annotation box in
-such image are called "dense" box(annotation). "dense" box may have some mistake labels, which means it may be a person or something
-like person("uncertain").
+In TinyPerson, image, which contains more than 220 (DENSE_THRESHOLD) annotations, is called "dense image", the annotation boxes in
+such image are called "dense" boxes(annotation). "dense" boxes may have some inaccurate labels, which is a person or an "uncertain" region.
 
 ```py
 def img_id_to_annotations(coco_annos):
@@ -363,12 +361,11 @@ dense image count: 48
 
 
 # 3. Dataset introduction <a name="3."></a>
-There are 1610 labeled images and 759 no labeled images(both them mainly from same video sets)
- and 72651 annotations totally in TinyPerson, show as follow.
+There are 1610 labeled images and 759 non-labeled images (both are mainly from same video sets) and totally 72651 annotations in TinyPerson, shown as follows:
 
 <center>
 <img src="../figure/dataset_anno.png" width="200" height="250"/>
-<div>Two way to split annotation in TinyPerson</div>
+<div>Two ways for splitting annotations in TinyPerson</div>
 </center>
 
  set |train| test | total | note
@@ -393,15 +390,11 @@ There are 1610 labeled images and 759 no labeled images(both them mainly from sa
 
 
 ## tiny person detection task <a name="3.1"></a>
-For tiny person detection task, while evaluating on test set:
-1. we treat both "sea" and "earth" box as one class("person") box.
-2. only "normal" box are treat as positive box.
-3. "dense image"(which contains "dense" box) are not used while evaluating.
-4. "ignore" box, same as pedestrian detection, will neither be positive or negative while
-evaluating, which means a detection result which matched "ignore" box will not
- be FP(false positive) or TP(true positive).
-4. "uncertain" box are treated same as "ignore" box while evaluating.
+For tiny person detection task, the rules of evaluation on test set are given as follows:
+1. we treat both "sea" and "earth" box as one class("person").
+2. only "normal" box is treat as positive box.
+3. "dense image"(which contains "dense" box) are not used while evaluation.
+4. "ignore" box, same as pedestrian detection, is neither positive nor negative while evaluation, which means a detection result which matched "ignore" box will not be FP(false positive) or TP(true positive).
+4. "uncertain" box are treated same as "ignore" box while evaluation.
 
-So in test set, There are 13787 positive annotations,  1989+2834 ignore("uncertain" treated
-same as "ignore") annotations. While Training in this benchmark, we treat "normal" box as positive box, and erase
-'ignore' and 'uncertain' region with mean in image, and dense images are not used.
+In test set, there are 13787 positive annotations, 1989+2834 ignore ("uncertain" is treated same as "ignore") annotations. For training in the benchmark, we treat "normal" box as positive box, and erase 'ignore' and 'uncertain' region with mean value of the region in image, and dense images are not utilized for training.
