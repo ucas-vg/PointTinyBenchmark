@@ -21,8 +21,8 @@
 
 ```bash
 # first, make sure that your conda is setuped properly with the right environment
-# for that, check that `which conda`, `which pip` and `which python` points to the
-# right path. From a clean conda env, the following is what you need to do:
+# for that, check `which conda`, `which pip` and `which python`, whether they point to the
+# right path. From a new conda env, the following is what you need to do:
 
 conda create --name maskrcnn_benchmark
 conda activate maskrcnn_benchmark
@@ -56,10 +56,9 @@ python setup.py build develop
 # MACOSX_DEPLOYMENT_TARGET=10.9 CC=clang CXX=clang++ python setup.py build develop
 ```
 
-
 ### normal issuse
 
-> A runtime bug undefined symbol: _ZN3c105ErrorC1ENS_14SourceLocationERKSs
+> A runtime bug: undefined symbol: _ZN3c105ErrorC1ENS_14SourceLocationERKSs
 
 ```bash
     from maskrcnn_benchmark.layers import nms as _box_nms  File "/home/data/github/tiny_benchmark/tiny_benchmark/maskrcnn_benchmark/layers/__init__.py", line 9, in <module>
@@ -86,7 +85,6 @@ change the code in $YOU_CONDA_ENV_DIR/lib/python3.6/site-packages/torch/utils/cp
 -D_GLIBCXX_USE_CXX11_ABI=1
 ```
 
-
 which are in line 398 and line 1013
 
 ```py
@@ -106,7 +104,7 @@ rm build -rf
 python setup.py build develop
 ```
 
-- reason:
+- possible reason:
 
 The gcc flag should keep the same, while build pytorch and it's extension.
 The possible cause is previous pytorch version use -D_GLIBCXX_USE_CXX11_ABI=0 to build in conda,
@@ -133,7 +131,8 @@ export NGPUS=2
 CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=$NGPUS tools/train_test_net.py --config ${config_path}
 ```
 
-Notice: the test annotation will not release until RLQ-TOD@ECCV'20 challenge finished, you may need to change DATASETS.TEST in config file for training, such as
+Notice: the test annotation will not be released until RLQ-TOD@ECCV'20 challenge finished, you may need to change DATASETS.TEST in config file for training, such as:
+
 ```yaml
 DATASETS:
   TRAIN: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
@@ -146,7 +145,7 @@ You can split a sub-set from training setting to evalute you model. For evalutio
 
 # Experiment <a name='4.'/>
 
-<a color='#00ff00'> Notice: in following tables, **updated evaluation code (compared with the WACV paper) was adopted**. Since orginal code for wacv paper handle the ignore region not very well, we have updated the evaluation code and obtained some new experimental results. Although the modification for evaluation, the relevant conclusions are consistent. Each group of experiments was run at least 3 times, and the final experimental result was the average of multiple results.</a>
+<a color='#00ff00'> Notice: in following tables, **updated evaluation code (compared with the WACV paper) was adopted**. Since orginal code for wacv paper handles the ignore region not well, we have updated the evaluation code and obtained some new experimental results. Although the modification for evaluation, the relevant conclusions are consistent. Each group of experiments was run at least 3 times, and the final experimental result was the average of multiple results.</a>
 
 For details of experiment setting, please see [paper](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) Section 5.1. Experiments Setting
 
@@ -178,7 +177,7 @@ DSFD                      | 96.41| 88.02| 86.84| 93.47| 78.72| 78.02| 99.48
 [Adaptive FreeAnchor](configs/TinyPerson/freeanchor/baseline1/freeanchor_R_50_FPN_1x_baseline1_lrfpn.yaml) | 88.93 | **80.75** | 83.63 | 89.63 | 74.38 | 78.21 | 98.77
 [Faster RCNN-FPN](configs/TinyPerson/FPN/baseline1/e2e_faster_rcnn_R_50_FPN_1x_cocostyle_baseline1.yaml)    | 87.86|82.02|78.78|**87.57**|72.56|76.59|98.39 
 
-### The experimental results based on the orginal evaluation code in WACV paper (deprecated)
+### The experimental results based on the orginal evaluation code in WACV paper (Not recommended)
 
 detector | $AP^{tiny1}_{50}$ | $AP^{tiny2}_{50}$ |  $AP^{tiny3}_{50}$ | $AP^{tiny}_{50}$ | $AP^{small}_{50}$| $AP^{tiny}_{25}$| $AP^{tiny}_{75}$
 ---|---|---|---|---|---|---|---
