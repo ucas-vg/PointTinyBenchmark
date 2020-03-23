@@ -1,6 +1,6 @@
 ### [Installation](#1.)
 ### [Getting started](#2.)
-### [Evaluate](#3.)
+### [Evaluation](#3.)
 ### [Experiment](#4.)
 
 ---
