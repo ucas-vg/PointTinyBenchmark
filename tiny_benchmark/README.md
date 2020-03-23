@@ -1,11 +1,11 @@
-### [Install](#1.)
+### [Installation](#1.)
 ### [Getting started](#2.)
 ### [Evaluate](#3.)
 ### [Experiment](#4.)
 
 ---
 
-# Install <a name='1.'/>
+# Installation <a name='1.'/>
 
 ### Requirements:
 - PyTorch 1.0.1
@@ -20,20 +20,20 @@
 ### Step-by-step installation
 
 ```bash
-# first, make sure that your conda is setup properly with the right environment
+# first, make sure that your conda is setuped properly with the right environment
 # for that, check that `which conda`, `which pip` and `which python` points to the
-# right path. From a clean conda env, this is what you need to do
+# right path. From a clean conda env, the following is what you need to do:
 
 conda create --name maskrcnn_benchmark
 conda activate maskrcnn_benchmark
 
-# this installs the right pip and dependencies for the fresh python
+# install the right pip and dependencies
 conda install ipython
 
 # maskrcnn_benchmark and coco api dependencies
 pip install -r requirements.txt
 
-# follow PyTorch installation
+# PyTorch installation
 conda install pytorch=1.0.1 torchvision cudatoolkit=10.0
 
 conda install opencv
@@ -52,7 +52,7 @@ python setup.py build_ext install
 # rm build # if needed
 python setup.py build develop
 
-# or if you are on macOS
+# or if you use MacOS
 # MACOSX_DEPLOYMENT_TARGET=10.9 CC=clang CXX=clang++ python setup.py build develop
 ```
 
@@ -78,7 +78,7 @@ ImportError: /home/data/github/tiny_benchmark/tiny_benchmark/maskrcnn_benchmark/
 
 - solution:
 
-change code in $YOU_CONDA_ENV_DIR/lib/python3.6/site-packages/torch/utils/cpp_extension.py as follow
+change the code in $YOU_CONDA_ENV_DIR/lib/python3.6/site-packages/torch/utils/cpp_extension.py as follows:
 
 ```py
 -D_GLIBCXX_USE_CXX11_ABI=0
@@ -87,7 +87,7 @@ change code in $YOU_CONDA_ENV_DIR/lib/python3.6/site-packages/torch/utils/cpp_ex
 ```
 
 
-which in line 398 and line 1013
+which are in line 398 and line 1013
 
 ```py
 self._add_compile_flag(extension, '-D_GLIBCXX_USE_CXX11_ABI=0')
@@ -99,7 +99,6 @@ self._add_compile_flag(extension, '-D_GLIBCXX_USE_CXX11_ABI=1')
 common_cflags += ['-D_GLIBCXX_USE_CXX11_ABI=1']
 ```
 
-
 and then delete build and re-build
 
 ```sh
@@ -107,13 +106,12 @@ rm build -rf
 python setup.py build develop
 ```
 
-
 - reason:
 
 this gcc flag should keep same, while build pytorch and it's extension.
-we guess, before pytorch version use -D_GLIBCXX_USE_CXX11_ABI=0 to build in conda,
-so it 's ok build nms extension use -D_GLIBCXX_USE_CXX11_ABI=0, but the new version
-build with -D_GLIBCXX_USE_CXX11_ABI=1, so got this bug.
+The possible cause is previous pytorch version use -D_GLIBCXX_USE_CXX11_ABI=0 to build in conda,
+therefore it's ok to build nms extension using -D_GLIBCXX_USE_CXX11_ABI=0, however the new version 
+build with -D_GLIBCXX_USE_CXX11_ABI=1, resulting in this bug.
 
 # Getting started <a name='2.'/>
 1. install TinyBenchamrk as [Install]()
@@ -126,7 +124,6 @@ class DatasetCatalog(object):
     DATASETS = {
     ....
 ```
-
 
 3. choose a config file and run as [maskrcnn_benchmark training](https://github.com/facebookresearch/maskrcnn-benchmark#multi-gpu-training)
 
@@ -143,15 +140,15 @@ DATASETS:
   TEST: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
 ```
 
-# Evaluate <a name='3.'/>
+# Evaluation <a name='3.'/>
 
-you can split a val set from training setting to evalute you model, to evalute on test set, you can upload your result to ECCVW competetion.
+you can split a val set from training setting to evalute you model. For evalution on the test set, you can upload your result to ECCVW challenge (RLQ-TOP@ECCV'20).
 
 # Experiment <a name='4.'/>
 
-<a color='#00ff00'> note: In follow tables, **updated evaluate code(compare to paper) was adopt** because orgin code deal ignore region very well, we have update the evaluate code and make the performance more persuasive. And the conclusion in paper has no changement. Every experiment have run at least 3 times and got mean of them.</a>
+<a color='#00ff00'> Notice: In following tables, **updated evaluation code(compared with the WACV paper) was adopt** because orginal code handle the ignore region not very well, we have updated the evaluation code and obtained some new experimental results. Although the modification for the evaluation, the relevant conclusions are consistent. Each group of experiments was run at least 3 times, and the final experimental result was the average of multiple results.</a>
 
-for detail of experiment setting, view [paper](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) 5.1. Experiments Setting
+fOR details of experiment setting, please see [paper](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) Section 5.1. Experiments Setting
 
 training setting| value
 ---|---
