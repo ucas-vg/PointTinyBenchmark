@@ -99,7 +99,7 @@ self._add_compile_flag(extension, '-D_GLIBCXX_USE_CXX11_ABI=1')
 common_cflags += ['-D_GLIBCXX_USE_CXX11_ABI=1']
 ```
 
-and then delete build and re-build
+and then delete ‘build’ and ‘re-build’
 
 ```sh
 rm build -rf
@@ -108,14 +108,14 @@ python setup.py build develop
 
 - reason:
 
-this gcc flag should keep same, while build pytorch and it's extension.
+The gcc flag should keep the same, while build pytorch and it's extension.
 The possible cause is previous pytorch version use -D_GLIBCXX_USE_CXX11_ABI=0 to build in conda,
 therefore it's ok to build nms extension using -D_GLIBCXX_USE_CXX11_ABI=0, however the new version 
 build with -D_GLIBCXX_USE_CXX11_ABI=1, resulting in this bug.
 
 # Getting started <a name='2.'/>
-1. install TinyBenchamrk as [Install]()
-2. download dataset as [dataset](../dataset) and move to \\\${TinyBenchmark}/dataset,
+1. install TinyBenchamrk [Install]()
+2. download dataset [dataset](../dataset) and move to \\\${TinyBenchmark}/dataset,
 modify path in \\\${TinyBenchmark}/tiny_benchmark/maskrcnn_benchmark/config/paths_catalog.py to your dataset path
 
 ```py
@@ -133,7 +133,7 @@ export NGPUS=2
 CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=$NGPUS tools/train_test_net.py --config ${config_path}
 ```
 
-note: the test annotation will not release until ECCVW challenge finished, so you may need to change DATASETS.TEST in config file while training, such as
+Notice: the test annotation will not release until RLQ-TOD@ECCV'20 challenge finished, you may need to change DATASETS.TEST in config file for training, such as
 ```yaml
 DATASETS:
   TRAIN: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
@@ -142,13 +142,13 @@ DATASETS:
 
 # Evaluation <a name='3.'/>
 
-you can split a val set from training setting to evalute you model. For evalution on the test set, you can upload your result to ECCVW challenge (RLQ-TOP@ECCV'20).
+You can split a sub-set from training setting to evalute you model. For evalution on the test set, you can upload your result to ECCVW challenge (RLQ-TOP@ECCV'20).
 
 # Experiment <a name='4.'/>
 
-<a color='#00ff00'> Notice: In following tables, **updated evaluation code(compared with the WACV paper) was adopt** because orginal code handle the ignore region not very well, we have updated the evaluation code and obtained some new experimental results. Although the modification for the evaluation, the relevant conclusions are consistent. Each group of experiments was run at least 3 times, and the final experimental result was the average of multiple results.</a>
+<a color='#00ff00'> Notice: in following tables, **updated evaluation code (compared with the WACV paper) was adopted**. Since orginal code for wacv paper handle the ignore region not very well, we have updated the evaluation code and obtained some new experimental results. Although the modification for evaluation, the relevant conclusions are consistent. Each group of experiments was run at least 3 times, and the final experimental result was the average of multiple results.</a>
 
-fOR details of experiment setting, please see [paper](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) Section 5.1. Experiments Setting
+For details of experiment setting, please see [paper](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) Section 5.1. Experiments Setting
 
 training setting| value
 ---|---
@@ -158,7 +158,7 @@ test annotation| dataset/tiny_set/annotations/task/tiny_set_test_all.json
 deal to ignore region while training| erase with mean color
 size of cut image piece| (640, 512)
 
-## 1. various detector
+## 1. detectors
 
 detector | $AP^{tiny1}_{50}$ | $AP^{tiny2}_{50}$ |  $AP^{tiny3}_{50}$ | $AP^{tiny}_{50}$ | $AP^{small}_{50}$| $AP^{tiny}_{25}$| $AP^{tiny}_{75}$
 ---|---|---|---|---|---|---|---
@@ -178,7 +178,7 @@ DSFD                      | 96.41| 88.02| 86.84| 93.47| 78.72| 78.02| 99.48
 [Adaptive FreeAnchor](configs/TinyPerson/freeanchor/baseline1/freeanchor_R_50_FPN_1x_baseline1_lrfpn.yaml) | 88.93 | **80.75** | 83.63 | 89.63 | 74.38 | 78.21 | 98.77
 [Faster RCNN-FPN](configs/TinyPerson/FPN/baseline1/e2e_faster_rcnn_R_50_FPN_1x_cocostyle_baseline1.yaml)    | 87.86|82.02|78.78|**87.57**|72.56|76.59|98.39 
 
-### old evaluate performance (deprecated)
+### The experimental results based on the orginal evaluation code in WACV paper (deprecated)
 
 detector | $AP^{tiny1}_{50}$ | $AP^{tiny2}_{50}$ |  $AP^{tiny3}_{50}$ | $AP^{tiny}_{50}$ | $AP^{small}_{50}$| $AP^{tiny}_{25}$| $AP^{tiny}_{75}$
 ---|---|---|---|---|---|---|---
@@ -222,7 +222,7 @@ COCO100$^{A}$ |86.94|80.53|77.06|86.4|69.88|75.44|98.2
 [SM COCO](configs/TinyPerson/FPN/baseline2/e2e_faster_rcnn_R_50_FPN_1x_cocostyle_smb4coco.yaml)     | 87.14 | 79.60 |**76.14**|86.22 |**68.59**|**74.16**|98.28
 [MSM COCO](configs/TinyPerson/FPN/baseline2/e2e_faster_rcnn_R_50_FPN_1x_cocostyle_msmb4coco.yaml)       |**86.54**|**79.2**|76.86|**85.86**|68.76|74.33|**98.23**
 
-X$^{A}$(X is COCO or COCO100) means don't keep same anchor setting as pre-train while finetine, but keep same as SM COCO. In paper, there are no these experiments.
+X$^{A}$(X is COCO or COCO100) means we use the different anchor setting as pre-train while finetine, but keep same with SM COCO. In WACV paper, there are no such experiments.
 
 ### 2.2 Scale Match on Adaptive RetinaNet, TinyPerson
 
