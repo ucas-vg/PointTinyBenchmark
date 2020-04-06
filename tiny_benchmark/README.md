@@ -56,6 +56,7 @@ python setup.py build develop
 # MACOSX_DEPLOYMENT_TARGET=10.9 CC=clang CXX=clang++ python setup.py build develop
 ```
 
+
 ### normal issuse
 
 > A runtime bug: undefined symbol: _ZN3c105ErrorC1ENS_14SourceLocationERKSs
@@ -85,6 +86,7 @@ change the code in $YOU_CONDA_ENV_DIR/lib/python3.6/site-packages/torch/utils/cp
 -D_GLIBCXX_USE_CXX11_ABI=1
 ```
 
+
 which are in line 398 and line 1013
 
 ```py
@@ -97,12 +99,14 @@ self._add_compile_flag(extension, '-D_GLIBCXX_USE_CXX11_ABI=1')
 common_cflags += ['-D_GLIBCXX_USE_CXX11_ABI=1']
 ```
 
+
 and then delete ‘build’ and ‘re-build’
 
 ```sh
 rm build -rf
 python setup.py build develop
 ```
+
 
 - possible reason:
 
@@ -123,6 +127,7 @@ class DatasetCatalog(object):
     ....
 ```
 
+
 3. choose a config file and run as [maskrcnn_benchmark training](https://github.com/facebookresearch/maskrcnn-benchmark#multi-gpu-training)
 
 ```sh
@@ -131,6 +136,7 @@ export NGPUS=2
 CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=$NGPUS tools/train_test_net.py --config ${config_path}
 ```
 
+
 Notice: the test annotation will not be released until RLQ-TOD@ECCV'20 challenge finished, you may need to change DATASETS.TEST in config file for training, such as:
 
 ```yaml
@@ -138,6 +144,7 @@ DATASETS:
   TRAIN: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
   TEST: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
 ```
+
 
 # Evaluation <a name='3.'/>
 
@@ -181,21 +188,21 @@ DSFD                      | 96.41| 88.02| 86.84| 93.47| 78.72| 78.02| 99.48
 
 detector | $AP^{tiny1}_{50}$ | $AP^{tiny2}_{50}$ |  $AP^{tiny3}_{50}$ | $AP^{tiny}_{50}$ | $AP^{small}_{50}$| $AP^{tiny}_{25}$| $AP^{tiny}_{75}$
 ---|---|---|---|---|---|---|---
-FCOS |3.39 |11.47 |  14.00  | 25.49  | 24.92 |  29.21 | 1.45 
- RetinaNet	| 12.39 |  36.36 |  35.12 |  47.89 |  48.01 |  48.26| 2.64 
-DSFD  | 29.25  | 43.32  | 46.30  | 51.28  | 51.23 |  53.48|1.99
-Adaptive RetinaNet | 16.9  | 30.82  | 31.15 |  41.25  | 41.36 |  43.55| 4.22 
-Adaptive FreeAnchor | 35.75  | 43.38  | 51.64  | 53.64  | 53.36  | 56.69|4.0
-Faster RCNN-FPN | 40.49  | 57.33  | 59.58  | 63.94  | 63.73  | 64.07|  5.35
+FCOS | 3.39|12.39|29.25|16.9|35.75|40.49|1.45
+RetinaNet | 11.47|36.36|43.32|30.82|43.38|57.33|2.64
+DSFD | 14.00|35.12|46.30|31.15|51.64|59.58|1.99
+Adaptive RetinaNet | 25.49|47.89|51.28|41.25|53.64|63.94|4.22
+Adaptive FreeAnchor | 24.92|48.01|51.23|41.36|53.36|63.73|4.0
+Faster RCNN-FPN | 29.21|48.26|53.48|43.55|56.69|64.07|5.35
 
 detector | $MR^{tiny1}_{50}$ | $MR^{tiny2}_{50}$ |  $MR^{tiny3}_{50}$ | $MR^{tiny}_{50}$ | $MR^{small}_{50}$ | $MR^{tiny}_{25}$ | $MR^{tiny}_{75}$
 ---|---|---|---|---|---|---|---
-FCOS  | 99.10 | 95.05 | 96.41 | 89.48 | 90.26 | 88.40 | 99.56 
-RetinaNet			|96.39 | 88.34 | 88.02 | 82.29 | 82.01 |  81.99 | 99.11
-DSFD                   | 91.31 | 86.04 | 86.84  | 82.40  | 81.74  | 80.17  | 99.48
-Adaptive RetinaNet | 96.12  | 92.40  | 93.47 | 89.19 |  88.97 |  87.78   | 98.63 
-Adaptive FreeAnchor |84.14 |  81.75 |  78.72 |  74.29 |  73.67 |  71.31   | 98.7 
-Faster RCNN-FPN | 89.56 |  81.56  | 78.02 |  77.83 |  77.62  | 77.35 | 98.40
+FCOS | 99.10|96.39|91.31|96.12|84.14|89.56|99.56
+RetinaNet | 95.05|88.34|86.04|92.40|81.75|81.56|99.11
+DSFD | 96.41|88.02|86.84|93.47|78.72|78.02|99.48
+Adaptive RetinaNet | 89.48|82.29|82.40|89.19|74.29|77.83|98.63
+Adaptive FreeAnchor | 90.26|82.01|81.74|88.97|73.67|77.62|98.7
+Faster RCNN-FPN | 88.40|81.99|80.17|87.78|71.31|77.35|98.40
         
 ## 2. scale match
 
