@@ -171,7 +171,7 @@ detector | $AP^{tiny1}_{50}$ | $AP^{tiny2}_{50}$ |  $AP^{tiny3}_{50}$ | $AP^{tin
 [FCOS](configs/TinyPerson/fcos/baseline1/fcos_R_50_FPN_1x_baseline1.yaml) 						| 0.99 | 2.82 | 6.2 | 3.26 | 20.19 | 13.28 | 0.14
 [RetinaNet](configs/TinyPerson/retina/baseline1/retina_R_50_FPN_1x_baseline1_lr.yaml)			| 12.24 | 38.79 | 47.38 | 33.53 | 48.26 | 61.51 | 2.28
 DSFD                   | 13.85| 37.24| 49.31| 33.65 | 56.64 | 63.18| 1.94
-[Adaptive RetinaNet](configs/TinyPerson/retina/baseline1/retina_R_50_FPN_1x_baseline1_lrfpn.yaml)                              | 27.08 | 52.63 | 57.88 | 46.56 | 59.97 | 48.4 | 69.6 | 4.49
+[Adaptive RetinaNet](configs/TinyPerson/retina/baseline1/retina_R_50_FPN_1x_baseline1_lrfpn.yaml)                              | 27.08 | 52.63 | 57.88 | 46.56 | 59.97 | 69.6 | 4.49
 [Adaptive FreeAnchor](configs/TinyPerson/freeanchor/baseline1/freeanchor_R_50_FPN_1x_baseline1_lrfpn.yaml) | 25.13 | 47.41 | 52.77 | 41.41 | 59.61 | 63.38 | 4.58
 [Faster RCNN-FPN](configs/TinyPerson/FPN/baseline1/e2e_faster_rcnn_R_50_FPN_1x_cocostyle_baseline1.yaml)       | 30.25|51.58|58.95|**47.35**|63.18|68.43|5.83
 
