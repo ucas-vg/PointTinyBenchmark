@@ -91,7 +91,7 @@ class Normalize(object):
 from maskrcnn_benchmark.structures.bounding_box import BoxList
 from math import floor, ceil
 import copy
-from MyPackage.tools.debug_log.debug_log import Logger
+# from MyPackage.tools.debug_log.debug_log import Logger
 import os, time
 import numbers
 from .scale_match import *
