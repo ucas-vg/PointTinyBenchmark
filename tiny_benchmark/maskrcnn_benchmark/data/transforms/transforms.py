@@ -95,7 +95,7 @@ import copy
 import os, time
 import numbers
 from .scale_match import *
-logger = Logger('ERROR')
+# logger = Logger('ERROR')
 PIL_RESIZE_MODE = {'bilinear': Image.BILINEAR, 'nearest': Image.NEAREST}
 
 
