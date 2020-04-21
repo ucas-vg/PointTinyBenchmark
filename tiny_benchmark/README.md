@@ -34,7 +34,9 @@ conda install ipython
 pip install -r requirements.txt
 
 # PyTorch installation
-conda install pytorch=1.0.1 torchvision cudatoolkit=10.0
+
+# PyTorch installation
+conda install pytorch=1.0.1 torchvision cudatoolkit=10.0 -c pytorch
 
 conda install opencv
 conda install scipy
@@ -44,6 +46,7 @@ cd ${TinyBenchmark}/tiny_benchmark
 git clone https://github.com/cocodataset/cocoapi.git
 cd cocoapi/PythonAPI
 python setup.py build_ext install
+cd ../../
 
 # the following will install the lib with
 # symbolic links, so that you can modify
