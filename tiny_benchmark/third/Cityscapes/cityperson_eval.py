@@ -33,7 +33,7 @@ def turn_bbox(src_file, dst_file):
 
 def cityperson_eval(src_pth, annFile, CUT_WH=None,
                     ignore_uncertain=False, use_iod_for_ignore=False, catIds=[],
-                    use_citypersons_standard=True, tiny_scale=1.0):
+                    use_citypersons_standard=True, tiny_scale=1.0, iou_ths=None, setup_labels=None):
     if os.path.isdir(src_pth):
         resFile = src_pth + '/' + 'bbox.json'
     else:
@@ -46,6 +46,7 @@ def cityperson_eval(src_pth, annFile, CUT_WH=None,
         kwargs = {'filter_type': 'size'}
         if CUT_WH is None: CUT_WH = (1, 1)
         Params.TINY_SCALE = tiny_scale
+    Params.IOU_THS = iou_ths
 
     kwargs.update({'use_iod_for_ignore': use_iod_for_ignore, 'ignore_uncertain': ignore_uncertain})
     kwargs['given_catIds'] = len(catIds) > 0
@@ -60,15 +61,17 @@ def cityperson_eval(src_pth, annFile, CUT_WH=None,
     print(kwargs)
     res_file = open("results.txt", "w")
     Params.CUT_WH = CUT_WH
-    for id_setup in range(len(Params().SetupLbl)):
-        cocoGt = COCO(annFile)
-        cocoDt = cocoGt.loadRes(resFile)
-        imgIds = sorted(cocoGt.getImgIds())
-        cocoEval = COCOeval(cocoGt,cocoDt,annType, **kwargs)
-        cocoEval.params.imgIds = imgIds
-        cocoEval.evaluate(id_setup)
-        cocoEval.accumulate()
-        cocoEval.summarize(id_setup,res_file)
+    setupLbl = Params().SetupLbl
+    for id_setup in range(len(setupLbl)):
+        if (setup_labels is None) or (setupLbl[id_setup] in setup_labels):
+            cocoGt = COCO(annFile)
+            cocoDt = cocoGt.loadRes(resFile)
+            imgIds = sorted(cocoGt.getImgIds())
+            cocoEval = COCOeval(cocoGt,cocoDt,annType, **kwargs)
+            cocoEval.params.imgIds = imgIds
+            cocoEval.evaluate(id_setup)
+            cocoEval.accumulate()
+            cocoEval.summarize(id_setup,res_file)
 
     res_file.close()
 

@@ -604,6 +604,7 @@ class Params:
     CUT_WH = (1, 1)  # add by hui
     CITYPERSON_STANDARD = False
     TINY_SCALE = 1
+    IOU_THS = None
     def setDetParams(self):
         self.imgIds = []
         self.catIds = []
@@ -620,13 +621,13 @@ class Params:
         self.useCats = 1
 
         if Params.CITYPERSON_STANDARD:
-            self.iouThrs = np.array([0.5, 0.75])  # np.linspace(.5, 0.95, np.round((0.95 - .5) / .05) + 1, endpoint=True)
+            self.iouThrs = np.array([0.5, 0.75])  if Params.IOU_THS is None else np.array(Params.IOU_THS) # np.linspace(.5, 0.95, np.round((0.95 - .5) / .05) + 1, endpoint=True)
 
             self.HtRng = [[50, 1e5 ** 2], [50,75], [50, 1e5 ** 2], [20, 1e5 ** 2], [20, 50]]
             self.VisRng = [[0.65, 1e5 ** 2], [0.65, 1e5 ** 2], [0.2,0.65], [0.2, 1e5 ** 2], [0.65, 1e5 ** 2]]
             self.SetupLbl = ['Reasonable', 'Reasonable_small','Reasonable_occ=heavy', 'All', 'small']
         else:
-            self.iouThrs = np.array([0.25, 0.5, 0.75])
+            self.iouThrs = np.array([0.25, 0.5, 0.75]) if Params.IOU_THS is None else np.array(Params.IOU_THS)
 
             s = Params.TINY_SCALE
             self.HtRng = [[2*s, 8*s], [8*s, 12*s], [12*s, 20*s], [2*s, 20*s], [20*s, 32*s], [-1, 1e5**2]]
