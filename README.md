@@ -1,12 +1,12 @@
 # Scale Match for Tiny Person Detection
 
 ------------------------
-[[paper]](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) [[ECCVW]](https://rlq-tod.github.io/index.html)
+[[paper]](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) [[ECCVW]](https://rlq-tod.github.io/challenge1.html)
 [[challenge]](https://competitions.codalab.org/competitions/24551)
 
 ## TinyPerson Dataset
 
-The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/index.html), [TOD challenge](https://competitions.codalab.org/competitions/24551)
+The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/challenge1.html), [TOD challenge](https://competitions.codalab.org/competitions/24551)
 
 #### Download link:
 [Official Site](http://vision.ucas.ac.cn/resource.asp): recomended, download may faster<br/>
