@@ -151,7 +151,7 @@ DATASETS:
 
 # Evaluation <a name='3.'/>
 
-You can split a sub-set from training setting to evalute you model. For evalution on the test set, you can upload your result to ECCVW challenge (RLQ-TOP@ECCV'20).
+You can split a sub-set from training setting to evalute you model. For evalution on the test set, you can upload your result to [ECCVW challenge (RLQ-TOP@ECCV'20)](https://competitions.codalab.org/competitions/24551#results).
 
 # Experiment <a name='4.'/>
 
