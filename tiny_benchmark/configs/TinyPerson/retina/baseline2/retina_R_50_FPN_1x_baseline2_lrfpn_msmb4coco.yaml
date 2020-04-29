@@ -1,7 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "outputs/tiny_coco/adap_retina_msm_tinyperson_b4/model_only_model_final.pth"
-  #  WEIGHT: '/home/hui/params/pretrained_model/maskrcnn_benchmark/clear_key_model_only_e2e_faster_rcnn_R_50_FPN_1x_tiny200.pth'
+  WEIGHT: "../params/adap_retina_msm_tinyperson_b4/model_only_model_final.pth"
   RPN_ONLY: True
   RETINANET_ON: True
   BACKBONE:

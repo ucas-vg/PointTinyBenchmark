@@ -1,7 +1,7 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-#  WEIGHT: "/home/hui/params/pretrained_model/ImageNetPretrained/MSRA/R-50.pkl"
-  WEIGHT: '/home/hui/github/cur_code/outputs/tiny_coco/FPN_msm_tinyperson_b4/clear_key_model_only_model_final.pth'
+  WEIGHT: '../params/FPN_msm_tinyperson_b4/model_only_model_final.pth'
+  IGNORE_WEIGHT_KEYS: ["roi_heads.box.predictor"]
   BACKBONE:
     CONV_BODY: "R-50-FPN"
 #    RESNET_STAGE_FIRST_STRIDE: (1, 2, 2, 2)
