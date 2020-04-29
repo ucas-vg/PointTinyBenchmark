@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/home/hui/params/pretrained_model/ImageNetPretrained/MSRA/R-50.pkl"
+  WEIGHT: "catalog://ImageNetPretrained/MSRA/R-50"
 #  WEIGHT: '/home/hui/params/pretrained_model/maskrcnn_benchmark/clear_key_model_only_e2e_faster_rcnn_R_50_FPN_1x_tiny200.pth'
   BACKBONE:
     CONV_BODY: "R-50-FPN"
