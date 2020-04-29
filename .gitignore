@@ -1,4 +1,5 @@
 pretrained_model/
+params/COCOPretrain
 dataset/cityscapes
 dataset/tiny_set
 dataset/coco
