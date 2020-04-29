@@ -4,6 +4,11 @@
 [[paper]](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) [[ECCVW]](https://rlq-tod.github.io/challenge1.html)
 [[challenge]](https://competitions.codalab.org/competitions/24551)
 
+## TODO list
+1. add a tutorial that how to train on TinyPerson with scale match on COCO
+2. add a tutorial that how to train on other dataset
+3. add a tutorial that how to train a strong baseline for competetion
+
 ## TinyPerson Dataset
 
 The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/challenge1.html), [TOD challenge](https://competitions.codalab.org/competitions/24551)
