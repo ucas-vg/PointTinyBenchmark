@@ -1,7 +1,7 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   WEIGHT: '../params/COCOPretrain/model_only_e2e_faster_rcnn_R_50_FPN_1x.pth'
-  IGNORE_WEIGHT_KEYS: ["roi_heads.box.predictor","rpn.anchor_generator"]
+  IGNORE_WEIGHT_KEYS: ["roi_heads.box.predictor"]
   BACKBONE:
     CONV_BODY: "R-50-FPN"
 #    RESNET_STAGE_FIRST_STRIDE: (1, 2, 2, 2)
