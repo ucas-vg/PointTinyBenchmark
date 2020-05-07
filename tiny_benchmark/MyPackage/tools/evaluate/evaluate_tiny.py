@@ -7,7 +7,6 @@ from third.Cityscapes.cityperson_eval import cityperson_eval
 import argparse
 import sys
 import shutil
-from MyPackage.visulize.plot_train_log import parse_log, replace_key
 
 def merge_det_result(json_result_file, corner_gt_file, merged_gt_file, merge_nms_th=1.0):
     from MyPackage.tools.pub.split_and_merge_image import COCOMergeResult
@@ -85,7 +84,7 @@ if __name__ == '__main__':
     parser.add_argument('--tmp-log', dest='tmp_log', help='temporal log file.', default='')
     parser.add_argument('--mr-ious', dest='mr_ious', help='iou th settings while evaluating MR.', default='0.25,0.5,0.75')
     parser.add_argument('--mr-sizes', dest='mr_sizes', help='size settings while evaluating MR.', default='tiny1,tiny2,tiny3,tiny,small,All')
-    
+    parser.add_argument('--detail', dest='detail', help='output detail info in result file', action='store_true')
     #     json_result_file = '/home/hui/桌面/11.pkl.bbox.json'
     #     corner_gt_file = "/home/hui/dataset/tiny_set/annotations/corner/task/tiny_set_test_sw640_sh512_all.json"
     #     merged_gt_file = '/home/hui/dataset/tiny_set/annotations/task/tiny_set_test_all.json'
@@ -118,15 +117,20 @@ if __name__ == '__main__':
     
     rstdout.finish()
     rm_file(os.path.join(os.path.dirname(__file__), 'results.txt'))
+
+    if not args.detail:
+        from MyPackage.visulize.plot_train_log import parse_log, replace_key
     
-    # parse log and write it to score.txt
-    res = parse_log(args.tmp_log)
-    res = replace_key(res)
-    res = {k:v[0] for k, v in res.items() if len(k) < 15}
-    with open(args.score_file, 'w') as f:
-        for k, v in res.items():
-            f.write("{}: {}\n".format(k, float(v)))
-    rm_file(args.tmp_log)
+        # parse log and write it to score.txt
+        res = parse_log(args.tmp_log)
+        res = replace_key(res)
+        res = {k:v[0] for k, v in res.items() if len(k) < 15}
+        with open(args.score_file, 'w') as f:
+            for k, v in res.items():
+                f.write("{}: {}\n".format(k, float(v)))
+        rm_file(args.tmp_log)
+    else:
+        os.rename(args.tmp_log, args.score_file)
     
 # # generate ignore
 # jd = json.load(open("/home/hui/dataset/voc/VOC2007/Annotations/pascal_test2007.json"))

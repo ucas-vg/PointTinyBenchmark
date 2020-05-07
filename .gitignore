@@ -10,6 +10,7 @@ tiny_benchamrk/log2/
 tiny_benchmark/private/
 tiny_benchmark/build/
 tiny_benchmark/maskrcnn_benchmark/_C.*.so
+tiny_benchmark/configs/TinyCOCO/.ipynb_checkpoints/
 */.idea
 */.ipynb_checkpoints
 */__pycache__
