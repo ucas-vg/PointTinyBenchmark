@@ -1,0 +1,48 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  WEIGHT: "catalog://ImageNetPretrained/MSRA/R-50"
+  RPN_ONLY: True
+  RETINANET_ON: True
+  BACKBONE:
+    CONV_BODY: "R-50-FPN"
+  RESNETS:
+    BACKBONE_OUT_CHANNELS: 256
+  RETINANET:
+#    NUM_CLASSES: 2
+    ANCHOR_SIZES: (8, 16, 32, 64, 128)  # (4, 8, 16, 32, 64) will be better
+    ASPECT_RATIOS: (0.5, 1., 2)
+    ANCHOR_STRIDES: (4, 8, 16, 32, 64)
+    PRE_NMS_TOP_N: 1000
+    BBOX_REG_WEIGHT: 4.0
+    LOSS_ALPHA: 0.25 # 0.25
+    LOSS_GAMMA: 2.0
+    PRIOR_PROB: 0.01
+INPUT:
+  USE_SCALE: True
+  SCALES: (0.25,)     # here only used for test dataset transform, when scale match on
+DATASETS:
+  TRAIN: ("coco_2014_train", "coco_2014_valminusminival", "coco_2014_minival")
+  TEST: ("coco_2014_minival",)
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+  USE_MORE_DA: 4
+  USE_SCALE_MATCH: True
+  SCALE_MATCH:
+    TARGET_ANNO_FILE: '${YOUR_DATASET_DIR}/tiny_set/erase_with_uncertain_dataset/annotations/corner/task/tiny_set_train_sw640_sh512_all.json'
+    BINS: 100
+    DEFAULT_SCALE: 0.25
+    SCALE_RANGE: (0.1, 1.)
+    OUT_SCALE_DEAL: 'clip'
+
+SOLVER:
+  WARMUP_METHOD: "constant"
+  TEST_ITER: 5000
+  CHECKPOINT_PERIOD: 15000
+  BASE_LR: 0.02
+  WEIGHT_DECAY: 0.0001
+  STEPS: (30000, 40000)
+  MAX_ITER: 45000
+  IMS_PER_BATCH: 32
+  NUM_GPU: 8
+
+OUTPUT_DIR: 'outputs/tiny_coco/adap_retina_sm_tinyperson_b4'

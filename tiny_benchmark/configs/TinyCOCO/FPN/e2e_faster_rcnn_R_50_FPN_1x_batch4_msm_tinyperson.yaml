@@ -1,0 +1,67 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  WEIGHT: "catalog://ImageNetPretrained/MSRA/R-50"
+  BACKBONE:
+    CONV_BODY: "R-50-FPN"
+  RESNETS:
+    BACKBONE_OUT_CHANNELS: 256
+  RPN:
+    USE_FPN: True
+    ANCHOR_STRIDE: (4, 8, 16, 32, 64)
+    ANCHOR_SIZES: (8.31, 12.5, 18.55, 30.23, 60.41)  # adjust here
+    ASPECT_RATIOS: (0.5, 1.3, 2)                     # adjust here
+    PRE_NMS_TOP_N_TRAIN: 2000
+    PRE_NMS_TOP_N_TEST: 1000
+    POST_NMS_TOP_N_TEST: 1000
+    FPN_POST_NMS_TOP_N_TEST: 1000
+  ROI_HEADS:
+    USE_FPN: True
+  ROI_BOX_HEAD:
+    POOLER_RESOLUTION: 7
+    POOLER_SCALES: (0.25, 0.125, 0.0625, 0.03125)
+    POOLER_SAMPLING_RATIO: 2
+    FEATURE_EXTRACTOR: "FPN2MLPFeatureExtractor"
+    PREDICTOR: "FPNPredictor"
+INPUT:
+  USE_SCALE: True
+  SCALES: (0.25,)     # here only used for test dataset transform, when scale match on
+DATASETS:
+  TRAIN: ("coco_2014_train", "coco_2014_valminusminival", "coco_2014_minival")
+  TEST: ("coco_2014_minival",)
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+  USE_MORE_DA: 4
+  USE_SCALE_MATCH: True
+  SCALE_MATCH:
+    TYPE: 'MonotonicityScaleMatch'
+    SOURCE_ANNO_FILE: '${YOUR_DATASET_DIR}/coco/annotations/instances_simple_merge2014.json'
+    TARGET_ANNO_FILE: '${YOUR_DATASET_DIR}/tiny_set/erase_with_uncertain_dataset/annotations/corner/task/tiny_set_train_sw640_sh512_all.json'
+    BINS: 100
+    DEFAULT_SCALE: 0.25
+    SCALE_RANGE: (0.1, 1.)
+    OUT_SCALE_DEAL: 'clip'
+#  DA4_COLOR_AUG: False
+#  DA4_SCALE_RANGE: (1.0, 1.0)
+#  DA4_SCALES: (0.5, 1.0, 2)
+#  DA4_OFFSET_X_RANGE: (-16, 16)
+#  DA4_OFFSET_Y_RANGE: (-16, 16)
+
+SOLVER:
+  WARMUP_METHOD: "constant"
+  TEST_ITER: 5000
+  CHECKPOINT_PERIOD: 15000
+  BASE_LR: 0.02
+  WEIGHT_DECAY: 0.0001
+  STEPS: (30000, 40000)
+  MAX_ITER: 45000
+  IMS_PER_BATCH: 32
+  NUM_GPU: 8
+
+#TEST:
+#  IMS_PER_BATCH: 8
+#  COCO_EVALUATE_STANDARD: 'tiny'  # tiny need change
+#  MERGE_RESULTS: true
+#  MERGE_GT_FILE: '/home/hui/dataset/tiny_set/annotations/task/tiny_set_test_all.json'
+#  IGNORE_UNCERTAIN: true
+#  USE_IOD_FOR_IGNORE: true
+OUTPUT_DIR: 'outputs/tiny_coco/FPN_msm_tinyperson_b4'
