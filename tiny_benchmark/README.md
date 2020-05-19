@@ -129,9 +129,10 @@ class DatasetCatalog(object):
     DATASETS = {
     ....
 ```
+3. download our Scale Match COCO pretrain weight, see [here](../params/Readme.md);<br/>
+Or if you want to train your own Scale Match COCO pretrain weight, see [here](configs/TinyCOCO/Readme.md)
 
-
-3. choose a config file and run as [maskrcnn_benchmark training](https://github.com/facebookresearch/maskrcnn-benchmark#multi-gpu-training)
+4. choose a config file and run as [maskrcnn_benchmark training](https://github.com/facebookresearch/maskrcnn-benchmark#multi-gpu-training)
 
 ```sh
 cd ${TinyBenchmark}/tiny_benchmark
