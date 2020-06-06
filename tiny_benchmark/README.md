@@ -137,7 +137,7 @@ Or if you want to train your own Scale Match COCO pretrain weight, see [here](co
 ```sh
 cd ${TinyBenchmark}/tiny_benchmark
 export NGPUS=2
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=$NGPUS tools/train_test_net.py --config ${config_path}
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=$NGPUS --master_port=9001 tools/train_test_net.py --config ${config_path}
 ```
 
 
