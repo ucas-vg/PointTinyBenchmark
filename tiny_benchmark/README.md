@@ -132,7 +132,7 @@ class DatasetCatalog(object):
 3. download our Scale Match COCO pretrain weight, see [here](../params/Readme.md);<br/>
 Or if you want to train your own Scale Match COCO pretrain weight, see [here](configs/TinyCOCO/Readme.md)
 
-4. choose a config file and run as [maskrcnn_benchmark training](https://github.com/facebookresearch/maskrcnn-benchmark#multi-gpu-training)，<font color='ff0000'/>**use "tools/train_test_net.py" instead of "tools/train_net.py"**</font>
+4. choose a config file and run as [maskrcnn_benchmark training](https://github.com/facebookresearch/maskrcnn-benchmark#multi-gpu-training)，<font color='ff0000'/>**Attention!!! use "tools/train_test_net.py" instead of "tools/train_net.py"**</font>
 
 ```sh
 cd ${TinyBenchmark}/tiny_benchmark
