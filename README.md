@@ -5,7 +5,7 @@
 [[challenge]](https://competitions.codalab.org/competitions/24551)
 [[ECCVW sumarry]](https://arxiv.org/abs/2009.07506)
 
-## $\color{#FF3030}{**The annotaions of test set have released aready !!!!**}$
+<font color=#00ffff size=5>The annotaions of test set have released aready !!!!</font>
 
 ## TODO list
 1. add a tutorial that how to train on TinyPerson with scale match on COCO
