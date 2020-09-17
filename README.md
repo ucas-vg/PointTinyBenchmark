@@ -45,5 +45,12 @@ If you use the code and benchmark in your research, please cite:
   pages={1257--1265},
   year={2020}
 }
+
+@article{yu2020the,
+  title={The 1st Tiny Object Detection Challenge:Methods and Results},
+  {Yu, Xuehui and Han, Zhenjun and Gong, Yuqi and Jiang, Nan and Zhao, Jian and Ye, Qixiang and Chen, Jie and Feng, Yuan and Zhang, Bin and Wang, Xiaodi and Xin, Ying and others},
+  journal={arXiv preprint arXiv:2009.07506},
+  year={2020}
+}
 ```
 
