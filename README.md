@@ -4,8 +4,8 @@
 [[paper]](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) [[ECCVW]](https://rlq-tod.github.io/challenge1.html)
 [[challenge]](https://competitions.codalab.org/competitions/24551)
 [[ECCVW sumarry]](https://arxiv.org/abs/2009.07506)
-
-<font color="#00ffff" size=5>The annotaions of test set have released aready !!!!</font>
+ 
+## `The annotaions of test set have released aready !!!!`
 
 ## TODO list
 1. add a tutorial that how to train on TinyPerson with scale match on COCO
