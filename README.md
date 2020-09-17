@@ -5,7 +5,7 @@
 [[challenge]](https://competitions.codalab.org/competitions/24551)
 [[ECCVW sumarry]](https://arxiv.org/abs/2009.07506)
  
-## `The annotaions of test set have released aready !!!!`
+## `The annotaions of test set have released aready !!!` [Baidu Yun, password:pmcq](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ) and [Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)
 
 ## TODO list
 1. add a tutorial that how to train on TinyPerson with scale match on COCO
