@@ -134,6 +134,18 @@ Or if you want to train your own Scale Match COCO pretrain weight, see [here](co
 
 4. choose a config file and run as [maskrcnn_benchmark training](https://github.com/facebookresearch/maskrcnn-benchmark#multi-gpu-training)，<font color='ff0000'/>**Attention!!! use "tools/train_test_net.py" instead of "tools/train_net.py"**</font>
 
+perhaps you need to change change MERGE_GT_FILE in config file to gt file path your downlaoded.
+```
+TEST:
+  IMS_PER_BATCH: 2
+  COCO_EVALUATE_STANDARD: 'tiny'  # tiny need change
+  MERGE_RESULTS: true
+  MERGE_GT_FILE: '/home/hui/dataset/tiny_set/annotations/task/tiny_set_test_all.json'  # change to your gt file path
+  IGNORE_UNCERTAIN: true
+  USE_IOD_FOR_IGNORE: true
+```
+
+train and test
 ```sh
 cd ${TinyBenchmark}/tiny_benchmark
 export NGPUS=2
@@ -141,18 +153,35 @@ CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=$NG
 ```
 
 
-Notice: the test annotation will not be released until RLQ-TOD@ECCV'20 challenge finished, you may need to change DATASETS.TEST in config file for training, such as:
+~~Notice: the test annotation will not be released until RLQ-TOD@ECCV'20 challenge finished, you may need to change DATASETS.TEST in config file for training, such as:
 
-```yaml
+~~```yaml
 DATASETS:
   TRAIN: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
   TEST: ("tiny_set_corner_sw640_sh512_erase_with_uncertain_train_all_coco",)
-```
-
+```~~
 
 # Evaluation <a name='3.'/>
 
-You can split a sub-set from training setting to evalute you model. For evalution on the test set, you can upload your result to [ECCVW challenge (RLQ-TOP@ECCV'20)](https://competitions.codalab.org/competitions/24551#results).
+if you use tiny_benchmark to train, the evaluate will run auto. But if you use other code to generate result, you can use script **tiny_benchamrk/MyPackage/tools/evaluate_tiny.py** to evalute, for example
+```
+python evaluate_tiny.py --res ~/results/your_result.json --gt ~/dataset/tiny_set_test_all.json --detail
+```
+and the mr evaluation is time-cost, you can specified --metric to evaluate AP only
+```
+python evaluate_tiny.py --res ~/results/your_result.json --gt ~/dataset/tiny_set_test_all.json --detail --metric 'ap'
+```
+
+Moreover your_result.json should satisfy such format
+```
+[{'image_id': 793, 'category_id': 1, 'bbox': [0.0, 0.0, 1.0, 1.0], 'score': 0.009999999776482582}, 
+{'image_id': 793, 'category_id': 1, 'bbox': [590.0, 0.0, 1.0, 1.0], 'score': 0.009999999776482582},
+......
+{'image_id': 795, 'category_id': 1, 'bbox': [1180.0, 0.0, 1.0, 1.0], 'score': 0.009999999776482582}]
+```
+
+~~You can split a sub-set from training setting to evalute you model. For evalution on the test set,~~ 
+And you can upload your result to [ECCVW challenge (RLQ-TOP@ECCV'20)](https://competitions.codalab.org/competitions/24551#results).
 
 # Experiment <a name='4.'/>
 
