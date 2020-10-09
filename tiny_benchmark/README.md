@@ -178,8 +178,8 @@ Moreover your_result.json should satisfy such format
 {'image_id': 795, 'category_id': 1, 'bbox': [1180.0, 0.0, 1.0, 1.0], 'score': 0.009999999776482582}]
 ```
 
-<!--~~You can split a sub-set from training setting to evalute you model. For evalution on the test set,~~ 
-And you can upload your result to [ECCVW challenge (RLQ-TOP@ECCV'20)](https://competitions.codalab.org/competitions/24551#results).-->
+~~You can split a sub-set from training setting to evalute you model. For evalution on the test set,~~ 
+And you can upload your result to [ECCVW challenge (RLQ-TOP@ECCV'20)](https://competitions.codalab.org/competitions/24551#results).
 
 # Experiment <a name='4.'/>
 
