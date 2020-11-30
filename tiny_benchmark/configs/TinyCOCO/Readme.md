@@ -24,17 +24,23 @@ and you need change line in config file, assume your download it to _\${YOUR\_DA
 2. choose a config file in configs/TinyCOCO as template, and make some modify.<br/>
 such as choosing [MSM-FPN](https://github.com/ucas-vg/TinyBenchmark/blob/master/tiny_benchmark/configs/TinyCOCO/FPN/e2e_faster_rcnn_R_50_FPN_1x_batch4_msm_tinyperson.yaml),
 ```yaml
+DATASETS:
+  TRAIN: ("coco_2014_train", "coco_2014_valminusminival", "coco_2014_minival")
+  TEST: ("coco_2014_minival",)
+DATALOADER:
   USE_MORE_DA: 4
   USE_SCALE_MATCH: True
   SCALE_MATCH:
     TYPE: 'MonotonicityScaleMatch'
-    SOURCE_ANNO_FILE: '${YOUR_DATASET_ANN_NAME}.json'
-    TARGET_ANNO_FILE: '${YOUR_DATASET_ANN_NAME}.json'
+    SOURCE_ANNO_FILE: '${YOUR_SOURCE_DATASET_ANN_NAME}.json'
+    TARGET_ANNO_FILE: '${YOUR_TARGET_DATASET_ANN_NAME}.json'
     BINS: 100
     DEFAULT_SCALE: 0.25
     SCALE_RANGE: (0.1, 1.)
     OUT_SCALE_DEAL: 'clip'
 ```
+you need modify DATASETS to your own source dataset, if you not use COCO as source dataset.<br/>
+
 your may need modify 
 - SCALE_MATCH.SOURCE_ANNO_FILE, annotation file path of source dataset, such as COCO in paper
 - SCALE_MATCH.TARGET_ANNO_FILE, annotation file path of target dataset, such as TinyPeron in paper
@@ -44,6 +50,10 @@ your may need modify
 
 or choose [SM-Adap_Retina](https://github.com/ucas-vg/TinyBenchmark/blob/master/tiny_benchmark/configs/TinyCOCO/retina/adap_retina_R_50_FPN_1x_sm_tinyperson.yaml)
 ```yaml
+DATASETS:
+  TRAIN: ("coco_2014_train", "coco_2014_valminusminival", "coco_2014_minival")
+  TEST: ("coco_2014_minival",)
+DATALOADER:
   USE_MORE_DA: 4
   USE_SCALE_MATCH: True
   SCALE_MATCH:
