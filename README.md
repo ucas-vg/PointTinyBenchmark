@@ -28,7 +28,7 @@ For more details about TinyPerson dataset, please see [Dataset](dataset/).
 
 ![](figure/annotation_rule.jpg)
 
-#### Tiny Citypersons
+### Tiny Citypersons
 [Baidu Pan](https://pan.baidu.com/s/1CvEUuLKK6AFHpEZAjkS6fg) password：vwq2<br/>
 
 ## Tiny Benchmark
