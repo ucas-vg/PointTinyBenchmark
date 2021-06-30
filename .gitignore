@@ -12,6 +12,7 @@ tiny_benchmark/build/
 tiny_benchmark/maskrcnn_benchmark/_C.*.so
 tiny_benchmark/configs/TinyCOCO/.ipynb_checkpoints/
 */.idea
+.idea/*
 */.ipynb_checkpoints
 */__pycache__
 *.pyc
