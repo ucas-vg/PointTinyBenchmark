@@ -6,7 +6,7 @@
 [[ECCVW sumarry]](https://arxiv.org/abs/2009.07506)
  
 ## News
-- The **mmdetection** version of TinyBenchmark refers to [TOV_mmdetection](https://github.com/ucas-vg/TOV_mmdetection)(not complete yet.)
+- The **mmdetection** version of TinyBenchmark refers to [TOV_mmdetection](https://github.com/ucas-vg/TOV_mmdetection)
 
 ## Dataset
 
