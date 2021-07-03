@@ -1,3 +1,0 @@
-[submodule "TOV_mmdetection"]
-	path = TOV_mmdetection
-	url = git@github.com:ucas-vg/TOV_mmdetection.git
