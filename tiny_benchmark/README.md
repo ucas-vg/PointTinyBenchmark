@@ -234,6 +234,8 @@ DSFD | 96.41|88.02|86.84|93.47|78.72|78.02|99.48
 Adaptive RetinaNet | 89.48|82.29|82.40|89.19|74.29|77.83|98.63
 Adaptive FreeAnchor | 90.26|82.01|81.74|88.97|73.67|77.62|98.7
 Faster RCNN-FPN | 88.40|81.99|80.17|87.78|71.31|77.35|98.40
+
+- note: for FCOS, if remove GN in head, it can achieve comparable performance with other framework. see [our mmdetection version](https://github.com/ucas-vg/TOV_mmdetection/blob/main/configs2/TinyPerson/TinyPerson.md#2-performance)
         
 ## 2. scale match
 
