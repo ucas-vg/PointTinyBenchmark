@@ -197,6 +197,8 @@ size of cut image piece| (640, 512)
 
 ## 1. detectors
 
+- note: for FCOS, if remove GN in head, it can achieve comparable performance with other framework. see [our mmdetection version](https://github.com/ucas-vg/TOV_mmdetection/blob/main/configs2/TinyPerson/TinyPerson.md#2-performance)
+
 detector | $AP^{tiny1}_{50}$ | $AP^{tiny2}_{50}$ |  $AP^{tiny3}_{50}$ | $AP^{tiny}_{50}$ | $AP^{small}_{50}$| $AP^{tiny}_{25}$| $AP^{tiny}_{75}$
 ---|---|---|---|---|---|---|---
 [FCOS](configs/TinyPerson/fcos/baseline1/fcos_R_50_FPN_1x_baseline1.yaml) 						| 0.99 | 2.82 | 6.2 | 3.26 | 20.19 | 13.28 | 0.14
@@ -234,8 +236,6 @@ DSFD | 96.41|88.02|86.84|93.47|78.72|78.02|99.48
 Adaptive RetinaNet | 89.48|82.29|82.40|89.19|74.29|77.83|98.63
 Adaptive FreeAnchor | 90.26|82.01|81.74|88.97|73.67|77.62|98.7
 Faster RCNN-FPN | 88.40|81.99|80.17|87.78|71.31|77.35|98.40
-
-- note: for FCOS, if remove GN in head, it can achieve comparable performance with other framework. see [our mmdetection version](https://github.com/ucas-vg/TOV_mmdetection/blob/main/configs2/TinyPerson/TinyPerson.md#2-performance)
         
 ## 2. scale match
 
