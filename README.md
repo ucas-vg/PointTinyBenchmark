@@ -7,6 +7,7 @@
  
 ## News
 - The **mmdetection** version of TinyBenchmark refers to [TOV_mmdetection](https://github.com/ucas-vg/TOV_mmdetection)
+We encourage to using [mmdetection version](https://github.com/ucas-vg/TOV_mmdetection). This Poject will not support new features.
 
 ## Dataset
 
