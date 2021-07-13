@@ -197,7 +197,7 @@ size of cut image piece| (640, 512)
 
 ## 1. detectors
 
-- <font color='red'>note: for FCOS, if remove GN in head, it can achieve comparable performance with other framework. see [our mmdetection version](https://github.com/ucas-vg/TOV_mmdetection/blob/main/configs2/TinyPerson/TinyPerson.md#2-performance)</font>
+<font color='red'>note: for FCOS, if remove GN in head, it can achieve comparable performance with other framework. see [our mmdetection version](https://github.com/ucas-vg/TOV_mmdetection/blob/main/configs2/TinyPerson/TinyPerson.md#2-performance)</font>
 
 detector | $AP^{tiny1}_{50}$ | $AP^{tiny2}_{50}$ |  $AP^{tiny3}_{50}$ | $AP^{tiny}_{50}$ | $AP^{small}_{50}$| $AP^{tiny}_{25}$| $AP^{tiny}_{75}$
 ---|---|---|---|---|---|---|---
