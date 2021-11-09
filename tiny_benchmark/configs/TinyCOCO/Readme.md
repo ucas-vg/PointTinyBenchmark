@@ -7,10 +7,10 @@
 ```
 
 
-3. if you use monotonicity scale match and COCO as dataset E, you may need [instances_simple_merge2014.json](), which merge all image annotations in train set and valid set. you can download it from our merged version, or merged by yourself.
+3. if you use monotonicity scale match and COCO as dataset E, you may need [instances_simple_merge2014.json or instances_merge2017.json](https://pan.baidu.com/s/1T09ZNJJe56L7Zea3aD0uwA)(956c), which merge all image annotations in train set and valid set. you can download it from our merged version, or merged by yourself.
 
-instances_simple_merge2014.json download link:<br/>
-[Baidu Pan](https://pan.baidu.com/s/1_bEutedc3dz9DSR4v7xmVA): 545e<br/>
+instances_simple_merge2014.json and instances_merge2017.json download link:<br/>
+[Baidu Pan](https://pan.baidu.com/s/1T09ZNJJe56L7Zea3aD0uwA): 956c<br/>
 [Google Driver](https://drive.google.com/open?id=1K6U_KbX6HLMddgGnDIuYmfdRD7mFyIyT): <br/>
 
 and you need change line in config file, assume your download it to _\${YOUR\_DATASET\_DIR}/coco/annotations/instances\_simple\_merge2014.json_
