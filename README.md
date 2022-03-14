@@ -19,7 +19,8 @@ To date, It implements the following benchmark and algorithms:
 And if the following works do some help for your research, please cite:
 ```
 @inproceedings{CPR,
-  author    = {Yu, Xuehui and Chen, Pengfei and Wu, Di \etal},
+  author    = {Yu, Xuehui and Chen, Pengfei and Wu, Di and Hassan, Najmul and Li,
+Guorong and Yan, Junchi and Shi, Humphrey and Ye, Qixiang and Han, Zhenjun},
   title     = {Object Localization under Single Coarse Point Supervision},
   booktitle = {CVPR},
   year      = {2022},
