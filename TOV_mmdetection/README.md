@@ -1,22 +1,24 @@
-# TOV mmdetection
-TOV mmdetection is an open source toolbox for object localization and detection tasks on top of mmdetection. 
-<!-- To date, TOV mmdetection implements the following algorithms: -->
 
-* [Scale Match for TinyPerson Detection (WACV2020)](docs/tov/)
-* [Object Localization under Single Coarse Point Supervision (CVPR2022)](docs/)
 
-## Introduction
+[comment]: <> (## Introduction)
 
-TODO list:
+[comment]: <> (TODO list:)
 
-- [x] add TinyPerson dataset and evaluation
-- [x] add crop and merge for image during inference
-- [x] implement RetinaNet and Faster-FPN baseline on TinyPerson
-- [x] add SM/MSM experiment support
-<!-- - [ ] add visDronePerson dataset support and baseline performance
-- [ ] add point localization task for TinyPerson
-- [ ] add point localization task for visDronePerson
-- [ ] add point localization task for COCO -->
+[comment]: <> (- [x] add TinyPerson dataset and evaluation)
+
+[comment]: <> (- [x] add crop and merge for image during inference)
+
+[comment]: <> (- [x] implement RetinaNet and Faster-FPN baseline on TinyPerson)
+
+[comment]: <> (- [x] add SM/MSM experiment support)
+
+[comment]: <> (<!-- - [ ] add visDronePerson dataset support and baseline performance)
+
+[comment]: <> (- [ ] add point localization task for TinyPerson)
+
+[comment]: <> (- [ ] add point localization task for visDronePerson)
+
+[comment]: <> (- [ ] add point localization task for COCO -->)
 
 
 ## Install
@@ -43,9 +45,9 @@ conda install scikit-image
 - [note]: for more about evaluation, see [evaluation_of_tiny_object.md](docs/tov/evaluation_of_tiny_object.md)
 
 ```shell script
-git clone https://github.com/ucas-vg/TOV_mmdetection # from github
-# git clone https://gitee.com/ucas-vg/TOV_mmdetection  # from gitee
-cd TOV_mmdetection
+git clone https://github.com/ucas-vg/PointTinyBenchmark # from github
+# git clone https://gitee.com/ucas-vg/PointTinyBenchmark  # from gitee
+cd PointTinyBenchmark/TOV_mmdetection
 # download code for evaluation
 git clone https://github.com/yinglang/huicv/  # from github
 # git clone https://gitee.com/ucas-vg/huicv  # from gitee
