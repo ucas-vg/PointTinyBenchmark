@@ -4,4 +4,4 @@
 
 [paper]() [poster]()
 
-![method](../../../figure/cpr_x10.pdf)
+![method](../../../figure/cpr_x10_low2.jpg)
