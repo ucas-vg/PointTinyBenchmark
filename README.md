@@ -1,48 +1,25 @@
-# Scale Match for Tiny Person Detection
+# PointTinyBenchmark
 
-------------------------
-[[paper]](http://openaccess.thecvf.com/content_WACV_2020/papers/Yu_Scale_Match_for_Tiny_Person_Detection_WACV_2020_paper.pdf) [[ECCVW]](https://rlq-tod.github.io/challenge1.html)
-[[challenge]](https://competitions.codalab.org/competitions/24551)
-[[ECCVW sumarry]](https://arxiv.org/abs/2009.07506)
- 
+--------------
+
+PointTinyBenchmark is an open source toolbox for object localization and detection tasks on top of [mmdetection](https://github.com/open-mmlab/mmdetection). 
+
+To date, It implements the following benchmark and algorithms:
+
+* [Scale Match for TinyPerson Detection (WACV2020)](TOV_mmdetection/docs/tov/)
+* [Object Localization under Single Coarse Point Supervision (CVPR2022)](TOV_mmdetection/docs/)
+
+
 ## News
-- The **mmdetection** version of TinyBenchmark refers to [TOV_mmdetection](https://github.com/ucas-vg/TOV_mmdetection)
-We encourage to using [mmdetection version](https://github.com/ucas-vg/TOV_mmdetection). This Poject will not support new features.
 
-## Dataset
+## Others
+1. For the old version code or TinyPerson(version 1) dataset [Scale Match for Tiny Person Detection](https://github.com/ucas-vg/PointTinyBenchmark/tree/TinyBenchmark), refer to the [TinyBenchmark branch](https://github.com/ucas-vg/PointTinyBenchmark/tree/TinyBenchmark)
+2. 
 
-`The annotaions of test set have released aready !!!` [Baidu Yun, password:pmcq](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ) and [Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw) <br/>
-For how to use the test_set annotation to evaluate, please see [Evaluation](https://github.com/ucas-vg/TinyBenchmark/blob/master/tiny_benchmark/README.md#evaluation-)
-
-
-### TinyPerson Dataset
-
-The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/challenge1.html), [TOD challenge](https://competitions.codalab.org/competitions/24551)
-
-#### Download link:
-[Official Site](http://vision.ucas.ac.cn/resource.asp): recomended, download may faster<br/>
-[Baidu Pan](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ)   password: pmcq<br/>
-[Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw)<br/>
-
-For more details about TinyPerson dataset, please see [Dataset](dataset/).
-
-![](figure/annotation_rule.jpg)
-
-### Tiny Citypersons
-[Baidu Pan](https://pan.baidu.com/s/1CvEUuLKK6AFHpEZAjkS6fg) password：vwq2<br/>
-
-## Tiny Benchmark
-The benchmark is based on [maskrcnn_benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and [citypersons code](https://bitbucket.org/shanshanzhang/citypersons/src/default/evaluation/).
-
-For more details about the benchmark, please see [Tiny Benchmark](tiny_benchmark/).
-
-## Scale Match
-
-![](figure/scale_match.jpg)
 
 ## Citation
 
-If you use the code and benchmark in your research, please cite:
+And if the following works do some help for your research, please cite:
 ```
 @inproceedings{yu2020scale,
   title={Scale Match for Tiny Person Detection},
@@ -52,7 +29,6 @@ If you use the code and benchmark in your research, please cite:
   year={2020}
 }
 ```
-And if the ECCVW challenge sumarry do some help for your research, please cite:
 ```
 @article{yu20201st,
   title={The 1st Tiny Object Detection Challenge: Methods and Results},
