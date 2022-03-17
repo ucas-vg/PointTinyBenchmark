@@ -165,5 +165,5 @@ export GPU=4 && export LR=0.0001 && export BATCH=2 && export WH='(640 640)' && C
 ## Gif example
 
 <img src="../../../figure/cpr_gif/vis_2_000000163020.gif" width="400px" height="300px"><img src="../../../figure/cpr_gif/vis_2_000000074711.gif" width="400px" height="300px">
-<img src="../../../figure/cpr_gif/vis_2_000000279806.gif" width="400px">
+<img src="../../../figure/cpr_gif/vis_2_000000279806.gif" width="400px" height="400px"><img src="../../../figure/cpr_gif/vis_2_000000031176.gif" height="400px" width="600px">
 
