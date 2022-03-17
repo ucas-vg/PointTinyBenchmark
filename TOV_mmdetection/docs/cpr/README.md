@@ -151,7 +151,7 @@ export GPU=4 && export LR=0.0001 && export BATCH=2 && export WH='(640 640)' && C
        --cfg-options \
            evaluation.do_first_eval=True \
            model.bbox_head.refine_pts_extractor.pos_generator.radius=8 \
-           load_from="../TOV_mmdetection_cache/work_dir/CPR/coco/epoch_12.pth" \
+           load_from="../TOV_mmdetection_cache/work_dir/CPR/weights/coco/cpr_epoch_12.pth" \
            model.bbox_head.debug_info.COUNT=10 model.bbox_head.debug_info.epoch=-1 \
            model.bbox_head.debug_info.COUNT=10 model.bbox_head.debug_info.show=True
    ```
@@ -159,7 +159,7 @@ export GPU=4 && export LR=0.0001 && export BATCH=2 && export WH='(640 640)' && C
    ```
    python demo/p2p_image_demo.py data/coco/images/000000005754.jpg \
       configs2/COCO/p2p/p2p_r50_fpn_1x_fl_sl1_coco400_coarse.py \
-      ../TOV_mmdetection_cache/work_dir/P2PNet/coco/epoch_12.pth
+      ../TOV_mmdetection_cache/work_dir/CPR/weights/coco/cpr_p2p_epoch_12.pth
    ```
 
 ## Gif example
