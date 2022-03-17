@@ -1,0 +1,10 @@
+> Even most of the instances in our dataset are unidentifiable, and there can be no privacy issues.
+But to deal with privacy issues thoroughly, We must highlight some control terms for the released dataset is released
+just like other released datasets with human faces:
+```
+1) Spreading image with clear person in TinyPerson V2 on the Socaial Internet is prohibited.
+2) Images of identifiable people cannot be used to make demos and promotions without deidentifical.
+3) The image in TinyPersonV2 can not be used for commercial/business purpose.
+
+The downloaders may be held legally liable if violating the above items.
+```
