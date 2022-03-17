@@ -164,5 +164,7 @@ export GPU=4 && export LR=0.0001 && export BATCH=2 && export WH='(640 640)' && C
 
 ## Gif example
 
-[](../../../figure/cpr_gif/vis_2_000000031176.gif)
+![](../../../figure/cpr_gif/vis_2_000000031176.gif)
+![](../../../figure/cpr_gif/vis_2_000000074711.gif)
+
 
