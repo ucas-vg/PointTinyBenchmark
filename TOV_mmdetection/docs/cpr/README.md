@@ -2,10 +2,28 @@
 
 ------
 
-[[paper]]() [[poster]]()
+[[paper]](https://arxiv.org/pdf/2203.09338.pdf) [[poster]]()
 
-![method](../../../figure/cpr_x10_low2.jpg)
+![coarse point localization](../../../figure/framework_x20.jpg)
 
+The project contains two part: 
+- (CPRNet) coarse point refinement: can refine the given coarse annotated point to a semantic center point.
+
+- (Localizer) point based localization: reimplement [P2PNet](https://github.com/TencentYoutuResearch/CrowdCounting-P2PNet) in mmdetection and endow it the
+new ability of handling multi-class prediction.
+  
+## introduce
+Semantic variance problem is inevitably introduced in point annotation 
+for the inconsistency of annotated points as showing below:
+
+![semantic variance problem](../../../figure/challenge_x21.jpg)
+
+Existing method handle the problem in annotation level: Using Key-point annotation.
+However, key-point need more annotation cost and may not exist in image, limiting it to generalize to complex scene.
+So we try to handle the semantic variance problem in algorithm-level: Propose CPR that can refine 
+the given coarse annotated point to a semantic center point.
+
+![CPRNet](../../../figure/cpr_x10_low2.jpg)
 
 ## Prerequisites
 
@@ -162,7 +180,12 @@ export GPU=4 && export LR=0.0001 && export BATCH=2 && export WH='(640 640)' && C
       ../TOV_mmdetection_cache/work_dir/CPR/weights/coco/cpr_p2p_epoch_12.pth
    ```
 
-## Gif example
+## During CPR training
+
+The Relative semantic variance is lower after CPR.
+![CPR can refine coarse annotated point to semantic center point](../../../figure/variance_x20.jpg)
+
+
 
 The gif show the trace of refined point during CPR training.
 

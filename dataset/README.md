@@ -3,7 +3,7 @@
 ---------
 
 ## TinyPerson V2 (SeaPerson)
-[Offical Site on the way ...]()<br/>
+[Offical Site on the way ...](http://vision.ucas.ac.cn/sources) <br/>
 [Baidu Pan](https://pan.baidu.com/s/1xaWLplWRT5dilwOPt8ljqg) password: ppsa<br/>
 [Google Driver on the way...](https://drive.google.com/drive/folders/1K_vFUSxoiEjKXbjQ5LsxbUBRKb_vgXId?usp=sharing)
 
@@ -25,7 +25,7 @@ The downloaders may be held legally liable if violating the above items.
 The dataset will be used to for ECCV2020 workshop [RLQ-TOD'20 @ ECCV](https://rlq-tod.github.io/challenge1.html), [TOD challenge](https://competitions.codalab.org/competitions/24551)
 
 #### Download link:
-[Official Site](http://vision.ucas.ac.cn/resource.asp) <br/>
+[Official Site](http://vision.ucas.ac.cn/sources) <br/>
 [Baidu Pan](https://pan.baidu.com/s/1kkugS6y2vT4IrmEV_2wtmQ)   password: pmcq<br/>
 [Google Driver](https://drive.google.com/open?id=1KrH9uEC9q4RdKJz-k34Q6v5hRewU5HOw) <br/>
 
