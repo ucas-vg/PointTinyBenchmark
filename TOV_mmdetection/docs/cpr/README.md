@@ -25,6 +25,9 @@ the given coarse annotated point to a semantic center point.
 
 ![CPRNet](../../../figure/CPR/cpr_x10_low2.jpg)
 
+The visualization fo CPR is showing as bellow:
+![CPRNet Visualize](../../../figure/CPR/CPR_visualize.jpg)
+
 ## Prerequisites
 
 ### 1. install environment
