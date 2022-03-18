@@ -13,14 +13,14 @@ The project contains two part:
 new ability of handling multi-class prediction.
   
 ## introduce
-Semantic variance problem is inevitably introduced in point annotation 
+**Semantic variance problem** is inevitably introduced in point annotation 
 for the inconsistency of annotated points as showing below:
 
 ![semantic variance problem](../../../figure/CPR/challenge_x21.jpg)
 
-Existing method handle the problem in annotation level: Using Key-point annotation.
+Existing method handle the problem in **annotation level**: Using Key-point annotation.
 However, key-point need more annotation cost and may not exist in image, limiting it to generalize to complex scene.
-So we try to handle the semantic variance problem in algorithm-level: Propose CPR that can refine 
+So we try to handle the semantic variance problem in **algorithm-level**: Propose **CPRNet** that can refine 
 the given coarse annotated point to a semantic center point.
 
 ![CPRNet](../../../figure/CPR/cpr_x10_low2.jpg)
