@@ -18,7 +18,7 @@ just like other released datasets with human faces:
 The downloaders may be held legally liable if violating the above items.  
 ```
 
-![](../figure/vis_tiny2_01.jpg)
+![](../figure/CPR/vis_tiny2_01.jpg)
 
 ## TinyPerson
 

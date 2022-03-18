@@ -4,7 +4,7 @@
 
 [[paper]](https://arxiv.org/pdf/2203.09338.pdf) [[poster]]()
 
-![coarse point localization](../../../figure/framework_x20.jpg)
+![coarse point localization](../../../figure/CPR/framework_x20.jpg)
 
 The project contains two part: 
 - (CPRNet) coarse point refinement: can refine the given coarse annotated point to a semantic center point.
@@ -16,14 +16,14 @@ new ability of handling multi-class prediction.
 Semantic variance problem is inevitably introduced in point annotation 
 for the inconsistency of annotated points as showing below:
 
-![semantic variance problem](../../../figure/challenge_x21.jpg)
+![semantic variance problem](../../../figure/CPR/challenge_x21.jpg)
 
 Existing method handle the problem in annotation level: Using Key-point annotation.
 However, key-point need more annotation cost and may not exist in image, limiting it to generalize to complex scene.
 So we try to handle the semantic variance problem in algorithm-level: Propose CPR that can refine 
 the given coarse annotated point to a semantic center point.
 
-![CPRNet](../../../figure/cpr_x10_low2.jpg)
+![CPRNet](../../../figure/CPR/cpr_x10_low2.jpg)
 
 ## Prerequisites
 
@@ -183,12 +183,12 @@ export GPU=4 && export LR=0.0001 && export BATCH=2 && export WH='(640 640)' && C
 ## During CPR training
 
 The Relative semantic variance is lower after CPR.
-![CPR can refine coarse annotated point to semantic center point](../../../figure/variance_x20.jpg)
+![CPR can refine coarse annotated point to semantic center point](../../../figure/CPR/variance_x20.jpg)
 
 
 
 The gif show the trace of refined point during CPR training.
 
-<img src="../../../figure/cpr_gif/vis_2_000000163020.gif" width="400px" height="300px"><img src="../../../figure/cpr_gif/vis_2_000000074711.gif" width="400px" height="300px"><img src="../../../figure/cpr_gif/vis_2_000000031599.gif" width="200px" height="300px">
-<img src="../../../figure/cpr_gif/vis_2_000000279806.gif" width="400px" height="400px"><img src="../../../figure/cpr_gif/vis_2_000000031176.gif" height="400px" width="600px">
+<img src="../../../figure/CPR/cpr_gif/vis_2_000000163020.gif" width="400px" height="300px"><img src="../../../figure/CPR/cpr_gif/vis_2_000000074711.gif" width="400px" height="300px"><img src="../../../figure/CPR/cpr_gif/vis_2_000000031599.gif" width="200px" height="300px">
+<img src="../../../figure/CPR/cpr_gif/vis_2_000000279806.gif" width="400px" height="400px"><img src="../../../figure/CPR/cpr_gif/vis_2_000000031176.gif" height="400px" width="600px">
 
