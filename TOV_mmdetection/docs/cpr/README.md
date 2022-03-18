@@ -12,7 +12,12 @@ The project contains two part:
 - (Localizer) point based localization: reimplement [P2PNet](https://github.com/TencentYoutuResearch/CrowdCounting-P2PNet) in mmdetection and endow it the
 new ability of handling multi-class prediction.
   
-## introduce
+## Background && introduce
+
+POL based object localization require point-level object annotations during training and want to predict the object’s location as a
+2D coordinate in the original image. It can be used in the scenes that only care about objects' position while do not care about objects' scale,
+like [locate object without bounding box](https://github.com/javiribera/locating-objects-without-bboxes)
+
 **Semantic variance problem** is inevitably introduced in point annotation 
 for the inconsistency of annotated points as showing below:
 
