@@ -53,15 +53,18 @@ As [Install](../../README.md) told.
 3. generate or download coarse point annotation file
 
    a. COCO([Baidu Yun passwd:y71n](https://pan.baidu.com/s/1v9HIkfBChsUJRUGhisUrwA) or 
-[Google Driver](https://drive.google.com/drive/folders/1QYEqwe3xNwJGsOEA72BPp8NAk1JdAtVT?usp=sharing)),
+[Google Driver](https://drive.google.com/drive/folders/1QYEqwe3xNwJGsOEA72BPp8NAk1JdAtVT?usp=sharing) or 
+   [One Driver](https://1drv.ms/u/s!As6kIs8TtiSYgwsllQHSil8quGPT?e=Uiq2AH)),
 move CPR/data/coco/xxx_annotations to data/coco/xxx_annotations
    
    b. DOTA([Baidu Yun passwd:y71n](https://pan.baidu.com/s/1v9HIkfBChsUJRUGhisUrwA) or 
-[Google Driver on the way ...](https://drive.google.com/drive/folders/1QYEqwe3xNwJGsOEA72BPp8NAk1JdAtVT?usp=sharing)),
+[Google Driver on the way ...](https://drive.google.com/drive/folders/1QYEqwe3xNwJGsOEA72BPp8NAk1JdAtVT?usp=sharing) or
+   [One Driver](https://1drv.ms/u/s!As6kIs8TtiSYgwsllQHSil8quGPT?e=Uiq2AH)),
 unzip CPR/data/dota/DOTA-split/coarse_annotation.zip and move unziped directorys xxx to data/dota/DOTA-split/xxx
    
    c. TinyPerson V2(SeaPerson)([Baidu Yun passwd:y71n](https://pan.baidu.com/s/1v9HIkfBChsUJRUGhisUrwA) or 
-[Google Driver on the way ...](https://drive.google.com/drive/folders/1QYEqwe3xNwJGsOEA72BPp8NAk1JdAtVT?usp=sharing)),
+[Google Driver on the way ...](https://drive.google.com/drive/folders/1QYEqwe3xNwJGsOEA72BPp8NAk1JdAtVT?usp=sharing) or 
+      [One Driver](https://1drv.ms/u/s!As6kIs8TtiSYgwsllQHSil8quGPT?e=Uiq2AH)),
    unzip file in CPR/data/tiny_set_v2/anns/release/corner/coarse and move to data/tiny_set_v2/anns/release/corner/coarse
 
 ## Train
