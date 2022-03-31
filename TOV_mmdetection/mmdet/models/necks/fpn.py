@@ -93,7 +93,7 @@ class FPN(BaseModule):
 
         if end_level == -1:
             self.backbone_end_level = self.num_ins
-            assert num_outs >= self.num_ins - start_level
+            # assert num_outs >= self.num_ins - start_level   # change by hui
         else:
             # if end_level < inputs, no extra level is allowed
             self.backbone_end_level = end_level
@@ -129,18 +129,19 @@ class FPN(BaseModule):
                 norm_cfg=norm_cfg if not self.no_norm_on_lateral else None,
                 act_cfg=act_cfg,
                 inplace=False)
-            fpn_conv = ConvModule(
-                out_channels,
-                out_channels,
-                3,
-                padding=1,
-                conv_cfg=conv_cfg,
-                norm_cfg=norm_cfg,
-                act_cfg=act_cfg,
-                inplace=False)
-
             self.lateral_convs.append(l_conv)
-            self.fpn_convs.append(fpn_conv)
+
+            if i < self.start_level + self.num_outs:  # changed by hui
+                fpn_conv = ConvModule(
+                    out_channels,
+                    out_channels,
+                    3,
+                    padding=1,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg,
+                    act_cfg=act_cfg,
+                    inplace=False)
+                self.fpn_convs.append(fpn_conv)
 
         # add extra conv layers (e.g., RetinaNet)
         extra_levels = num_outs - self.backbone_end_level + self.start_level
@@ -189,7 +190,7 @@ class FPN(BaseModule):
         # build outputs
         # part 1: from original levels
         outs = [
-            self.fpn_convs[i](laterals[i]) for i in range(used_backbone_levels)
+            self.fpn_convs[i](laterals[i]) for i in range(min(used_backbone_levels, self.num_outs))  # change by hui
         ]
         # part 2: add extra levels
         if self.num_outs > len(outs):
