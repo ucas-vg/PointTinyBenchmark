@@ -24,10 +24,11 @@ class BBoxL1Cost:
          tensor([[1.6172, 1.6422]])
     """
 
-    def __init__(self, weight=1., box_format='xyxy'):
+    def __init__(self, weight=1., box_format='xyxy', same_fmt=False):
         self.weight = weight
         assert box_format in ['xyxy', 'xywh']
         self.box_format = box_format
+        self.same_fmt = same_fmt  # input bbox_pred and gt_bboxes is same format
 
     def __call__(self, bbox_pred, gt_bboxes):
         """
@@ -41,10 +42,11 @@ class BBoxL1Cost:
         Returns:
             torch.Tensor: bbox_cost value with weight
         """
-        if self.box_format == 'xywh':
-            gt_bboxes = bbox_xyxy_to_cxcywh(gt_bboxes)
-        elif self.box_format == 'xyxy':
-            bbox_pred = bbox_cxcywh_to_xyxy(bbox_pred)
+        if not self.same_fmt:
+            if self.box_format == 'xywh':
+                gt_bboxes = bbox_xyxy_to_cxcywh(gt_bboxes)
+            elif self.box_format == 'xyxy':
+                bbox_pred = bbox_cxcywh_to_xyxy(bbox_pred)
         bbox_cost = torch.cdist(bbox_pred, gt_bboxes, p=1)
         return bbox_cost * self.weight
 
@@ -182,3 +184,63 @@ class IoUCost:
         # The 1 is a constant that doesn't change the matching, so omitted.
         iou_cost = -overlaps
         return iou_cost * self.weight
+
+
+# ############### add by didi ###########################################################################
+@MATCH_COST.register_module()
+class DisCostV2:
+    def __init__(self, weight=1., norm_with_img_wh=True, p=1):
+        self.weight = weight
+        self.norm_with_img_wh = norm_with_img_wh
+        self.p = p
+
+    def __call__(self, bbox_pred, gt_bboxes, img_meta):
+        """
+        Args:
+            bbox_pred (Tensor): Predicted boxes with normalized coordinates
+                (x1, y1, x2, y2, ...), which are all in range [0, 1]. Shape [num_query, k*2].
+            gt_bboxes (Tensor): Ground truth boxes with normalized
+                coordinates (x1, y1, x2, y2, ...). Shape [num_gt, k*2].
+
+        Returns:
+            torch.Tensor: bbox_cost value with weight
+        """
+        factor = 1.0
+        if self.norm_with_img_wh:
+            k = bbox_pred.shape[-1] // 2
+            img_h, img_w, _ = img_meta['img_shape']
+            factor = gt_bboxes.new_tensor([img_w, img_h] * k).unsqueeze(0)
+        bbox_cost = torch.cdist(bbox_pred / factor, gt_bboxes / factor, p=self.p)
+        return bbox_cost * self.weight
+
+
+@MATCH_COST.register_module()
+class IoUCostV2(IoUCost):
+    def __call__(self, bbox_pred, gt_bboxes, img_meta):
+        return super().__call__(bbox_pred, gt_bboxes)
+
+
+@MATCH_COST.register_module()
+class ZeroCost:
+    def __call__(self, bbox_pred, gt_bboxes):
+        return 0
+
+
+@MATCH_COST.register_module()
+class ClassificationCostV2:
+    def __init__(self, weight=1., use_sigmoid=False):
+        self.weight = weight
+        self.use_sigmoid = use_sigmoid
+
+    def __call__(self, cls_pred, gt_labels):
+        """
+        Args:
+            cls_pred: (num_proposals, num_class)
+            gt_labels: (num_gts)
+        Returns:
+            (proposals,gts)
+        """
+        cls_score = cls_pred.sigmoid() if self.use_sigmoid else cls_pred.softmax(dim=-1)
+        cls_cost = -cls_score[:, gt_labels]
+        return cls_cost * self.weight
+# #########################################################################################
