@@ -207,7 +207,7 @@ class DefaultFormatBundle:
                 img = np.expand_dims(img, -1)
             img = np.ascontiguousarray(img.transpose(2, 0, 1))
             results['img'] = DC(to_tensor(img), stack=True)
-        for key in ['proposals', 'gt_bboxes', 'gt_bboxes_ignore', 'gt_labels']:
+        for key in ['proposals', 'gt_bboxes', 'gt_bboxes_ignore', 'gt_labels', 'gt_true_bboxes', 'gt_anns_id']:  # change by hui
             if key not in results:
                 continue
             results[key] = DC(to_tensor(results[key]))
