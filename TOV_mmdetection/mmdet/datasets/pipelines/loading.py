@@ -247,10 +247,16 @@ class LoadAnnotations:
         ann_info = results['ann_info']
         results['gt_bboxes'] = ann_info['bboxes'].copy()
 
-        gt_bboxes_ignore = ann_info.get('bboxes_ignore', None)
-        if gt_bboxes_ignore is not None:
-            results['gt_bboxes_ignore'] = gt_bboxes_ignore.copy()
-            results['bbox_fields'].append('gt_bboxes_ignore')
+        # change by hui
+        for keys, new_key in [(["bboxes_ignore"], "gt_bboxes_ignore"),
+                              (["true_bboxes", "bboxes"], "gt_true_bboxes")]:
+            for key in keys:
+                data = ann_info.get(key, None)
+                if data is not None:
+                    break
+            if data is not None:
+                results[new_key] = data.copy()
+                results['bbox_fields'].append(new_key)
         results['bbox_fields'].append('gt_bboxes')
         return results
 
@@ -265,6 +271,8 @@ class LoadAnnotations:
         """
 
         results['gt_labels'] = results['ann_info']['labels'].copy()
+        if 'anns_id' in results['ann_info']:  # add by hui
+            results['gt_anns_id'] = results['ann_info']['anns_id'].copy()  # add by hui
         return results
 
     def _poly2mask(self, mask_ann, img_h, img_w):
