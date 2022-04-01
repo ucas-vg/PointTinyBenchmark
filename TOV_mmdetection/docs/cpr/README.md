@@ -81,7 +81,7 @@ unzip CPR/data/dota/DOTA-split/coarse_annotation.zip and move unziped directorys
 2. CPR + P2PNet
     ```shell script
     # [cmd 0] train CPRNet and inference on training set with CPRNet
-    GPU=8 && CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 PORT=10001 tools/dist_train.sh \
+    GPU=8 && CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 PORT=10000 tools/dist_train.sh \
         configs2/COCO//coarsepointv2/coarse_point_refine_r50_fpn_1x_coco400.py 8 \
         --work-dir ../TOV_mmdetection_cache/work_dir/COCO//coarsepointv2/noise_rg-0-0-0.25-0.25_1/coarse_point_refine_r50_fpn_1x_coco400/loss0gt_r8_8_lr0.01_1x_8b8g/ \
         --cfg-options evaluation.save_result_file=../TOV_mmdetection_cache/work_dir/COCO//coarsepointv2/noise_rg-0-0-0.25-0.25_1/coarse_point_refine_r50_fpn_1x_coco400/loss0gt_r8_8_lr0.01_1x_8b8g//latest_result_refine4_r8_8.json
