@@ -72,6 +72,7 @@ class CocoFmtDataset(CocoDataset):
                  train_ignore_as_bg=True,
                  noise_kwargs=None,
                  merge_after_infer_kwargs=None,
+                 min_gt_size=None,
                  **kwargs):
         # add by hui, if there is not corner dataset, create one
         if corner_kwargs is not None:
@@ -91,6 +92,8 @@ class CocoFmtDataset(CocoDataset):
 
         self.train_ignore_as_bg = train_ignore_as_bg
         self.merge_after_infer_kwargs = merge_after_infer_kwargs
+
+        self.min_gt_size = min_gt_size
 
         super(CocoFmtDataset, self).__init__(
             ann_file,
@@ -131,6 +134,23 @@ class CocoFmtDataset(CocoDataset):
 
     def _filter_imgs(self, min_size=32):
         valid_inds = super(CocoFmtDataset, self)._filter_imgs(min_size)
+
+        # filter image only contain ignore_bboxes or too small bbox
+        if self.min_gt_size:
+            new_valid_inds, valid_img_ids = [], []
+            for i, img_id in enumerate(self.img_ids):
+                valid = False
+                for ann in self.coco.imgToAnns[img_id]:
+                    if 'ignore' in ann and ann['ignore']:
+                        continue
+                    if ann['bbox'][-1] > self.min_gt_size and ann['bbox'][-2] > self.min_gt_size:
+                        valid = True
+                if valid:
+                    new_valid_inds.append(valid_inds[i])
+                    valid_img_ids.append(img_id)
+            self.img_ids = valid_img_ids
+            valid_inds = new_valid_inds
+
         print("valid image count: ", len(valid_inds))   # add by hui
         return valid_inds
 
@@ -150,6 +170,7 @@ class CocoFmtDataset(CocoDataset):
         gt_labels = []
         gt_bboxes_ignore = []
         gt_masks_ann = []
+        true_bboxes, anns_id = [], []  # add by hui
         for i, ann in enumerate(ann_info):
             if self.train_ignore_as_bg and ann.get('ignore', False):  # change by hui
                 continue
@@ -169,6 +190,13 @@ class CocoFmtDataset(CocoDataset):
                 gt_bboxes.append(bbox)
                 gt_labels.append(self.cat2label[ann['category_id']])
                 gt_masks_ann.append(ann.get('segmentation', None))
+                if 'true_bbox' in ann:  # add by hui
+                    x1, y1, w, h = ann['true_bbox']
+                    true_bboxes.append([x1, y1, x1 + w, y1 + h])
+                anns_id.append(ann['id'])
+        if len(true_bboxes) > 0:  # add by hui
+            true_bboxes = np.array(true_bboxes, dtype=np.float32)
+            anns_id = np.array(anns_id, dtype=np.int64)
 
         if gt_bboxes:
             gt_bboxes = np.array(gt_bboxes, dtype=np.float32)
@@ -187,9 +215,13 @@ class CocoFmtDataset(CocoDataset):
         ann = dict(
             bboxes=gt_bboxes,
             labels=gt_labels,
+            anns_id=anns_id,  # add by hui
             bboxes_ignore=gt_bboxes_ignore,
             masks=gt_masks_ann,
-            seg_map=seg_map)
+            seg_map=seg_map,
+        )
+        if len(true_bboxes) > 0:  # add by hui
+            ann['true_bboxes'] = true_bboxes
         return ann
 
     def evaluate(self,
@@ -201,7 +233,11 @@ class CocoFmtDataset(CocoDataset):
                  proposal_nums=(100, 300, 1000),
                  iou_thrs=None,
                  metric_items=None,
-                 cocofmt_kwargs={}, use_location_metric=False, location_kwargs={}):  # add by hui
+                 cocofmt_kwargs={}, skip_eval=False,
+                 use_location_metric=False, location_kwargs={},
+                 use_without_bbox_metric=False, without_bbox_kwargs={},
+                 save_result_file=None,
+                 ):  # add by hui
         """Evaluation in COCO protocol.
 
         Args:
@@ -282,8 +318,9 @@ class CocoFmtDataset(CocoDataset):
                 predictions = mmcv.load(result_files[metric])
                 # add by hui ######################################################
                 import shutil
-                shutil.copy(result_files[metric], './exp/latest_result.json')
-                ######################################################
+                save_result_file = './exp/latest_result.json' if save_result_file is None else save_result_file
+                shutil.copy(result_files[metric], save_result_file)
+                ###################################################################
                 if iou_type == 'segm':
                     # Refer to https://github.com/cocodataset/cocoapi/blob/master/PythonAPI/pycocotools/coco.py#L331  # noqa
                     # When evaluating mask AP, if the results contain bbox,
@@ -308,6 +345,8 @@ class CocoFmtDataset(CocoDataset):
                 break
 
             # add by hui for location evaluation ####################################
+            if skip_eval:
+                continue
             if use_location_metric:
                 location_eval = LocationEvaluator(**location_kwargs)
                 print(location_eval.__dict__)
@@ -423,3 +462,66 @@ class CocoFmtDataset(CocoDataset):
         if tmp_dir is not None:
             tmp_dir.cleanup()
         return eval_results
+
+    def __getitem__(self, idx):
+        """Get training/test data after pipeline.
+        """
+        # idx = debug_find(self.data_infos, filename='000000066423.jpg')
+        # idx = debug_find(self.data_infos, filename='val2014/COCO_val2014_000000066423.jpg')
+        # idx = debug_find(self.data_infos)
+        data = super(CocoFmtDataset, self).__getitem__(idx)
+
+        # # raise error while empty
+        # if isinstance(data, dict):
+        #     d_data = [data]
+        # elif isinstance(data, (tuple, list)):
+        #     assert len(data) == 0 or isinstance(data[0], dict)
+        #     d_data = data
+        # else:
+        #     raise TypeError(type(data))
+        # for d in d_data:  # list(dict(gt_labels=[DataContainer]))
+        #     gt_labels = d['gt_labels']
+        #     from mmcv.parallel import DataContainer
+        #     if isinstance(gt_labels, DataContainer):
+        #         gt_labels = [gt_labels]
+        #     for gt_label in gt_labels:
+        #         if len(gt_label.data.shape) == 0 or len(gt_label.data) == 0:
+        #             print(gt_labels)
+        #             print()
+        #             print(data)
+        #             raise ValueError('current data have not valid bbox in image:')
+        return data
+
+
+class DebugFinder(object):
+    def __init__(self):
+        self.files = [
+            "000000005754.jpg", "000000037675.jpg", "000000074711.jpg", "000000135690.jpg", "000000223122.jpg",
+            "000000276693.jpg", "000000320350.jpg", "000000536831.jpg", "000000008179.jpg", "000000041687.jpg",
+            "000000079472.jpg", "000000142697.jpg", "000000226588.jpg", "000000279806.jpg", "000000355137.jpg",
+            "000000580746.jpg", "000000012896.jpg", "000000058915.jpg", "000000079841.jpg", "000000145215.jpg",
+            "000000230232.jpg", "000000284594.jpg", "000000356937.jpg", "000000028758.jpg", "000000062060.jpg",
+            "000000082327.jpg", "000000156832.jpg", "000000233560.jpg", "000000288002.jpg", "000000376549.jpg",
+            "000000031176.jpg", "000000066072.jpg", "000000105782.jpg", "000000163020.jpg", "000000239235.jpg",
+            "000000290570.jpg", "000000383470.jpg", "000000031599.jpg", "000000066423.jpg", "000000117792.jpg",
+            "000000183181.jpg", "000000255633.jpg", "000000292639.jpg", "000000420775.jpg", "000000032907.jpg",
+            "000000072843.jpg", "000000122542.jpg", "000000199449.jpg", "000000271680.jpg", "000000307341.jpg",
+            "000000461885.jpg",
+        ]
+        self.i = 0
+
+    def __call__(self, data_infos, im_id=-1, filename=''):
+        if self.i >= len(self.files):
+            print('finished dataset.')
+            exit(-1)
+        filename = self.files[self.i]
+        self.i += 1
+        for idx in range(len(data_infos)):
+            img_info = data_infos[idx]
+            if img_info['id'] == im_id:
+                return idx
+            if img_info['filename'] == filename:
+                return idx
+
+
+debug_find = DebugFinder()
