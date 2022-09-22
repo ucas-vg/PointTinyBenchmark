@@ -141,8 +141,14 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
             # indicates images in a batch.
             # The Tensor should have a shape Px4, where P is the number of
             # proposals.
-            if 'proposals' in kwargs:
-                kwargs['proposals'] = kwargs['proposals'][0]
+            # old code ###################################################
+            # if 'proposals' in kwargs:
+            #    kwargs['proposals'] = kwargs['proposals'][0]
+            # add by hui #################################################
+            for key in kwargs:  # modified by hui
+                if key in ['proposals'] or key.startswith('gt_'):
+                    kwargs[key] = kwargs[key][0]
+            ##############################################################
             return self.simple_test(imgs[0], img_metas[0], **kwargs)
         else:
             assert imgs[0].size(0) == 1, 'aug test does not support ' \
