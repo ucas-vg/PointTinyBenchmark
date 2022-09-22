@@ -78,7 +78,7 @@ class SingleStageDetector(BaseDetector):
                                               gt_labels, gt_bboxes_ignore)
         return losses
 
-    def simple_test(self, img, img_metas, rescale=False):
+    def simple_test(self, img, img_metas, rescale=False, **kwargs):
         """Test function without test-time augmentation.
 
         Args:
@@ -93,15 +93,17 @@ class SingleStageDetector(BaseDetector):
                 corresponds to each class.
         """
         feat = self.extract_feat(img)
+        # add by hui
+        gt_kwargs = {k: v for k, v in kwargs.items() if k.startswith('gt_')}
         results_list = self.bbox_head.simple_test(
-            feat, img_metas, rescale=rescale)
+            feat, img_metas, rescale=rescale, **gt_kwargs)
         bbox_results = [
             bbox2result(det_bboxes, det_labels, self.bbox_head.num_classes)
             for det_bboxes, det_labels in results_list
         ]
         return bbox_results
 
-    def aug_test(self, imgs, img_metas, rescale=False):
+    def aug_test(self, imgs, img_metas, rescale=False, **kwargs):
         """Test function with test time augmentation.
 
         Args:
@@ -124,8 +126,10 @@ class SingleStageDetector(BaseDetector):
             ' does not support test-time augmentation'
 
         feats = self.extract_feats(imgs)
+        # add by hui
+        gt_kwargs = {k: v for k, v in kwargs.items() if k.startswith('gt_')}
         results_list = self.bbox_head.aug_test(
-            feats, img_metas, rescale=rescale)
+            feats, img_metas, rescale=rescale, **gt_kwargs)
         bbox_results = [
             bbox2result(det_bboxes, det_labels, self.bbox_head.num_classes)
             for det_bboxes, det_labels in results_list
