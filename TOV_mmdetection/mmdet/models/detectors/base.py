@@ -104,6 +104,9 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
         assert samples_per_gpu == 1
 
         if num_augs == 1:
+            for key in kwargs:  # modified by hui
+                if key in ['proposals'] or key.startswith('gt_'):
+                    kwargs[key] = kwargs[key][0]
             return await self.async_simple_test(img[0], img_metas[0], **kwargs)
         else:
             raise NotImplementedError
@@ -141,14 +144,9 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
             # indicates images in a batch.
             # The Tensor should have a shape Px4, where P is the number of
             # proposals.
-            # old code ###################################################
-            # if 'proposals' in kwargs:
-            #    kwargs['proposals'] = kwargs['proposals'][0]
-            # add by hui #################################################
             for key in kwargs:  # modified by hui
                 if key in ['proposals'] or key.startswith('gt_'):
                     kwargs[key] = kwargs[key][0]
-            ##############################################################
             return self.simple_test(imgs[0], img_metas[0], **kwargs)
         else:
             assert imgs[0].size(0) == 1, 'aug test does not support ' \
