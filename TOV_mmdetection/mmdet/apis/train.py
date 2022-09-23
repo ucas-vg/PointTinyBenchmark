@@ -59,6 +59,7 @@ def train_detector(model,
                 f'{cfg.data.imgs_per_gpu} in this experiments')
         cfg.data.samples_per_gpu = cfg.data.imgs_per_gpu
 
+    d_kwargs = {} if cfg.data.get("shuffle", None) is None else {"shuffle": cfg.data.shuffle}  # add by hui
     data_loaders = [
         build_dataloader(
             ds,
@@ -67,7 +68,7 @@ def train_detector(model,
             # cfg.gpus will be ignored if distributed
             len(cfg.gpu_ids),
             dist=distributed,
-            seed=cfg.seed) for ds in dataset
+            seed=cfg.seed, **d_kwargs) for ds in dataset
     ]
 
     # put model on gpus
@@ -137,13 +138,13 @@ def train_detector(model,
             # Replace 'ImageToTensor' to 'DefaultFormatBundle'
             cfg.data.val.pipeline = replace_ImageToTensor(
                 cfg.data.val.pipeline)
-        val_dataset = build_dataset(cfg.data.val, dict(test_mode=True))
+        val_dataset = build_dataset(cfg.data.val, dict(test_mode=cfg.data.val.pop('test_mode', True)))
         val_dataloader = build_dataloader(
             val_dataset,
             samples_per_gpu=val_samples_per_gpu,
             workers_per_gpu=cfg.data.workers_per_gpu,
             dist=distributed,
-            shuffle=False)
+            shuffle=False if cfg.data.get("shuffle", None) is None else cfg.data.shuffle)  # add by hui
         eval_cfg = cfg.get('evaluation', {})
         eval_cfg['by_epoch'] = cfg.runner['type'] != 'IterBasedRunner'
         eval_hook = DistEvalHook if distributed else EvalHook
@@ -162,9 +163,41 @@ def train_detector(model,
             priority = hook_cfg.pop('priority', 'NORMAL')
             hook = build_from_cfg(hook_cfg, HOOKS)
             runner.register_hook(hook, priority=priority)
+    runner.register_hook(LogNanStopHook(cfg.get("check", {})))  # add by hui
 
     if cfg.resume_from:
         runner.resume(cfg.resume_from)
     elif cfg.load_from:
         runner.load_checkpoint(cfg.load_from)
     runner.run(data_loaders, cfg.workflow)
+
+
+# add by hui #############################################################
+from mmcv.runner.hooks.hook import HOOKS, Hook
+@HOOKS.register_module()
+class LogNanStopHook(Hook):
+    def __init__(self, check_cfg):
+        self.stop_while_nan = check_cfg.get('stop_while_nan', False)
+
+    def after_iter(self, runner):
+        do_exit = torch.tensor([0.], dtype=torch.float32).to(runner.outputs["loss"].device)
+        if self.stop_while_nan and torch.isnan(runner.outputs['loss']):
+            import torch.distributed as dist
+            import os
+
+            # if not (dist.is_available() and dist.is_initialized()):
+            #     pids = [torch.tensor([os.getpid()]).long()]
+            # else:
+                # pids = [torch.zeros(1, dtype=torch.long)-1 for _ in range(torch.distributed.get_world_size())]
+                # dist.all_gather(pids, torch.tensor([os.getpid()]).long())
+            # for pid in pids:
+            #     print(f"kill {pid.cpu().numpy().tolist()[0]}")
+
+            do_exit[0] = 1.0
+            if dist.is_available() and dist.is_initialized():
+                # only support torch.float32
+                dist.broadcast(do_exit, torch.distributed.get_rank())
+        if do_exit.bool()[0]:
+            print("loss nan")
+            exit(254)
+##########################################################################
