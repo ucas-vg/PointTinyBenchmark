@@ -58,7 +58,7 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
             proposal_list = self.get_bboxes(*outs, img_metas, cfg=proposal_cfg)
             return losses, proposal_list
 
-    def simple_test(self, feats, img_metas, rescale=False):
+    def simple_test(self, feats, img_metas, rescale=False, **kwargs):
         """Test function without test-time augmentation.
 
         Args:
@@ -75,4 +75,4 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
                 The shape of the second tensor in the tuple is ``labels``
                 with shape (n,)
         """
-        return self.simple_test_bboxes(feats, img_metas, rescale=rescale)
+        return self.simple_test_bboxes(feats, img_metas, rescale=rescale, **kwargs)
