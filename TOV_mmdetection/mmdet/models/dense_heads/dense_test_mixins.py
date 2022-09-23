@@ -12,7 +12,7 @@ if sys.version_info >= (3, 7):
 class BBoxTestMixin(object):
     """Mixin class for testing det bboxes via DenseHead."""
 
-    def simple_test_bboxes(self, feats, img_metas, rescale=False):
+    def simple_test_bboxes(self, feats, img_metas, rescale=False, **kwargs):
         """Test det bboxes without test-time augmentation, can be applied in
         DenseHead except for ``RPNHead`` and its variants, e.g., ``GARPNHead``,
         etc.
@@ -32,7 +32,7 @@ class BBoxTestMixin(object):
                 with shape (n,)
         """
         outs = self.forward(feats)
-        results_list = self.get_bboxes(*outs, img_metas, rescale=rescale)
+        results_list = self.get_bboxes(*outs, img_metas, rescale=rescale, **kwargs)
         return results_list
 
     def aug_test_bboxes(self, feats, img_metas, rescale=False):
