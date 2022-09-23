@@ -9,18 +9,34 @@ from torch.nn.modules.batchnorm import _BatchNorm
 class EvalHook(BaseEvalHook):
     # add by hui ##########################################################
     def __init__(self, *args, **eval_kwargs):
+        self.do_first_eval = eval_kwargs.pop('do_first_eval', False)
+        self.is_run_first = True
         self.do_final_eval = eval_kwargs.pop('do_final_eval', False)
-        self.run_over = False
+        self.do_eval = False
+        self.exit_after_eval = eval_kwargs.pop('exit_after_eval', False)
         super(EvalHook, self).__init__(*args, **eval_kwargs)
 
+    def before_run(self, runner):
+        if self.do_first_eval and self.is_run_first:
+            self.is_run_first = False
+            self.do_eval = True
+            self._do_evaluate(runner)
+        super(EvalHook, self).before_run(runner)
+
     def _should_evaluate(self, runner):
-        if self.run_over:
+        if self.do_eval:
+            self.do_eval = False
             return True
         return super(EvalHook, self)._should_evaluate(runner)
 
     def after_run(self, runner):
         if self.do_final_eval:
-            self.run_over = True
+            self.do_eval = True
+            self._do_evaluate(runner)
+        super(EvalHook, self).after_run(runner)
+        if self.exit_after_eval:
+            print('[EvalHook]: exit after eval set.')
+            exit(0)
     #########################################################################
 
     def _do_evaluate(self, runner):
@@ -39,18 +55,34 @@ class EvalHook(BaseEvalHook):
 class DistEvalHook(BaseDistEvalHook):
     # add by hui ##########################################################
     def __init__(self, *args, **eval_kwargs):
+        self.do_first_eval = eval_kwargs.pop('do_first_eval', False)
+        self.is_run_first = True
         self.do_final_eval = eval_kwargs.pop('do_final_eval', False)
-        self.run_over = False
+        self.do_eval = False
+        self.exit_after_eval = eval_kwargs.pop('exit_after_eval', False)
         super(DistEvalHook, self).__init__(*args, **eval_kwargs)
 
+    def before_run(self, runner):
+        if self.do_first_eval and self.is_run_first:
+            self.is_run_first = False
+            self.do_eval = True
+            self._do_evaluate(runner)
+        super(DistEvalHook, self).before_run(runner)
+
     def _should_evaluate(self, runner):
-        if self.run_over:
+        if self.do_eval:
+            self.do_eval = False
             return True
         return super(DistEvalHook, self)._should_evaluate(runner)
 
     def after_run(self, runner):
         if self.do_final_eval:
-            self.run_over = True
+            self.do_eval = True
+            self._do_evaluate(runner)
+        super(DistEvalHook, self).after_run(runner)
+        if self.exit_after_eval:
+            print('[EvalHook]: exit after eval set.')
+            exit(0)
     #########################################################################
 
     def _do_evaluate(self, runner):
