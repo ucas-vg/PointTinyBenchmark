@@ -173,7 +173,7 @@ export GPU=4 && export LR=0.0001 && export BATCH=2 && export WH='(640 640)' && C
 
 ## Test && Visualization
 
-1. train network to obtain weighted or download [our trained weight](COCO([Baidu Yun passwd:y71n](https://pan.baidu.com/s/1v9HIkfBChsUJRUGhisUrwA))
+1. train network to obtain weighted or download [our trained weight](([Baidu Yun passwd:y71n](https://pan.baidu.com/s/1v9HIkfBChsUJRUGhisUrwA))
 2. visualization of CPR (take COCO as example)
    ```
    python tools/train.py configs2/COCO/coarsepointv2/coarse_point_refine_r50_fpn_1x_coco400_dbg.py \
