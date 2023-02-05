@@ -6,7 +6,7 @@ debug = True
 # 3. evaluation: maxDets
 
 _base_ = [
-    'coarse_point_refine_r50_fpns4_1x_coco400.py'
+    'coarse_point_refine_r50_fpn_1x_coco400.py'
 ]
 
 dataset_type = 'CocoFmtDataset'
