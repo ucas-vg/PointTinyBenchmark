@@ -168,7 +168,7 @@ class FCNMaskHead(BaseModule):
             loss_mask = mask_pred.sum()
         else:
             if self.class_agnostic:
-                loss_mask = self.loss_mask(mask_pred, mask_targets,
+                loss_mask = self.lossls_mask(mask_pred, mask_targets,
                                            torch.zeros_like(labels))
             else:
                 loss_mask = self.loss_mask(mask_pred, mask_targets, labels)

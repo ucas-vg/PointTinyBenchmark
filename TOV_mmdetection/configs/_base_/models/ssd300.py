@@ -12,6 +12,7 @@ model = dict(
         out_indices=(3, 4),
         out_feature_indices=(22, 34),
         l2_norm_scale=20),
+
     neck=None,
     bbox_head=dict(
         type='SSDHead',

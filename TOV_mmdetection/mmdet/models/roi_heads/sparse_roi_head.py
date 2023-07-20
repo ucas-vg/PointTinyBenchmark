@@ -1,6 +1,6 @@
 import torch
 
-from mmdet.core import bbox2result, bbox2roi, bbox_xyxy_to_cxcywh
+from mmdet.core import bbox2result, bbox2roi, bbox_xyxy_to_cxcywh, multiclass_nms
 from mmdet.core.bbox.samplers import PseudoSampler
 from ..builder import HEADS
 from .cascade_roi_head import CascadeRoIHead
@@ -229,7 +229,9 @@ class SparseRoIHead(CascadeRoIHead):
                     proposal_features,
                     img_metas,
                     imgs_whwh,
-                    rescale=False):
+                    rescale=False,
+                    cfg=None,
+                    with_nms=False):  # add by hui
         """Test without augmentation.
 
         Args:
@@ -278,12 +280,27 @@ class SparseRoIHead(CascadeRoIHead):
 
         for img_id in range(num_imgs):
             cls_score_per_img = cls_score[img_id]
-            scores_per_img, topk_indices = cls_score_per_img.flatten(
-                0, 1).topk(
-                    self.test_cfg.max_per_img, sorted=False)
-            labels_per_img = topk_indices % num_classes
-            bbox_pred_per_img = proposal_list[img_id][topk_indices //
-                                                      num_classes]
+            # modified by hui ##############################################################################
+            cfg = self.test_cfg if cfg is None else cfg
+            if with_nms:
+                det_bboxes_, det_labels_ = multiclass_nms(proposal_list[img_id], cls_score_per_img,
+                                                          cfg.score_thr, cfg.nms,
+                                                          cfg.max_per_img)
+                bbox_pred_per_img = det_bboxes_[:, :4]
+                scores_per_img = det_bboxes_[:, 4]
+                labels_per_img = det_labels_
+            else:
+                _cls_score_per_img = cls_score_per_img.flatten(0, 1)
+                max_per_img = min(len(_cls_score_per_img), cfg.max_per_img)
+                scores_per_img, topk_indices = _cls_score_per_img.topk(max_per_img, sorted=False)
+
+                valid_mask = scores_per_img > cfg.score_thr
+                scores_per_img, topk_indices = scores_per_img[valid_mask], topk_indices[valid_mask]
+
+                labels_per_img = topk_indices % num_classes
+                bbox_pred_per_img = proposal_list[img_id][topk_indices //
+                                                          num_classes]
+            #################################################################################
             if rescale:
                 scale_factor = img_metas[img_id]['scale_factor']
                 bbox_pred_per_img /= bbox_pred_per_img.new_tensor(scale_factor)

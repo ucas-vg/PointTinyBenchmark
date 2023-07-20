@@ -62,7 +62,6 @@ def generate_pesudo_bbox_for_noise_data(ann_file, data_root, noise_kwargs):
 
 @DATASETS.register_module()
 class CocoFmtDataset(CocoDataset):
-
     CLASSES = None
 
     def __init__(self,
@@ -151,7 +150,7 @@ class CocoFmtDataset(CocoDataset):
             self.img_ids = valid_img_ids
             valid_inds = new_valid_inds
 
-        print("valid image count: ", len(valid_inds))   # add by hui
+        print("valid image count: ", len(valid_inds))  # add by hui
         return valid_inds
 
     def _parse_ann_info(self, img_info, ann_info):
@@ -170,7 +169,7 @@ class CocoFmtDataset(CocoDataset):
         gt_labels = []
         gt_bboxes_ignore = []
         gt_masks_ann = []
-        true_bboxes, anns_id = [], []  # add by hui
+        true_bboxes, anns_id, ann_weight = [], [], []  # add by hui,fei
         for i, ann in enumerate(ann_info):
             if self.train_ignore_as_bg and ann.get('ignore', False):  # change by hui
                 continue
@@ -194,9 +193,14 @@ class CocoFmtDataset(CocoDataset):
                     x1, y1, w, h = ann['true_bbox']
                     true_bboxes.append([x1, y1, x1 + w, y1 + h])
                 anns_id.append(ann['id'])
+                if 'ann_weight' in ann:
+                    weight = ann['ann_weight']
+                    ann_weight.append(weight)
+
         if len(true_bboxes) > 0:  # add by hui
             true_bboxes = np.array(true_bboxes, dtype=np.float32)
             anns_id = np.array(anns_id, dtype=np.int64)
+            ann_weight = np.array(ann_weight, dtype=np.float32)  # add by fei
 
         if gt_bboxes:
             gt_bboxes = np.array(gt_bboxes, dtype=np.float32)
@@ -204,7 +208,6 @@ class CocoFmtDataset(CocoDataset):
         else:
             gt_bboxes = np.zeros((0, 4), dtype=np.float32)
             gt_labels = np.array([], dtype=np.int64)
-
         if gt_bboxes_ignore:
             gt_bboxes_ignore = np.array(gt_bboxes_ignore, dtype=np.float32)
         else:
@@ -222,6 +225,8 @@ class CocoFmtDataset(CocoDataset):
         )
         if len(true_bboxes) > 0:  # add by hui
             ann['true_bboxes'] = true_bboxes
+        if len(ann_weight) > 0: # add by fei
+            ann['ann_weight'] = ann_weight
         return ann
 
     def evaluate(self,
@@ -366,7 +371,7 @@ class CocoFmtDataset(CocoDataset):
             if 'maxDets' not in param_kwargs: cocoEval.params.maxDets = list(proposal_nums)
             if 'iouThrs' not in param_kwargs: cocoEval.params.iouThrs = np.array(iou_thrs)
             print(cocoEval.__dict__)
-            print({k:v for k, v in cocoEval.params.__dict__.items() if k not in ['imgIds']})
+            print({k: v for k, v in cocoEval.params.__dict__.items() if k not in ['imgIds']})
             ###################################################################
 
             # mapping of cocoEval.stats
@@ -409,7 +414,7 @@ class CocoFmtDataset(CocoDataset):
                 cocoEval.evaluate()
                 cocoEval.accumulate()
                 cocoEval.summarize()
-                cocoEval.summarize(print_func=partial(print_log, logger=logger))   # add by hui
+                cocoEval.summarize(print_func=partial(print_log, logger=logger))  # add by hui
                 if classwise:  # Compute per-category AP
                     # Compute per-category AP
                     # from https://github.com/facebookresearch/detectron2/
@@ -466,10 +471,9 @@ class CocoFmtDataset(CocoDataset):
     def __getitem__(self, idx):
         """Get training/test data after pipeline.
         """
-        # idx = debug_find(self.data_infos, filename='000000066423.jpg')
-        # idx = debug_find(self.data_infos, filename='val2014/COCO_val2014_000000066423.jpg')
-        # idx = debug_find(self.data_infos)
+        # idx = debug_find(self.data_infos, filename='000000439889.jpg')
         data = super(CocoFmtDataset, self).__getitem__(idx)
+
 
         # # raise error while empty
         # if isinstance(data, dict):
@@ -493,35 +497,10 @@ class CocoFmtDataset(CocoDataset):
         return data
 
 
-class DebugFinder(object):
-    def __init__(self):
-        self.files = [
-            "000000005754.jpg", "000000037675.jpg", "000000074711.jpg", "000000135690.jpg", "000000223122.jpg",
-            "000000276693.jpg", "000000320350.jpg", "000000536831.jpg", "000000008179.jpg", "000000041687.jpg",
-            "000000079472.jpg", "000000142697.jpg", "000000226588.jpg", "000000279806.jpg", "000000355137.jpg",
-            "000000580746.jpg", "000000012896.jpg", "000000058915.jpg", "000000079841.jpg", "000000145215.jpg",
-            "000000230232.jpg", "000000284594.jpg", "000000356937.jpg", "000000028758.jpg", "000000062060.jpg",
-            "000000082327.jpg", "000000156832.jpg", "000000233560.jpg", "000000288002.jpg", "000000376549.jpg",
-            "000000031176.jpg", "000000066072.jpg", "000000105782.jpg", "000000163020.jpg", "000000239235.jpg",
-            "000000290570.jpg", "000000383470.jpg", "000000031599.jpg", "000000066423.jpg", "000000117792.jpg",
-            "000000183181.jpg", "000000255633.jpg", "000000292639.jpg", "000000420775.jpg", "000000032907.jpg",
-            "000000072843.jpg", "000000122542.jpg", "000000199449.jpg", "000000271680.jpg", "000000307341.jpg",
-            "000000461885.jpg",
-        ]
-        self.i = 0
-
-    def __call__(self, data_infos, im_id=-1, filename=''):
-        if self.i >= len(self.files):
-            print('finished dataset.')
-            exit(-1)
-        filename = self.files[self.i]
-        self.i += 1
-        for idx in range(len(data_infos)):
-            img_info = data_infos[idx]
-            if img_info['id'] == im_id:
-                return idx
-            if img_info['filename'] == filename:
-                return idx
-
-
-debug_find = DebugFinder()
+def debug_find(data_infos, im_id=-1, filename=''):
+    for idx in range(len(data_infos)):
+        img_info = data_infos[idx]
+        if img_info['id'] == im_id:
+            return idx
+        if img_info['filename'] == filename:
+            return idx

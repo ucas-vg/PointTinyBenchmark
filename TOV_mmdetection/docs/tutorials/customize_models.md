@@ -268,7 +268,7 @@ to the config file and achieve the same goal.
 The config file of Double Head R-CNN is as the following
 
 ```python
-_base_ = '../faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+_base_ = '../faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py'
 model = dict(
     roi_head=dict(
         type='DoubleHeadRoIHead',

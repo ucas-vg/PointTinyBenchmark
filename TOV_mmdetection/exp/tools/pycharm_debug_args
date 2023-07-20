@@ -1,0 +1,4 @@
+configs2/TinyCOCO/coarsepoint/reppoints_moment_r101_fpns4_1x_tinycoco_coarsept.py
+--work-dir ../TOV_mmdetection_cache/work_dir/tmp
+--resume-from ../TOV_mmdetection_cache/work_dir/TinyCOCO/coarsepoint/reppoints_moment_r50_fpns4_1x_tinycoco_coarsept/lr0.02_1x_8b4g/round0//epoch_12.pth
+--gpus 1

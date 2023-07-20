@@ -16,7 +16,7 @@ Collections:
 Models:
   - Name: sparse_rcnn_r50_fpn_1x_coco
     In Collection: Sparse R-CNN
-    Config: configs/sparse_rcnn/sparse_rcnn_r50_fpn_1x_coco.py
+    Config: configs/sparse_rcnn/sparse_rcnn_r50_fpn_1x_tinycoco_P2B.py
     Metadata:
       Epochs: 12
     Results:

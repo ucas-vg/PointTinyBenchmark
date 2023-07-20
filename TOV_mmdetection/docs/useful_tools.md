@@ -85,7 +85,7 @@ Assume that you have got result file in pickle format from `tools/test.py`  in t
 
 ```shell
 python tools/analysis_tools/analyze_results.py \
-       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py \
        result.pkl \
        results \
        --show
@@ -95,7 +95,7 @@ python tools/analysis_tools/analyze_results.py \
 
 ```shell
 python tools/analysis_tools/analyze_results.py \
-       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py \
        result.pkl \
        results \
        --topk 50
@@ -105,7 +105,7 @@ python tools/analysis_tools/analyze_results.py \
 
 ```shell
 python tools/analysis_tools/analyze_results.py \
-       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py \
        result.pkl \
        results \
        --show-score-thr 0.3

@@ -13,7 +13,7 @@ while len(dirs) != 0:
         if os.path.isdir(fpath):
             dirs.append(fpath)
         else:
-            if f.endswith('.pth') and f != 'latest.pth':
+            if f.endswith('.pth') and not f.endswith('latest.pth'):
                 try:
                     epoch = int(f[s:e])
                     epoch_fpath_map[epoch] = fpath

@@ -1,0 +1,3 @@
+[submodule "huicv"]
+	path = huicv
+	url = https://gitee.com/yinglang/huicv

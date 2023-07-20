@@ -43,7 +43,7 @@ def _get_detector_cfg(fname):
 
 
 def test_sparse_rcnn_forward():
-    config_path = 'sparse_rcnn/sparse_rcnn_r50_fpn_1x_coco.py'
+    config_path = 'sparse_rcnn/sparse_rcnn_r50_fpn_1x_tinycoco_P2B.py'
     model = _get_detector_cfg(config_path)
     model['pretrained'] = None
     from mmdet.models import build_detector

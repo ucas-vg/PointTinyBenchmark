@@ -13,7 +13,6 @@ class EvalHook(BaseEvalHook):
         self.is_run_first = True
         self.do_final_eval = eval_kwargs.pop('do_final_eval', False)
         self.do_eval = False
-        self.exit_after_eval = eval_kwargs.pop('exit_after_eval', False)
         super(EvalHook, self).__init__(*args, **eval_kwargs)
 
     def before_run(self, runner):
@@ -34,9 +33,6 @@ class EvalHook(BaseEvalHook):
             self.do_eval = True
             self._do_evaluate(runner)
         super(EvalHook, self).after_run(runner)
-        if self.exit_after_eval:
-            print('[EvalHook]: exit after eval set.')
-            exit(0)
     #########################################################################
 
     def _do_evaluate(self, runner):
@@ -59,7 +55,6 @@ class DistEvalHook(BaseDistEvalHook):
         self.is_run_first = True
         self.do_final_eval = eval_kwargs.pop('do_final_eval', False)
         self.do_eval = False
-        self.exit_after_eval = eval_kwargs.pop('exit_after_eval', False)
         super(DistEvalHook, self).__init__(*args, **eval_kwargs)
 
     def before_run(self, runner):
@@ -80,9 +75,6 @@ class DistEvalHook(BaseDistEvalHook):
             self.do_eval = True
             self._do_evaluate(runner)
         super(DistEvalHook, self).after_run(runner)
-        if self.exit_after_eval:
-            print('[EvalHook]: exit after eval set.')
-            exit(0)
     #########################################################################
 
     def _do_evaluate(self, runner):

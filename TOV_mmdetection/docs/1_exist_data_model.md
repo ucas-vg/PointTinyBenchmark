@@ -21,7 +21,7 @@ from mmdet.apis import init_detector, inference_detector
 import mmcv
 
 # Specify the path to model config and checkpoint file
-config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py'
 checkpoint_file = 'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 
 # build the model from a config file and a checkpoint file
@@ -60,7 +60,7 @@ from mmdet.apis import init_detector, async_inference_detector
 from mmdet.utils.contextmanagers import concurrent
 
 async def main():
-    config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+    config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py'
     checkpoint_file = 'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
     device = 'cuda:0'
     model = init_detector(config_file, checkpoint=checkpoint_file, device=device)
@@ -99,7 +99,7 @@ Source codes are available [here](https://github.com/open-mmlab/mmdetection/tree
 This script performs inference on a single image.
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_old.py \
     ${IMAGE_FILE} \
     ${CONFIG_FILE} \
     ${CHECKPOINT_FILE} \
@@ -110,8 +110,8 @@ python demo/image_demo.py \
 Examples:
 
 ```shell
-python demo/image_demo.py demo/demo.jpg \
-    configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+python demo/image_demo_old.py demo/demo.jpg \
+    configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py \
     checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth \
     --device cpu
 ```
@@ -133,7 +133,7 @@ Examples:
 
 ```shell
 python demo/webcam_demo.py \
-    configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+    configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py \
     checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
 ```
 
@@ -157,7 +157,7 @@ Examples:
 
 ```shell
 python demo/video_demo.py demo/demo.mp4 \
-    configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+    configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py \
     checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth \
     --out result.mp4
 ```
@@ -274,7 +274,7 @@ Assume that you have already downloaded the checkpoints to the directory `checkp
 
    ```shell
    python tools/test.py \
-       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+       configs/faster_rcnn/faster_rcnn_r50_fpn_1x_VOC.py \
        checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth \
        --show
    ```

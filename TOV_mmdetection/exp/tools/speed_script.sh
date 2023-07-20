@@ -1,5 +1,5 @@
 
-cd /home/hui/github/TOV_mmdetection
+cd TOV_mmdetection && source activate open-mmlab-hui
 
 
 # clear invalid log_dir and copy valid log to ./log dir

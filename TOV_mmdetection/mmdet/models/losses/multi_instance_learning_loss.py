@@ -186,6 +186,9 @@ class MILLoss(nn.Module):
 
         if self.loss_type == 'gfocal_loss':
             loss = self.gfocal_loss(prob, labels, label_weights)
+            if weight is not None:
+                # modified by fei ##############################################################3
+                weight=weight.squeeze(-1)
         elif self.loss_type == 'binary_cross_entropy':
             # if self.use_sigmoid:
             # method 1:
@@ -196,7 +199,9 @@ class MILLoss(nn.Module):
             #     avg_factor=avg_factor,
             #     reduction_override=reduction_override)
             # method 2
-            loss = F.binary_cross_entropy(prob, labels.float(), weight, reduction="none")
+            prob = prob.clamp(0, 1)
+            # modified by fei ##############################################################3
+            loss = F.binary_cross_entropy(prob, labels.float(), None, reduction="none")
         else:
             raise ValueError()
         loss = weight_reduce_loss(loss, weight, avg_factor=num_sample) * self.loss_weight
