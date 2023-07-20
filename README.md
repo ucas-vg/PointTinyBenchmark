@@ -6,8 +6,9 @@ PointTinyBenchmark is an open source toolbox for object localization and detecti
 
 To date, It implements the following benchmark and algorithms:
 
-* [Scale Match for TinyPerson Detection (WACV2020)](TOV_mmdetection/docs/tov/)
-* [Object Localization under Single Coarse Point Supervision (CVPR2022)](TOV_mmdetection/docs/cpr)
+* [Scale Match for TinyPerson Detection (WACV2020)](https://arxiv.org/abs/1912.10664) [Detail](TOV_mmdetection/docs/tov/)
+* [Object Localization under Single Coarse Point Supervision (CVPR2022)](https://arxiv.org/abs/2203.09338) [Detail](TOV_mmdetection/docs/cpr)
+* [Point-to-Box Network for Accurate Object Detection via Single Point Supervision (ECCV2022)](https://arxiv.org/abs/2207.06827) [Detail](https://github.com/ucas-vg/PointTinyBenchmark/tree/P2BNet)
 
 ## News
 
