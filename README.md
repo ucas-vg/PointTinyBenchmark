@@ -5,7 +5,7 @@ P2BNet
 P2BNet a newly proposed method for point-supervised object detection tasks on [PointTinyBenchmark](https://github.com/ucas-vg/PointTinyBenchmark), which is based on [mmdetection](https://github.com/open-mmlab/mmdetection). 
 
 To date, It implements the following algorithms:
-* [Point-to-Box Network for Accurate Object Detection via Single Point Supervision (ECCV2022)](TOV_mmdetection/README.md)
+* [Point-to-Box Network for Accurate Object Detection via Single Point Supervision (ECCV2022)] [Details] (TOV_mmdetection/README.md)
 * Paper is avaliable here: [https://arxiv.org/abs/2207.06827](https://arxiv.org/abs/2207.06827)
 
 ## News
