@@ -1,0 +1,7 @@
+deps/mini_maskrcnn_benchmark/build
+deps/mini_maskrcnn_benchmark/mini_maskrcnn_benchmark.egg-info
+mini_maskrcnn_benchmark.egg-info
+*.pyc
+*.so
+*/__pycache__/*
+__pycache__/*

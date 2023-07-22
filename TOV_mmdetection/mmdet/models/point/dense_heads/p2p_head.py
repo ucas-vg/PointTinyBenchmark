@@ -602,8 +602,8 @@ class TestP2PHead(object):
 
         from PIL import Image
         import matplotlib.pyplot as plt
-        from huicv.vis.visualize import get_hsv_colors, draw_a_bbox
-        from huicv.plot_paper.plt_paper_config import set_plt
+        from ssdcv.vis.visualize import get_hsv_colors, draw_a_bbox
+        from ssdcv.plot_paper.plt_paper_config import set_plt
         import os
 
         colors = get_hsv_colors(80)

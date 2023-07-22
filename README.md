@@ -1,46 +1,60 @@
-# PointTinyBenchmark
-
---------------
-
-PointTinyBenchmark is an open source toolbox for object localization and detection tasks on top of [mmdetection](https://github.com/open-mmlab/mmdetection). 
-
-To date, It implements the following benchmark and algorithms:
-
-* [Scale Match for TinyPerson Detection (WACV2020)](TOV_mmdetection/docs/tov/)
-* [Object Localization under Single Coarse Point Supervision (CVPR2022)](TOV_mmdetection/docs/cpr)
-
-## News
-
-## Others
-- For the old version code or TinyPerson(version 1) dataset [Scale Match for Tiny Person Detection](https://github.com/ucas-vg/PointTinyBenchmark/tree/TinyBenchmark), refer to the [TinyBenchmark branch](https://github.com/ucas-vg/PointTinyBenchmark/tree/TinyBenchmark)
+[[paper]](https://arxiv.org/abs/5016190)
 
 ## Citation
+If the work do some help for your research, please cite:
+```
+@inproceedings{SSDDET,
+  author    = {Wu, Di and Chen, Pengfei and Yu, Xuehui and Li,
+Guorong and Han, Zhenjun and Jiao, Jianbin},
+  title     = {Spatial Self-Distillation for Object Detection with Inaccurate Bounding Boxes},
+  booktitle = {ICCV},
+  year      = {2023},
+}
+```
 
-And if the following works do some help for your research, please cite:
+## Prerequisites
+
+### 1. [install mmdetection](./docs/install.md>)
+```bash
+conda create -n open-mmlab python=3.7 -y
+conda activate open-mmlab
+# install latest pytorch prebuilt with the default prebuilt CUDA version (usually the latest)
+conda install -c pytorch pytorch torchvision -y
+# conda install -c pytorch pytorch=1.5.0 cudatoolkit=10.2 torchvision -y
+# install the latest mmcv
+pip install mmcv-full --user
+# install mmdetection
+
+pip uninstall pycocotools   # sometimes need to source deactivate before, for 
+pip install -r requirements/build.txt
+pip install -v -e . --user  # or try "python setup.py develop" if get still got pycocotools error
+chmod +x tools/dist_train.sh
 ```
-@inproceedings{CPR,
-  author    = {Yu, Xuehui and Chen, Pengfei and Wu, Di and Hassan, Najmul and Li,
-Guorong and Yan, Junchi and Shi, Humphrey and Ye, Qixiang and Han, Zhenjun},
-  title     = {Object Localization under Single Coarse Point Supervision},
-  booktitle = {CVPR},
-  year      = {2022},
-}
+
+### 2. COCO dataset prepare
+
+```bash
+ln -s ${Path_Of_COCO} data/coco
 ```
+
+## Train
+#### Train on COCO
+
+```bash
+noise_level=0.4 \
+&& cfg=configs/COCO/NoiseBox/ENoiseBoxPLUS_r50_fpn_1x_coco \
+&& work_dir=../TOV_mmdetection_cache/COCO_n${noise_level}/${cfg##*/}/ \
+&& CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 PORT=10012 tools/dist_train.sh ${cfg}.py 8 \
+--work-dir=${work_dir} \
+--cfg-options model.roi_head.with_objectness=True
 ```
-@article{yu20201st,
-  title={The 1st Tiny Object Detection Challenge: Methods and Results},
-  author={Yu, Xuehui and Han, Zhenjun and Gong, Yuqi and Jan, Nan and Zhao, Jian and Ye, Qixiang and Chen, Jie and Feng, Yuan and Zhang, Bin and Wang, Xiaodi and others},
-  journal={arXiv preprint arXiv:2009.07506},
-  year={2020}
-}
-```
-```
-@inproceedings{yu2020scale,
-  title={Scale Match for Tiny Person Detection},
-  author={Yu, Xuehui and Gong, Yuqi and Jiang, Nan and Ye, Qixiang and Han, Zhenjun},
-  booktitle={The IEEE Winter Conference on Applications of Computer Vision},
-  pages={1257--1265},
-  year={2020}
-}
+#### Train on VOC
+```bash
+noise_level=0.4 \
+&& cfg=configs/VOC/NoiseBox/ENoiseBoxPLUS_r50_fpn_1x_voc_${noise_level} \
+&& work_dir=../TOV_mmdetection_cache/VOC_n${noise_level}/${cfg##*/}/ \
+&& CUDA_VISIBLE_DEVICES=0,1 PORT=10012 tools/dist_train.sh ${cfg}.py 2 \
+--work-dir=${work_dir} \
+--cfg-options model.roi_head.with_objectness=True
 ```
 

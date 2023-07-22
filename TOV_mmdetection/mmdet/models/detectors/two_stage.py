@@ -74,11 +74,11 @@ class TwoStageDetector(BaseDetector):
         # rpn
         if self.with_rpn:
             rpn_outs = self.rpn_head(x)
-            outs = outs + (rpn_outs, )
+            outs = outs + (rpn_outs,)
         proposals = torch.randn(1000, 4).to(img.device)
         # roi_head
         roi_outs = self.roi_head.forward_dummy(x, proposals)
-        outs = outs + (roi_outs, )
+        outs = outs + (roi_outs,)
         return outs
 
     def forward_train(self,
@@ -87,6 +87,7 @@ class TwoStageDetector(BaseDetector):
                       gt_bboxes,
                       gt_labels,
                       gt_bboxes_ignore=None,
+                      ann_weight=None,  ## add by fei
                       gt_masks=None,
                       proposals=None,
                       **kwargs):
@@ -131,6 +132,7 @@ class TwoStageDetector(BaseDetector):
                 img_metas,
                 gt_bboxes,
                 gt_labels=None,
+                ann_weight=ann_weight,
                 gt_bboxes_ignore=gt_bboxes_ignore,
                 proposal_cfg=proposal_cfg)
             losses.update(rpn_losses)
@@ -138,7 +140,7 @@ class TwoStageDetector(BaseDetector):
             proposal_list = proposals
 
         roi_losses = self.roi_head.forward_train(x, img_metas, proposal_list,
-                                                 gt_bboxes, gt_labels,
+                                                 gt_bboxes, gt_labels,ann_weight,   ## add by fei
                                                  gt_bboxes_ignore, gt_masks,
                                                  **kwargs)
         losses.update(roi_losses)
@@ -207,7 +209,7 @@ class TwoStageDetector(BaseDetector):
         tile2feats = {}
         for feat, img_meta in zip(x, img_metas):
             assert len(img_meta) == 1
-            tile_off = img_meta[0].pop('tile_offset')        # must pop here, attention.
+            tile_off = img_meta[0].pop('tile_offset')  # must pop here, attention.
             if tile_off in tile2img_metas:
                 tile2img_metas[tile_off].append(img_meta)
                 tile2feats[tile_off].append(feat)
@@ -231,7 +233,7 @@ class TwoStageDetector(BaseDetector):
             for cls in range(len(bboxes)):
                 bboxes[cls][:, [0, 2]] += dx
                 bboxes[cls][:, [1, 3]] += dy
-                label = torch.zeros((len(bboxes[cls]), ), dtype=torch.long, device=device) + cls
+                label = torch.zeros((len(bboxes[cls]),), dtype=torch.long, device=device) + cls
                 labels.append(label)
             all_tile_bboxes.extend(bboxes)
             all_tile_labels.extend(labels)
@@ -256,6 +258,7 @@ class TwoStageDetector(BaseDetector):
         from mmdet.core import bbox2result
         bbox_results = bbox2result(det_bboxes, det_labels, num_classes)
         return [bbox_results]
+
     ##################################################################
 
     def onnx_export(self, img, img_metas):

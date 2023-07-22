@@ -5,9 +5,9 @@ from .legacy_delta_xywh_bbox_coder import LegacyDeltaXYWHBBoxCoder
 from .pseudo_bbox_coder import PseudoBBoxCoder
 from .tblr_bbox_coder import TBLRBBoxCoder
 from .yolo_bbox_coder import YOLOBBoxCoder
-
+from .delta_xyxy_bbox_coder import DeltaXYXYBBoxCoder
 __all__ = [
     'BaseBBoxCoder', 'PseudoBBoxCoder', 'DeltaXYWHBBoxCoder',
     'LegacyDeltaXYWHBBoxCoder', 'TBLRBBoxCoder', 'YOLOBBoxCoder',
-    'BucketingBBoxCoder'
+    'BucketingBBoxCoder','DeltaXYXYBBoxCoder'
 ]

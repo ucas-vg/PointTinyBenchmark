@@ -173,6 +173,7 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
                             valid_flags,
                             gt_bboxes,
                             gt_bboxes_ignore,
+                            ann_weight,  #add by fei
                             gt_labels,
                             img_meta,
                             label_channels=1,
@@ -210,7 +211,7 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
                                            img_meta['img_shape'][:2],
                                            self.train_cfg.allowed_border)
         if not inside_flags.any():
-            return (None, ) * 7
+            return (None,) * 7
         # assign gt and sample anchors
         anchors = flat_anchors[inside_flags, :]
 
@@ -223,10 +224,13 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
         num_valid_anchors = anchors.shape[0]
         bbox_targets = torch.zeros_like(anchors)
         bbox_weights = torch.zeros_like(anchors)
-        labels = anchors.new_full((num_valid_anchors, ),
+        labels = anchors.new_full((num_valid_anchors,),
                                   self.num_classes,
                                   dtype=torch.long)
         label_weights = anchors.new_zeros(num_valid_anchors, dtype=torch.float)
+
+        pos_assigned_gt_inds = sampling_result.pos_assigned_gt_inds  ## add by fei
+
 
         pos_inds = sampling_result.pos_inds
         neg_inds = sampling_result.neg_inds
@@ -237,7 +241,10 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
             else:
                 pos_bbox_targets = sampling_result.pos_gt_bboxes
             bbox_targets[pos_inds, :] = pos_bbox_targets
-            bbox_weights[pos_inds, :] = 1.0
+            if ann_weight is None:
+                bbox_weights[pos_inds, :] = 1.0
+            else:
+                bbox_weights[pos_inds, :] = ann_weight[pos_assigned_gt_inds].unsqueeze(-1)
             if gt_labels is None:
                 # Only rpn gives gt_labels as None
                 # Foreground is the first class since v2.5.0
@@ -246,7 +253,10 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
                 labels[pos_inds] = gt_labels[
                     sampling_result.pos_assigned_gt_inds]
             if self.train_cfg.pos_weight <= 0:
-                label_weights[pos_inds] = 1.0
+                if ann_weight is None:   ## add by fei
+                    label_weights[pos_inds] = 1.0
+                else:
+                    label_weights[pos_inds] = ann_weight[pos_assigned_gt_inds]
             else:
                 label_weights[pos_inds] = self.train_cfg.pos_weight
         if len(neg_inds) > 0:
@@ -271,6 +281,7 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
                     valid_flag_list,
                     gt_bboxes_list,
                     img_metas,
+                    ann_weight_list = None,  # add by fei
                     gt_bboxes_ignore_list=None,
                     gt_labels_list=None,
                     label_channels=1,
@@ -332,12 +343,17 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
             gt_bboxes_ignore_list = [None for _ in range(num_imgs)]
         if gt_labels_list is None:
             gt_labels_list = [None for _ in range(num_imgs)]
+
+        if ann_weight_list is None:   ## add by fei
+            ann_weight_list = [None for _ in range(num_imgs)]
+
         results = multi_apply(
             self._get_targets_single,
             concat_anchor_list,
             concat_valid_flag_list,
             gt_bboxes_list,
             gt_bboxes_ignore_list,
+            ann_weight_list,
             gt_labels_list,
             img_metas,
             label_channels=label_channels,
@@ -362,7 +378,7 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
         res = (labels_list, label_weights_list, bbox_targets_list,
                bbox_weights_list, num_total_pos, num_total_neg)
         if return_sampling_results:
-            res = res + (sampling_results_list, )
+            res = res + (sampling_results_list,)
         for i, r in enumerate(rest_results):  # user-added return values
             rest_results[i] = images_to_levels(r, num_level_anchors)
 
@@ -425,6 +441,7 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
              gt_bboxes,
              gt_labels,
              img_metas,
+             ann_weight,
              gt_bboxes_ignore=None):
         """Compute losses of the head.
 
@@ -457,6 +474,7 @@ class AnchorHead(BaseDenseHead, BBoxTestMixin):
             valid_flag_list,
             gt_bboxes,
             img_metas,
+            ann_weight_list=ann_weight,  ##add by fei
             gt_bboxes_ignore_list=gt_bboxes_ignore,
             gt_labels_list=gt_labels,
             label_channels=label_channels)

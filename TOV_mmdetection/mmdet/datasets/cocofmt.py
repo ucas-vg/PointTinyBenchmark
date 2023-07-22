@@ -9,8 +9,8 @@ import numpy as np
 from mmcv.utils import print_log
 from terminaltables import AsciiTable
 
-from huicv.evaluation.expand_cocofmt_eval import COCOExpandEval
-from huicv.evaluation.location_evaluation import LocationEvaluator
+from ssdcv.evaluation.expand_cocofmt_eval import COCOExpandEval
+from ssdcv.evaluation.location_evaluation import LocationEvaluator
 from functools import partial
 
 from mmdet.core import eval_recalls
@@ -21,7 +21,7 @@ from .coco import CocoDataset
 
 # add by hui, if there is not corner dataset, create one
 def generate_corner_json_file_if_not_exist(ann_file, data_root, corner_kwargs):
-    from huicv.corner_dataset.corner_dataset_util import generate_corner_dataset
+    from ssdcv.corner_dataset.corner_dataset_util import generate_corner_dataset
 
     # generate corner json file name
     if data_root is not None:
@@ -44,7 +44,7 @@ def generate_corner_json_file_if_not_exist(ann_file, data_root, corner_kwargs):
 
 
 def generate_pesudo_bbox_for_noise_data(ann_file, data_root, noise_kwargs):
-    from huicv.coarse_utils.noise_data_utils import get_new_json_file_path, generate_pseudo_bbox_for_point
+    from ssdcv.coarse_utils.noise_data_utils import get_new_json_file_path, generate_pseudo_bbox_for_point
     # ann_file, _ = get_new_json_file_path(ann_file, data_root, 'noise', 'noisept')
     # assert osp.exists(ann_file), "{} not exist.".format(ann_file)
     ori_ann_file = ann_file
@@ -62,7 +62,6 @@ def generate_pesudo_bbox_for_noise_data(ann_file, data_root, noise_kwargs):
 
 @DATASETS.register_module()
 class CocoFmtDataset(CocoDataset):
-
     CLASSES = None
 
     def __init__(self,
@@ -151,7 +150,7 @@ class CocoFmtDataset(CocoDataset):
             self.img_ids = valid_img_ids
             valid_inds = new_valid_inds
 
-        print("valid image count: ", len(valid_inds))   # add by hui
+        print("valid image count: ", len(valid_inds))  # add by hui
         return valid_inds
 
     def _parse_ann_info(self, img_info, ann_info):
@@ -309,7 +308,7 @@ class CocoFmtDataset(CocoDataset):
                 # add by hui ######################################################
                 merge_after_infer_kwargs = self.merge_after_infer_kwargs
                 if merge_after_infer_kwargs is not None:  # merge result before eval
-                    from huicv.evaluation.evaluate_tiny import merge_det_result
+                    from ssdcv.evaluation.evaluate_tiny import merge_det_result
                     merge_gt_file = merge_after_infer_kwargs.get("merge_gt_file")
                     merge_nms_th = merge_after_infer_kwargs.get("merge_nms_th", 0.5)
                     cocoGt, result_files[metric] = merge_det_result(result_files[metric], self.ann_file, merge_gt_file,
@@ -366,7 +365,7 @@ class CocoFmtDataset(CocoDataset):
             if 'maxDets' not in param_kwargs: cocoEval.params.maxDets = list(proposal_nums)
             if 'iouThrs' not in param_kwargs: cocoEval.params.iouThrs = np.array(iou_thrs)
             print(cocoEval.__dict__)
-            print({k:v for k, v in cocoEval.params.__dict__.items() if k not in ['imgIds']})
+            print({k: v for k, v in cocoEval.params.__dict__.items() if k not in ['imgIds']})
             ###################################################################
 
             # mapping of cocoEval.stats
@@ -409,7 +408,7 @@ class CocoFmtDataset(CocoDataset):
                 cocoEval.evaluate()
                 cocoEval.accumulate()
                 cocoEval.summarize()
-                cocoEval.summarize(print_func=partial(print_log, logger=logger))   # add by hui
+                cocoEval.summarize(print_func=partial(print_log, logger=logger))  # add by hui
                 if classwise:  # Compute per-category AP
                     # Compute per-category AP
                     # from https://github.com/facebookresearch/detectron2/
@@ -468,6 +467,7 @@ class CocoFmtDataset(CocoDataset):
         """
         # idx = debug_find(self.data_infos, filename='000000066423.jpg')
         # idx = debug_find(self.data_infos, filename='val2014/COCO_val2014_000000066423.jpg')
+        # print(idx)
         # idx = debug_find(self.data_infos)
         data = super(CocoFmtDataset, self).__getitem__(idx)
 
@@ -495,18 +495,36 @@ class CocoFmtDataset(CocoDataset):
 
 class DebugFinder(object):
     def __init__(self):
+        # self.files = [
+        #     # "000000005754.jpg", "000000037675.jpg", "000000074711.jpg", "000000135690.jpg", "000000223122.jpg",
+        #     # "000000276693.jpg", "000000320350.jpg", "000000536831.jpg", "000000008179.jpg", "000000041687.jpg",
+        #     # "000000079472.jpg", "000000142697.jpg", "000000226588.jpg", "000000279806.jpg", "000000355137.jpg",
+        #     # "000000580746.jpg", "000000012896.jpg", "000000058915.jpg", "000000079841.jpg", "000000145215.jpg",
+        #     # "000000230232.jpg", "000000284594.jpg", "000000356937.jpg", "000000028758.jpg", "000000062060.jpg",
+        #     # "000000082327.jpg", "000000156832.jpg", "000000233560.jpg", "000000288002.jpg", "000000376549.jpg",
+        #     # "000000031176.jpg", "000000066072.jpg", "000000105782.jpg", "000000163020.jpg", "000000239235.jpg",
+        #     # "000000290570.jpg", "000000383470.jpg", "000000031599.jpg", "000000066423.jpg", "000000117792.jpg",
+        #     # "000000183181.jpg", "000000255633.jpg", "000000292639.jpg", "000000420775.jpg", "000000032907.jpg",
+        #     # "000000072843.jpg", "000000122542.jpg", "000000199449.jpg", "000000271680.jpg", "000000307341.jpg",
+        #     # "000000461885.jpg",
+        #     "000000074711.jpg","000000105782.jpg", "000000163020.jpg", "000000239235.jpg"
+        # ]
         self.files = [
-            "000000005754.jpg", "000000037675.jpg", "000000074711.jpg", "000000135690.jpg", "000000223122.jpg",
-            "000000276693.jpg", "000000320350.jpg", "000000536831.jpg", "000000008179.jpg", "000000041687.jpg",
-            "000000079472.jpg", "000000142697.jpg", "000000226588.jpg", "000000279806.jpg", "000000355137.jpg",
-            "000000580746.jpg", "000000012896.jpg", "000000058915.jpg", "000000079841.jpg", "000000145215.jpg",
-            "000000230232.jpg", "000000284594.jpg", "000000356937.jpg", "000000028758.jpg", "000000062060.jpg",
-            "000000082327.jpg", "000000156832.jpg", "000000233560.jpg", "000000288002.jpg", "000000376549.jpg",
-            "000000031176.jpg", "000000066072.jpg", "000000105782.jpg", "000000163020.jpg", "000000239235.jpg",
-            "000000290570.jpg", "000000383470.jpg", "000000031599.jpg", "000000066423.jpg", "000000117792.jpg",
-            "000000183181.jpg", "000000255633.jpg", "000000292639.jpg", "000000420775.jpg", "000000032907.jpg",
-            "000000072843.jpg", "000000122542.jpg", "000000199449.jpg", "000000271680.jpg", "000000307341.jpg",
-            "000000461885.jpg",
+            'P0082__1__4467___824.png',
+            'P0083__1__4120___2472.png',
+            'P1228__1__0___2472.png',
+            'P0975__1__824___0.png',
+            'P0716__1__0___551.png',
+            'P2240__1__0___573.png',
+            'P2642__1__6015___4527.png',
+            'P2637__1__0___0.png',
+            'P2637__1__0___824.png',
+            'P2644__1__0___1648.png',
+            'P2686__1__3296___2569.png',
+            'P2646__1__263___1686.png',
+            'P2696__1__824___824.png'
+            'P2696__1__0___1527.png',
+            'P2734__1__1648___0.png',
         ]
         self.i = 0
 

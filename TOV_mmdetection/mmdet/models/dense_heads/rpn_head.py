@@ -46,6 +46,7 @@ class RPNHead(AnchorHead):
              bbox_preds,
              gt_bboxes,
              img_metas,
+             ann_weight,
              gt_bboxes_ignore=None):
         """Compute losses of the head.
 
@@ -70,6 +71,7 @@ class RPNHead(AnchorHead):
             gt_bboxes,
             None,
             img_metas,
+            ann_weight=ann_weight,
             gt_bboxes_ignore=gt_bboxes_ignore)
         return dict(
             loss_rpn_cls=losses['loss_cls'], loss_rpn_bbox=losses['loss_bbox'])

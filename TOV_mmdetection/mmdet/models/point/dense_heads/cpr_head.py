@@ -3,15 +3,12 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from mmcv.cnn import ConvModule
-from mmcv.ops import DeformConv2d
 
-from mmdet.core import (PointGenerator, build_assigner, build_sampler,
-                        images_to_levels, multi_apply, multiclass_nms, unmap)
+from mmdet.core import ( multi_apply  )
 from mmdet.models.builder import HEADS, build_loss
 from mmdet.models.dense_heads.anchor_free_head import AnchorFreeHead
 
 from mmcv.runner import BaseModule
-from mmdet.models.losses import accuracy
 from collections import defaultdict
 
 
@@ -1575,8 +1572,7 @@ class TestCPRHead(object):
 
         from PIL import Image
         import matplotlib.pyplot as plt
-        from huicv.vis.visualize import get_hsv_colors, draw_a_bbox
-        from huicv.plot_paper.plt_paper_config import set_plt
+        from ssdcv.plot_paper.plt_paper_config import set_plt
         import os
 
         if not os.path.exists("exp/debug/CPR"):

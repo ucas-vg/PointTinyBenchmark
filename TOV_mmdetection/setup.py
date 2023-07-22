@@ -8,7 +8,7 @@ from torch.utils.cpp_extension import (BuildExtension, CppExtension,
 
 
 def readme():
-    with open('README.md', encoding='utf-8') as f:
+    with open('README_tov.md', encoding='utf-8') as f:
         content = f.read()
     return content
 
