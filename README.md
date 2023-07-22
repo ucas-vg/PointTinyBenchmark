@@ -9,6 +9,7 @@ To date, It implements the following benchmark and algorithms:
 * [Scale Match for TinyPerson Detection (WACV2020)](https://arxiv.org/abs/1912.10664) [Detail](TOV_mmdetection/docs/tov/)
 * [Object Localization under Single Coarse Point Supervision (CVPR2022)](https://arxiv.org/abs/2203.09338) [Detail](TOV_mmdetection/docs/cpr)
 * [Point-to-Box Network for Accurate Object Detection via Single Point Supervision (ECCV2022)](https://arxiv.org/abs/2207.06827) [Detail](https://github.com/ucas-vg/PointTinyBenchmark/tree/P2BNet)
+* [Spatial Self-Distillation for Object Detection with Inaccurate Bounding Boxes (ICCV2023)]() [Detail](https://github.com/ucas-vg/PointTinyBenchmark/tree/SSD-Det)
 
 ## News
 
@@ -54,4 +55,15 @@ Li, Jian Zhao, Humphrey Shi, Zhenjun Han, and Qixiang Ye},
   year      = {2022},
 }
 ```
+
+```
+@inproceedings{SSDDET,
+  author    = {Wu, Di and Chen, Pengfei and Yu, Xuehui and Li,
+Guorong and Han, Zhenjun and Jiao, Jianbin},
+  title     = {Spatial Self-Distillation for Object Detection with Inaccurate Bounding Boxes},
+  booktitle = {ICCV},
+  year      = {2023},
+}
+```
+
 
