@@ -1,4 +1,4 @@
-[[paper]](https://arxiv.org/abs/5016190)
+[[paper]](figure/ICCV__SSD_DET.pdf) (https://arxiv.org/abs/5016190)
 
 ## Citation
 If the work do some help for your research, please cite:
