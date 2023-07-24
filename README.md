@@ -1,7 +1,10 @@
-[[paper]](figure/ICCV__SSD_DET.pdf) (https://arxiv.org/abs/5016190)
+[[paper]](figure/ICCV__SSD_DET.pdf) 
 
 ## Citation
 If the work do some help for your research, please cite:
+
+https://arxiv.org/abs/5016190
+
 ```
 @inproceedings{SSDDET,
   author    = {Wu, Di and Chen, Pengfei and Yu, Xuehui and Li,
