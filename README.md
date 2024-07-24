@@ -4,7 +4,7 @@
 
 PointTinyBenchmark is an open source toolbox for object localization and detection tasks on top of [mmdetection](https://github.com/open-mmlab/mmdetection). 
 
-To date, It implements the following benchmark and algorithms:
+To date, It implements the following benchmarks and algorithms:
 
 * [Scale Match for TinyPerson Detection (WACV2020)](https://arxiv.org/abs/1912.10664) [Detail](TOV_mmdetection/docs/tov/)
 * [Object Localization under Single Coarse Point Supervision (CVPR2022)](https://arxiv.org/abs/2203.09338) [Detail](TOV_mmdetection/docs/cpr)
