@@ -70,8 +70,13 @@ PYTHONPATH=. python huicv/coarse_utils/noise_data_utils.py "generate_pseudo_bbox
     "data/coco/coarse_annotations_new/quasi-center-point-${MU[0]}-${MU[1]}-${S[0]}-${S[1]}-${SR}_${VERSION}/${CORNER}/qc_instances_${T}2017_coarse_with_gt.json"  \
     --pseudo_w ${WH[0]} --pseudo_h ${WH[1]}
 ```
+## 3. Add GT segmentation for analysis (not for supervision):
+   set: ori_file src_file  dst_file, and run: 
+   ```shell script
+   python exp/tools/add_seg_to_annotation.py
+   ```
 
-## 3.For other dataset, we can transform the annotation style to coco json style and use the same way.
+## 4.For other dataset, we can transform the annotation style to coco json style and use the same way.
 
 # Train and Test 
 
