@@ -1,5 +1,5 @@
 The P2BNet code is in mmdet/models/detectors/P2BNet.py mmdet/models/roi_heads/P2B_head.py
-our GUPs: 8 * RTX3090
+our GPUs: 8 * RTX3090
 
 # Prerequisites
 install environment following
