@@ -55,8 +55,8 @@ PYTHONPATH=. python huicv/coarse_utils/noise_data_mask_utils.py "generate_noisep
     --size_range "${SR}"
 ```
 ## 2.Transfer QC point annotation to 'bbox' and transfer original bbox to 'true_bbox'
-### the QC point annotation is transfered to 'bbox' with fixed w and h, which is easy for mmdetection reading and dataset pipeline
-### the original bbox is transfered to 'true_bbox', which is the real box ground-turth
+ the QC point annotation is transfered to 'bbox' with fixed w and h, which is easy for mmdetection reading and dataset pipeline
+ the original bbox is transfered to 'true_bbox', which is the real box ground-turth
 ```sh
 export VERSION=1
 export MU=(0 0)
@@ -78,9 +78,7 @@ PYTHONPATH=. python huicv/coarse_utils/noise_data_utils.py "generate_pseudo_bbox
 
 ## 4.For other dataset, we can transform the annotation style to coco json style and use the same way.
 
-# Train and Test 
-
-## Take COCO as example
+# Train and Test (take COCO as example)
 ### Prepare trained model 
 1. move coco dataset (2017 version) or make a soft link to data/coco
 2. download weight from [Baidu Yun(passwd:3pfu)](https://pan.baidu.com/s/1G_S0zYJNMtBYF3fiH6XcKA?pwd=3pfu) or [Google Driver]() ,
