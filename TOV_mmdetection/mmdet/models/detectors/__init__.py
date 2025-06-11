@@ -32,6 +32,12 @@ from .vfnet import VFNet
 from .yolact import YOLACT
 from .yolo import YOLOV3
 from .yolof import YOLOF
+# from .locator import BasicLocator
+# from .P2BNet import P2BNet
+# from .EP2BNet import EP2BNet
+from .condinst import CondInst
+from .UNet import Unet
+# from .P2Seg import P2Seg
 
 __all__ = [
     'ATSS', 'BaseDetector', 'SingleStageDetector', 'TwoStageDetector', 'RPN',
@@ -40,5 +46,5 @@ __all__ = [
     'GridRCNN', 'MaskScoringRCNN', 'RepPointsDetector', 'FOVEA', 'FSAF',
     'NASFCOS', 'PointRend', 'GFL', 'CornerNet', 'PAA', 'YOLOV3', 'YOLACT',
     'VFNet', 'DETR', 'TridentFasterRCNN', 'SparseRCNN', 'SCNet',
-    'DeformableDETR', 'AutoAssign', 'YOLOF', 'CenterNet'
+    'DeformableDETR', 'AutoAssign', 'YOLOF', 'CenterNet', 'CondInst',  'UNet',
 ]

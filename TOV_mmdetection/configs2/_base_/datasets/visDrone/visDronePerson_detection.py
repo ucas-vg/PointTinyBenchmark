@@ -58,9 +58,9 @@ check = dict(stop_while_nan=True)  # add by hui
 
 # tiny bbox eval with IOD
 evaluation = dict(
-    interval=1, metric='bbox',
+    interval=3, metric='bbox',
     iou_thrs=[0.25, 0.5, 0.75],  # set None mean use 0.5:1.0::0.05
-    proposal_nums=[300],
+    proposal_nums=[1000],
     cocofmt_kwargs=dict(
         ignore_uncertain=True,
         use_ignore_attr=True,

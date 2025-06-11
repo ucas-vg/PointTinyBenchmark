@@ -1,7 +1,10 @@
 from pycocotools.coco import COCO
 import json
 import argparse
-
+from mmdet.core.bbox import bbox_overlaps
+import torch
+import tqdm
+import numpy as np
 
 def check(coco, res):
     for im_id in coco.imgToAnns:
@@ -11,82 +14,136 @@ def check(coco, res):
                 ori_ann = coco.loadAnns(ann['ann_id'])[0]
 
                 assert ori_ann['id'] == ann['ann_id']
-                ori_c, new_c = xywh2centerwh(ori_ann['bbox'])[:2], xywh2centerwh(ann['bbox'])[:2]
-                assert round(ori_c[0]) == round(new_c[0]) and round(ori_c[1]) == round(new_c[1])
-                for key in ['segmentation', 'area', ]:
+                for key in ['bbox', 'segmentation', 'area', ]:
                     assert key in ori_ann, ori_ann
                     assert key in ann, ann
                     assert ori_ann[key] == ann[key], f"{key}\n\t{ori_ann}\n\t{ann}"
 
 
-def load_results(res_jd):
-    from collections import defaultdict
-    data = defaultdict(dict)
-    for res in res_jd:
-        data[res['image_id']][res['ann_id']] = res
-    return data
+import cv2
+
+from pycocotools import mask as maskUtils
+import json
 
 
-def xywh2centerwh(xywh):
-    x1, y1, w, h = xywh
-    return [x1 + w/2, y1 + h/2, w, h]
+def annToRLE(segm, img_size):
+    h, w = img_size
+    rles = maskUtils.frPyObjects(segm, h, w)
+    rle = maskUtils.merge(rles)
+    return rle
 
 
-def centerwh2xywh(centerwh):
-    xc, yc, w, h = centerwh
-    return [xc - w/2, yc-h/2, w, h]
+def annToMask(segm, img_size):
+    if type(segm).__name__ != 'dict':
+        rle = annToRLE(segm, img_size)
+    else:
+        rle = segm
+    m = maskUtils.decode(rle)
+    return m
 
-
-def turn_bbox_wh(bbox, new_wh):
-    if new_wh[0] > 0 and new_wh[1] > 0:
-        x1, y1, w, h = bbox
-        xc, yc, w, h = xywh2centerwh([x1, y1, w, h])
-        new_bbox = centerwh2xywh([xc, yc, new_wh[0], new_wh[1]])
-
-        cb1, cb2 = xywh2centerwh(new_bbox)[:2], xywh2centerwh(bbox)[:2]
-        assert round(cb1[0]) == round(cb2[0]) and round(cb1[1]) == round(cb2[1]), f"{bbox} {cb1} vs {new_bbox} {cb2}"
-        bbox = new_bbox
-    return bbox
-
+def get_bounding_box(mask):
+    """
+    该函数用于对输入的 mask 矩阵求取最小外接矩形的 bounding box
+    :param mask: 输入的二值化 mask 矩阵，形状为 (W, H)
+    :return: 包含最小外接矩形信息的 bounding box 列表 [x_min, y_min, x_max, y_max]
+    """
+    rows = np.any(mask, axis=1)  # 找出存在 True 的行
+    cols = np.any(mask, axis=0)  # 找出存在 True 的列
+    if np.sum(rows) == 0 or np.sum(cols) == 0:
+        return [0, 0, 0, 0]  # 若 mask 全为 False，则返回 [0, 0, 0, 0]
+    y_min, y_max = np.where(rows)[0][[0, -1]]  # 获取最小和最大的行索引
+    x_min, x_max = np.where(cols)[0][[0, -1]]  # 获取最小和最大的列索引
+    return [x_min, y_min, x_max, y_max]
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ori_ann", help='such as data/coco/resize/annotations/instances_val2017_100x167.json')
-    parser.add_argument("--det_file", help='such as exp/latest_result.json')
-    parser.add_argument("--save_ann", help='such as exp/rr_latest_result.json')
-    parser.add_argument("--wh", default=-1, type=int, help="")
+    parser.add_argument("ori_ann", help='such as data/coco/resize/annotations/instances_val2017_100x167.json')
+    parser.add_argument("det_file", help='such as exp/latest_result.json')
+    parser.add_argument("save_ann", help='such as exp/rr_latest_result.json')
     args = parser.parse_args()
 
     coco = COCO(args.ori_ann)
-    res_jd = json.load(open(args.det_file))
-    res = coco.loadRes(res_jd)
-    imgid2res = load_results(res_jd)
 
-    wh = args.wh
-    if isinstance(wh, (int, float)):
-        wh = (wh, wh)
-
+    res = coco.loadRes(args.det_file)
+    iou_sum = 0
+    num_sum = 0
+    iou_sum_s = 0
+    num_sum_s = 0
+    iou_sum_m = 0
+    num_sum_m = 0
+    iou_sum_l = 0
+    num_sum_l = 0
+    iou_sum_seg = 0
+    num_sum_seg = 0
     for im_id in coco.imgToAnns:
         if im_id in res.imgToAnns:
-            anns_res = res.imgToAnns[im_id]
-            anns_raw_res = imgid2res[im_id]
-            for ann_res in anns_res:
-                ori_ann = coco.loadAnns(ann_res['ann_id'])[0]
-                assert ori_ann['id'] == ann_res['ann_id'], f"{ori_ann} vs {ann_res}"
+            anns = res.imgToAnns[im_id]
+            for ann in anns:
+                ori_ann = coco.loadAnns(ann['ann_id'])[0]
+                assert ori_ann['id'] == ann['ann_id'], f"{ori_ann} vs {ann}"
 
                 for key in ['image_id', 'category_id', 'iscrowd']:
-                    assert ori_ann[key] == ann_res[key], key
+                    assert ori_ann[key] == ann[key], key
 
-                ori_ann['bbox'] = turn_bbox_wh(ann_res['bbox'], wh)
-                for key in ['segmentation', 'area', ]:
-                    ori_ann[key] = ann_res[key]
+                # for key in ['bbox', 'segmentation', 'area', ]:
+                for key in ['bbox', 'segmentation',  ]:
+                    if key == 'segmentation':
+                        mask1, mask2 = ori_ann[key], ann[key]
+                        m2 = annToMask(mask2, None)
+                        m1 = annToMask(mask1, m2.shape)
+                        overlap = ((m1 + m2) == 2).sum()
+                        union = ((m1 + m2) >= 1).sum()
+                        iou_mask = overlap / union
+                        iou_sum_seg += iou_mask
+                        num_sum_seg += 1
 
-                ann_raw_res = anns_raw_res[ann_res['ann_id']]
-                for key in ['geo']:
-                    if key in ann_res:
-                        ori_ann[key] = ann_res[key]
-                    elif key in ann_raw_res:
-                        ori_ann[key] = ann_raw_res[key]
+                        ba = torch.tensor(ori_ann['bbox']).unsqueeze(0).float()
+                        ba[:, 2:4] = ba[:, 0:2] + ba[:, 2:4]
+                        bc = get_bounding_box(m2)
+                        bc1 = torch.tensor(bc)[None]
+                        iou = bbox_overlaps(ba, bc1)
+                        if ori_ann['area'] < 32 * 32:
+                            iou_sum_s += iou
+                            num_sum_s += 1
+                        elif 32 * 32 <= ori_ann['area'] < 64 * 64:
+                            iou_sum_m += iou
+                            num_sum_m += 1
+                        else:
+                            iou_sum_l += iou
+                            num_sum_l += 1
+                        iou_sum += iou
+                        num_sum += 1
+                        bc=[int(bc[0]),int(bc[1]),int(bc[2]-bc[0]),int(bc[3]-bc[1])]
+                        ori_ann['bbox'] = bc
+                        ori_ann['area'] = int(m2.sum())
+                    # if key == 'bbox':
+                    #     #                         print(torch.tensor(ori_ann[key]).unsqueeze(-1).shape)
+                    #     ba = torch.tensor(ori_ann[key]).unsqueeze(0).float()
+                    #     ba[:, 2:4] = ba[:, 0:2] + ba[:, 2:4]
+                    #     bb = torch.tensor(ann[key]).unsqueeze(0).float()
+                    #     bb[:, 2:4] = bb[:, 0:2] + bb[:, 2:4]
+                    #     iou = bbox_overlaps(ba, bb)
+                    #     if ori_ann['area'] < 32 * 32:
+                    #         iou_sum_s += iou
+                    #         num_sum_s += 1
+                    #     elif 32 * 32 <= ori_ann['area'] < 64 * 64:
+                    #         iou_sum_m += iou
+                    #         num_sum_m += 1
+                    #     else:
+                    #         iou_sum_l += iou
+                    #         num_sum_l += 1
+                    #     iou_sum += iou
+                    #     num_sum += 1
 
-    check(coco, res)
+                        ori_ann[key] = ann[key]
+                ## add by fei
+                ori_ann['ann_weight'] = ann['score']
+    mean_iou = iou_sum / num_sum
+    print('detection:', mean_iou, num_sum, iou_sum_s / num_sum_s, iou_sum_m / num_sum_m, iou_sum_l / num_sum_l,
+          num_sum_s, num_sum_m,
+          num_sum_l)
+    # print('segmentation:', iou_sum_seg / num_sum_seg)
+    # f = open(args.save_ann.split('.')[0] + '.txt', 'w')
+    # f.writelines(mean_iou+' '+num_sum+' '+iou_sum_s+' '+num_sum_s+' '+iou_sum_m/num_sum_m+' '+iou_sum_l/num_sum_l+' '+num_sum_s+' '+num_sum_m+' '+num_sum_l)
+    # check(coco, res)
     json.dump(coco.dataset, open(args.save_ann, 'w'))

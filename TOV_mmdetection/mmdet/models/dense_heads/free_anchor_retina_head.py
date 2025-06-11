@@ -56,6 +56,7 @@ class FreeAnchorRetinaHead(RetinaHead):
              gt_bboxes,
              gt_labels,
              img_metas,
+             ann_weight=None,
              gt_bboxes_ignore=None):
         """Compute losses of the head.
 

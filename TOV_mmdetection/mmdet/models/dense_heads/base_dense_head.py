@@ -24,6 +24,7 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
                       img_metas,
                       gt_bboxes,
                       gt_labels=None,
+                      ann_weight=None,
                       gt_bboxes_ignore=None,
                       proposal_cfg=None,
                       **kwargs):
@@ -33,7 +34,7 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
             img_metas (list[dict]): Meta information of each image, e.g.,
                 image size, scaling factor, etc.
             gt_bboxes (Tensor): Ground truth bboxes of the image,
-                shape (num_gts, 4).
+                shape (num_gts, 4). 
             gt_labels (Tensor): Ground truth labels of each box,
                 shape (num_gts,).
             gt_bboxes_ignore (Tensor): Ground truth bboxes to be
@@ -51,7 +52,10 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
             loss_inputs = outs + (gt_bboxes, img_metas)
         else:
             loss_inputs = outs + (gt_bboxes, gt_labels, img_metas)
-        losses = self.loss(*loss_inputs, gt_bboxes_ignore=gt_bboxes_ignore)
+        if ann_weight is not None:
+            losses = self.loss(*loss_inputs, ann_weight=ann_weight, gt_bboxes_ignore=gt_bboxes_ignore)
+        else:
+            losses = self.loss(*loss_inputs, ann_weight=ann_weight, gt_bboxes_ignore=gt_bboxes_ignore)
         if proposal_cfg is None:
             return losses
         else:

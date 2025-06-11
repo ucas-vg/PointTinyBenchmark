@@ -56,6 +56,7 @@ class StandardRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
                       proposal_list,
                       gt_bboxes,
                       gt_labels,
+                      ann_weight,
                       gt_bboxes_ignore=None,
                       gt_masks=None):
         """
@@ -100,7 +101,7 @@ class StandardRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
         # bbox head forward and loss
         if self.with_bbox:
             bbox_results = self._bbox_forward_train(x, sampling_results,
-                                                    gt_bboxes, gt_labels,
+                                                    gt_bboxes, gt_labels,ann_weight, #add by fei
                                                     img_metas)
             losses.update(bbox_results['loss_bbox'])
 
@@ -126,14 +127,14 @@ class StandardRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
             cls_score=cls_score, bbox_pred=bbox_pred, bbox_feats=bbox_feats)
         return bbox_results
 
-    def _bbox_forward_train(self, x, sampling_results, gt_bboxes, gt_labels,
+    def _bbox_forward_train(self, x, sampling_results, gt_bboxes, gt_labels, ann_weight,
                             img_metas):
         """Run forward function and calculate loss for box head in training."""
         rois = bbox2roi([res.bboxes for res in sampling_results])
         bbox_results = self._bbox_forward(x, rois)
 
         bbox_targets = self.bbox_head.get_targets(sampling_results, gt_bboxes,
-                                                  gt_labels, self.train_cfg)
+                                                  gt_labels,ann_weight, self.train_cfg) ## add by fei
         loss_bbox = self.bbox_head.loss(bbox_results['cls_score'],
                                         bbox_results['bbox_pred'], rois,
                                         *bbox_targets)

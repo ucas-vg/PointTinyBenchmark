@@ -44,7 +44,7 @@ data = dict(
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'anns/release/rgb_valid.json',
+        ann_file=data_root + 'anns/release/rgb_test.json',
         img_prefix=data_root + 'imgs/',
         pipeline=test_pipeline),
     test=dict(
@@ -69,9 +69,12 @@ evaluation = dict(
         use_iod_for_ignore=True,
         iod_th_of_iou_f="lambda iou: iou",  #"lambda iou: (2*iou)/(1+iou)",
         cocofmt_param=dict(
-            evaluate_standard='tiny',  # or 'coco'
+            # evaluate_standard='tiny',  # or 'coco'
+            # # iouThrs=[0.25, 0.5, 0.75],  # set this same as set evaluation.iou_thrs
+            # # maxDets=[200],              # set this same as set evaluation.proposal_nums
+            evaluate_standard='coco',  # or 'coco'
             # iouThrs=[0.25, 0.5, 0.75],  # set this same as set evaluation.iou_thrs
-            # maxDets=[200],              # set this same as set evaluation.proposal_nums
+            maxDets=[1000],  # set this same as set evaluation.proposal_nums
         )
     )
 )

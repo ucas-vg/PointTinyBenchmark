@@ -217,6 +217,7 @@ class FCOSHead(AnchorFreeHead):
         flatten_labels = torch.cat(labels)
         flatten_bbox_targets = torch.cat(bbox_targets)
         # repeat points to align with bbox_preds
+        # repeat points to align with bbox_predsSample
         flatten_points = torch.cat(
             [points.repeat(num_imgs, 1) for points in all_level_points])
 

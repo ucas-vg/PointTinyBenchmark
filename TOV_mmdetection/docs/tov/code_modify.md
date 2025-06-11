@@ -11,6 +11,7 @@ auto cut image and merge result durring inference| + mmdet/datasets/pipelines/rt
 do final test| > do_final_eval：mmdet/core/evaluation/eval_hooks.py:10,40 | X
 Scale Match| + mmdet/core/bbox/coder/bouding_box.py<br/>+ mmdet/datasets/pipelines/scale_match.py<br/> > mmdet/datasets/pipelines/__init__.py| X
 stop while nan| > mmdet/apis/train.py:165,174;<br/> >${config}.py:add check=dict(stop_while_nan=True) | X
+SparseRCNN  | > mmdet/models/roi_heads/sparse_roi_head.py:283 | X
 
 
 **coco format annotation + ignore dataset support** include：

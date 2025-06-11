@@ -227,10 +227,6 @@ class CocoDataset(CustomDataset):
                     data['category_id'] = self.cat_ids[label]
                     if len(bboxes[i]) >= 6:  # add by hui
                         data['ann_id'] = int(bboxes[i][5])
-                    if len(bboxes[i]) >= 7:  # add by hui
-                        geos = [round(e, 1) for e in bboxes[i][6:] if e >=0]
-                        assert len(geos) % 2 == 0
-                        data['geo'] = geos
                     json_results.append(data)
         return json_results
 
@@ -250,6 +246,8 @@ class CocoDataset(CustomDataset):
                     data['bbox'] = self.xyxy2xywh(bboxes[i])
                     data['score'] = float(bboxes[i][4])
                     data['category_id'] = self.cat_ids[label]
+                    if len(bboxes[i]) >= 6:  # add by hui
+                        data['ann_id'] = int(bboxes[i][5])
                     bbox_json_results.append(data)
 
                 # segm results
@@ -266,6 +264,8 @@ class CocoDataset(CustomDataset):
                     data['bbox'] = self.xyxy2xywh(bboxes[i])
                     data['score'] = float(mask_score[i])
                     data['category_id'] = self.cat_ids[label]
+                    if len(bboxes[i]) >= 6:  # add by hui
+                        data['ann_id'] = int(bboxes[i][5])
                     if isinstance(segms[i]['counts'], bytes):
                         segms[i]['counts'] = segms[i]['counts'].decode()
                     data['segmentation'] = segms[i]

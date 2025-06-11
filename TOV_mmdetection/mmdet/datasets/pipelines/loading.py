@@ -271,8 +271,10 @@ class LoadAnnotations:
         """
 
         results['gt_labels'] = results['ann_info']['labels'].copy()
-        if 'anns_id' in results['ann_info']:  # add by hui
+        if 'anns_id' in results['ann_info']:
             results['gt_anns_id'] = results['ann_info']['anns_id'].copy()  # add by hui
+        if 'ann_weight' in results['ann_info']:
+            results['ann_weight'] = results['ann_info']['ann_weight'].copy()  # add by hui
         return results
 
     def _poly2mask(self, mask_ann, img_h, img_w):

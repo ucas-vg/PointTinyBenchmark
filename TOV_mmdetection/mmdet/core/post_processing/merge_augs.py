@@ -94,18 +94,20 @@ def merge_aug_bboxes(aug_bboxes, aug_scores, img_metas, rcnn_test_cfg):
     """
     recovered_bboxes = []
     for bboxes, img_info in zip(aug_bboxes, img_metas):
+        # print(img_info)
         img_shape = img_info[0]['img_shape']
         scale_factor = img_info[0]['scale_factor']
         flip = img_info[0]['flip']
         flip_direction = img_info[0]['flip_direction']
         bboxes = bbox_mapping_back(bboxes, img_shape, scale_factor, flip,
                                    flip_direction, img_info[0].get('tile_offset', None))
+        # print(bboxes.shape,aug_scores[0].shape)
         recovered_bboxes.append(bboxes)
-    bboxes = torch.stack(recovered_bboxes).mean(dim=0)
+    bboxes = torch.cat(recovered_bboxes)
     if aug_scores is None:
         return bboxes
     else:
-        scores = torch.stack(aug_scores).mean(dim=0)
+        scores = torch.cat(aug_scores)
         return bboxes, scores
 
 

@@ -128,7 +128,7 @@ class Transpose:
 
     def __repr__(self):
         return self.__class__.__name__ + \
-            f'(keys={self.keys}, order={self.order})'
+               f'(keys={self.keys}, order={self.order})'
 
 
 @PIPELINES.register_module()
@@ -207,7 +207,8 @@ class DefaultFormatBundle:
                 img = np.expand_dims(img, -1)
             img = np.ascontiguousarray(img.transpose(2, 0, 1))
             results['img'] = DC(to_tensor(img), stack=True)
-        for key in ['proposals', 'gt_bboxes', 'gt_bboxes_ignore', 'gt_labels', 'gt_true_bboxes', 'gt_anns_id']:  # change by hui
+        for key in ['proposals', 'gt_bboxes', 'gt_bboxes_ignore', 'gt_labels', 'gt_true_bboxes', 'gt_anns_id',
+                    'ann_weight']:  # change by hui
             if key not in results:
                 continue
             results[key] = DC(to_tensor(results[key]))
@@ -320,7 +321,7 @@ class Collect:
 
     def __repr__(self):
         return self.__class__.__name__ + \
-            f'(keys={self.keys}, meta_keys={self.meta_keys})'
+               f'(keys={self.keys}, meta_keys={self.meta_keys})'
 
 
 @PIPELINES.register_module()

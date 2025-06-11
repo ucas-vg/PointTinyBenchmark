@@ -12,7 +12,7 @@ from .dense_test_mixins import BBoxTestMixin
 
 
 @HEADS.register_module()
-class AnchorFreeHead(BaseDenseHead, BBoxTestMixin):
+class  AnchorFreeHead(BaseDenseHead, BBoxTestMixin):
     """Anchor-free head (FCOS, Fovea, RepPoints, etc.).
 
     Args:
@@ -321,7 +321,7 @@ class AnchorFreeHead(BaseDenseHead, BBoxTestMixin):
                                         dtype, device, flatten))
         return mlvl_points
 
-    def aug_test(self, feats, img_metas, rescale=False):
+    def aug_test(self, feats, img_metas, rescale=False, **kwargs):
         """Test function with test time augmentation.
 
         Args:
@@ -337,4 +337,4 @@ class AnchorFreeHead(BaseDenseHead, BBoxTestMixin):
         Returns:
             list[ndarray]: bbox results of each class
         """
-        return self.aug_test_bboxes(feats, img_metas, rescale=rescale)
+        return self.aug_test_bboxes(feats, img_metas, rescale=rescale, **kwargs)

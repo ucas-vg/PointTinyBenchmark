@@ -115,7 +115,7 @@ class BBoxHead(BaseModule):
         return cls_score, bbox_pred
 
     def _get_target_single(self, pos_bboxes, neg_bboxes, pos_gt_bboxes,
-                           pos_gt_labels, cfg):
+                           pos_gt_labels, pos_assigned_gt_inds, ann_weight, cfg):  # add by fei
         """Calculate the ground truth for proposals in the single image
         according to the sampling results.
 
@@ -154,7 +154,7 @@ class BBoxHead(BaseModule):
         # original implementation uses new_zeros since BG are set to be 0
         # now use empty & fill because BG cat_id = num_classes,
         # FG cat_id = [0, num_classes-1]
-        labels = pos_bboxes.new_full((num_samples, ),
+        labels = pos_bboxes.new_full((num_samples,),
                                      self.num_classes,
                                      dtype=torch.long)
         label_weights = pos_bboxes.new_zeros(num_samples)
@@ -163,7 +163,14 @@ class BBoxHead(BaseModule):
         if num_pos > 0:
             labels[:num_pos] = pos_gt_labels
             pos_weight = 1.0 if cfg.pos_weight <= 0 else cfg.pos_weight
-            label_weights[:num_pos] = pos_weight
+
+            ######################################### add by fei ###########
+            if ann_weight is None:
+                label_weights[:num_pos] = pos_weight
+            else:
+                label_weights[:num_pos] = ann_weight[pos_assigned_gt_inds]
+            ################################################################
+
             if not self.reg_decoded_bbox:
                 pos_bbox_targets = self.bbox_coder.encode(
                     pos_bboxes, pos_gt_bboxes)
@@ -174,7 +181,13 @@ class BBoxHead(BaseModule):
                 # absolute coordinate format.
                 pos_bbox_targets = pos_gt_bboxes
             bbox_targets[:num_pos, :] = pos_bbox_targets
-            bbox_weights[:num_pos, :] = 1
+
+            ######################################### add by fei ###########
+            if ann_weight is None:
+                bbox_weights[:num_pos, :] = 1
+            else:
+                bbox_weights[:num_pos, :] = ann_weight[pos_assigned_gt_inds].unsqueeze(-1)
+
         if num_neg > 0:
             label_weights[-num_neg:] = 1.0
 
@@ -184,6 +197,7 @@ class BBoxHead(BaseModule):
                     sampling_results,
                     gt_bboxes,
                     gt_labels,
+                    ann_weight_list,  # add by fei
                     rcnn_train_cfg,
                     concat=True):
         """Calculate the ground truth for all samples in a batch according to
@@ -232,12 +246,20 @@ class BBoxHead(BaseModule):
         neg_bboxes_list = [res.neg_bboxes for res in sampling_results]
         pos_gt_bboxes_list = [res.pos_gt_bboxes for res in sampling_results]
         pos_gt_labels_list = [res.pos_gt_labels for res in sampling_results]
+
+        pos_assigned_gt_inds_list = [res.pos_assigned_gt_inds for res in sampling_results]
+
+        if ann_weight_list is None:   ## add by fei
+            ann_weight_list = [None for _ in range(len(sampling_results))]
+
         labels, label_weights, bbox_targets, bbox_weights = multi_apply(
             self._get_target_single,
             pos_bboxes_list,
             neg_bboxes_list,
             pos_gt_bboxes_list,
             pos_gt_labels_list,
+            pos_assigned_gt_inds_list,
+            ann_weight_list,
             cfg=rcnn_train_cfg)
 
         if concat:
@@ -382,7 +404,7 @@ class BBoxHead(BaseModule):
             rois = rois.unsqueeze(0)
 
             assert isinstance(scale_factor, np.ndarray)
-            scale_factor = (scale_factor, )
+            scale_factor = (scale_factor,)
 
         elif rois.ndim == 3:
             # all input tensor have batch dimension
@@ -435,7 +457,7 @@ class BBoxHead(BaseModule):
             # tuple[list[Tensor], list[Tensor]]
             return det_bboxes, det_labels
 
-    @force_fp32(apply_to=('bbox_preds', ))
+    @force_fp32(apply_to=('bbox_preds',))
     def refine_bboxes(self, rois, labels, bbox_preds, pos_is_gts, img_metas):
         """Refine bboxes during training.
 
@@ -514,7 +536,7 @@ class BBoxHead(BaseModule):
 
         return bboxes_list
 
-    @force_fp32(apply_to=('bbox_pred', ))
+    @force_fp32(apply_to=('bbox_pred',))
     def regress_by_class(self, rois, label, bbox_pred, img_meta):
         """Regress the bbox for the predicted class. Used in Cascade R-CNN.
 

@@ -37,7 +37,7 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=8,  # 2
+    samples_per_gpu=2,  # 2
     workers_per_gpu=1,  # didi-debug 2
     shuffle=False if debug else None,
     train=dict(

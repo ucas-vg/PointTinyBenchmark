@@ -64,7 +64,6 @@ model = dict(
             merge_th=0.1,
             refine_th=0.1,
             classify_filter=True,
-            nearest_filter=True,
         ),
     ),
     # training and testing settings

@@ -35,7 +35,7 @@ class BBoxTestMixin(object):
         results_list = self.get_bboxes(*outs, img_metas, rescale=rescale, **kwargs)
         return results_list
 
-    def aug_test_bboxes(self, feats, img_metas, rescale=False):
+    def aug_test_bboxes(self, feats, img_metas, rescale=False, **kwargs):
         """Test det bboxes with test time augmentation, can be applied in
         DenseHead except for ``RPNHead`` and its variants, e.g., ``GARPNHead``,
         etc.
@@ -76,7 +76,7 @@ class BBoxTestMixin(object):
             # only one image in the batch
             outs = self.forward(x)
             bbox_inputs = outs + (img_meta, self.test_cfg, False, False)
-            bbox_outputs = self.get_bboxes(*bbox_inputs)[0]
+            bbox_outputs = self.get_bboxes(*bbox_inputs, **kwargs)[0]
             aug_bboxes.append(bbox_outputs[0])
             aug_scores.append(bbox_outputs[1])
             # bbox_outputs of some detectors (e.g., ATSS, FCOS, YOLOv3)
@@ -107,7 +107,7 @@ class BBoxTestMixin(object):
             (_det_bboxes, det_labels),
         ]
 
-    def simple_test_rpn(self, x, img_metas):
+    def simple_test_rpn(self, x, img_metas, **kwargs):
         """Test without augmentation, only for ``RPNHead`` and its variants,
         e.g., ``GARPNHead``, etc.
 
@@ -121,10 +121,10 @@ class BBoxTestMixin(object):
                 where 5 represent (tl_x, tl_y, br_x, br_y, score).
         """
         rpn_outs = self(x)
-        proposal_list = self.get_bboxes(*rpn_outs, img_metas)
+        proposal_list = self.get_bboxes(*rpn_outs, img_metas, **kwargs)
         return proposal_list
 
-    def aug_test_rpn(self, feats, img_metas):
+    def aug_test_rpn(self, feats, img_metas, **kwargs):
         """Test with augmentation for only for ``RPNHead`` and its variants,
         e.g., ``GARPNHead``, etc.
 
@@ -140,7 +140,7 @@ class BBoxTestMixin(object):
         samples_per_gpu = len(img_metas[0])
         aug_proposals = [[] for _ in range(samples_per_gpu)]
         for x, img_meta in zip(feats, img_metas):
-            proposal_list = self.simple_test_rpn(x, img_meta)
+            proposal_list = self.simple_test_rpn(x, img_meta, **kwargs)
             for i, proposals in enumerate(proposal_list):
                 aug_proposals[i].append(proposals)
         # reorganize the order of 'img_metas' to match the dimensions
@@ -160,17 +160,17 @@ class BBoxTestMixin(object):
 
     if sys.version_info >= (3, 7):
 
-        async def async_simple_test_rpn(self, x, img_metas):
+        async def async_simple_test_rpn(self, x, img_metas, **kwargs):
             sleep_interval = self.test_cfg.pop('async_sleep_interval', 0.025)
             async with completed(
                     __name__, 'rpn_head_forward',
                     sleep_interval=sleep_interval):
                 rpn_outs = self(x)
 
-            proposal_list = self.get_bboxes(*rpn_outs, img_metas)
+            proposal_list = self.get_bboxes(*rpn_outs, img_metas, **kwargs)
             return proposal_list
 
-    def merge_aug_bboxes(self, aug_bboxes, aug_scores, img_metas):
+    def merge_aug_bboxes(self, aug_bboxes, aug_scores, img_metas, **kwargs):
         """Merge augmented detection bboxes and scores.
 
         Args:

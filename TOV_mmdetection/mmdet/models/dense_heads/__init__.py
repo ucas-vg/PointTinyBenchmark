@@ -32,6 +32,15 @@ from .vfnet_head import VFNetHead
 from .yolact_head import YOLACTHead, YOLACTProtonet, YOLACTSegmHead
 from .yolo_head import YOLOV3Head
 from .yolof_head import YOLOFHead
+# from .cpr_head import CPRHead
+# from .cascade_cpr_head import CascadeCPRHead
+# from .p2p_head import P2PHead
+from .ecpl_head import EcplHead
+from .semantics_head import SemanticsHead
+from .condinst_head import CondInstMaskHead
+from .condinst_head import CondInstMaskBranch
+from .condinst_head import CondInstBoxHead
+from .Unet_head import WeightedHausdorffDistance
 
 __all__ = [
     'AnchorFreeHead', 'AnchorHead', 'GuidedAnchorHead', 'FeatureAdaption',
@@ -43,5 +52,5 @@ __all__ = [
     'SABLRetinaHead', 'CentripetalHead', 'VFNetHead', 'StageCascadeRPNHead',
     'CascadeRPNHead', 'EmbeddingRPNHead', 'LDHead', 'CascadeRPNHead',
     'AutoAssignHead', 'DETRHead', 'YOLOFHead', 'DeformableDETRHead',
-    'CenterNetHead'
+    'CenterNetHead',  'EcplHead', 'SemanticsHead', 'CondInstMaskHead','CondInstMaskBranch','CondInstBoxHead','WeightedHausdorffDistance'
 ]

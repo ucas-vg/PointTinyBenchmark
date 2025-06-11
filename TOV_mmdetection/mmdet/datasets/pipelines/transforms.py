@@ -782,9 +782,9 @@ class RandomCrop:
             img_shape = img.shape
             results[key] = img
         results['img_shape'] = img_shape
-
         # crop bboxes accordingly and clip to the image boundary
         for key in results.get('bbox_fields', []):
+
             # e.g. gt_bboxes and gt_bboxes_ignore
             bbox_offset = np.array([offset_w, offset_h, offset_w, offset_h],
                                    dtype=np.float32)
@@ -792,8 +792,9 @@ class RandomCrop:
             if self.bbox_clip_border:
                 bboxes[:, 0::2] = np.clip(bboxes[:, 0::2], 0, img_shape[1])
                 bboxes[:, 1::2] = np.clip(bboxes[:, 1::2], 0, img_shape[0])
-            valid_inds = (bboxes[:, 2] > bboxes[:, 0]) & (
-                bboxes[:, 3] > bboxes[:, 1])
+            if key != 'gt_bboxes':  ######### modified for tinypersonv2
+                valid_inds = (bboxes[:, 2] > bboxes[:, 0]) & (
+                    bboxes[:, 3] > bboxes[:, 1])
             # If the crop does not contain any gt-bbox area and
             # allow_negative_crop is False, skip this image.
             if (key == 'gt_bboxes' and not valid_inds.any()

@@ -21,7 +21,7 @@ class RepPointsHead(AnchorFreeHead):
         point_strides (Iterable): points strides.
         point_base_scale (int): bbox scale for assigning labels.
         loss_cls (dict): Config of classification loss.
-        loss_bbox_init (dict): Config of initial points loss.
+        loss_bbox_init (dict): Config of initial points loss.计算所今年毕业的博士
         loss_bbox_refine (dict): Config of points loss in refinement.
         use_grid_points (bool): If we use bounding box representation, the
         reppoints is represented as grid points on the bounding box.
@@ -573,6 +573,7 @@ class RepPointsHead(AnchorFreeHead):
              gt_bboxes,
              gt_labels,
              img_metas,
+             ann_weight=None,
              gt_bboxes_ignore=None):
         featmap_sizes = [featmap.size()[-2:] for featmap in cls_scores]
         assert len(featmap_sizes) == len(self.point_generators)

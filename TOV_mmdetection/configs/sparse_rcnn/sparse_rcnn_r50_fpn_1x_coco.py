@@ -85,7 +85,7 @@ model = dict(
                 sampler=dict(type='PseudoSampler'),
                 pos_weight=1) for _ in range(num_stages)
         ]),
-    test_cfg=dict(rpn=None, rcnn=dict(max_per_img=num_proposals)))
+    test_cfg=dict(rpn=None, score_thr=0.0, rcnn=dict(max_per_img=num_proposals)))
 
 # optimizer
 optimizer = dict(_delete_=True, type='AdamW', lr=0.000025, weight_decay=0.0001)

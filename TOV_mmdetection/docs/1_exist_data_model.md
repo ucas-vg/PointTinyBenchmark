@@ -99,7 +99,7 @@ Source codes are available [here](https://github.com/open-mmlab/mmdetection/tree
 This script performs inference on a single image.
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_old.py \
     ${IMAGE_FILE} \
     ${CONFIG_FILE} \
     ${CHECKPOINT_FILE} \
@@ -110,7 +110,7 @@ python demo/image_demo.py \
 Examples:
 
 ```shell
-python demo/image_demo.py demo/demo.jpg \
+python demo/image_demo_old.py demo/demo.jpg \
     configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
     checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth \
     --device cpu

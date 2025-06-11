@@ -374,6 +374,8 @@ class ResNet(BaseModule):
                  strides=(1, 2, 2, 2),
                  dilations=(1, 1, 1, 1),
                  out_indices=(0, 1, 2, 3),
+                 first_conv_stride=2,  # add by hui
+                 with_max_pool=True,  # add by hui
                  style='pytorch',
                  deep_stem=False,
                  avg_down=False,
@@ -452,6 +454,8 @@ class ResNet(BaseModule):
         self.block, stage_blocks = self.arch_settings[depth]
         self.stage_blocks = stage_blocks[:num_stages]
         self.inplanes = stem_channels
+        self.first_conv_stride = first_conv_stride  # add by hui
+        self.with_max_pool = with_max_pool  # add by hui
 
         self._make_stem_layer(in_channels, stem_channels)
 
@@ -569,7 +573,7 @@ class ResNet(BaseModule):
                     in_channels,
                     stem_channels // 2,
                     kernel_size=3,
-                    stride=2,
+                    stride=self.first_conv_stride,
                     padding=1,
                     bias=False),
                 build_norm_layer(self.norm_cfg, stem_channels // 2)[1],
@@ -635,7 +639,8 @@ class ResNet(BaseModule):
             x = self.conv1(x)
             x = self.norm1(x)
             x = self.relu(x)
-        x = self.maxpool(x)
+        if self.with_max_pool:  # add by hui
+            x = self.maxpool(x)
         outs = []
         for i, layer_name in enumerate(self.res_layers):
             res_layer = getattr(self, layer_name)
