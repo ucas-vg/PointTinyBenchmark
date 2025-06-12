@@ -2,7 +2,7 @@
 P2Object
 --------------
 
-P2BNet a newly proposed method for point-supervised object detection and instance segmentation tasks on [PointTinyBenchmark](https://github.com/ucas-vg/PointTinyBenchmark), which is based on [mmdetection](https://github.com/open-mmlab/mmdetection). 
+P2Object a newly proposed method for point-supervised object detection and instance segmentation tasks on [PointTinyBenchmark](https://github.com/ucas-vg/PointTinyBenchmark), which is based on [mmdetection](https://github.com/open-mmlab/mmdetection). 
 
 To date, It implements the following algorithms:
 * [P2Object: Single Point Supervised Object Detection and Instance Segmentation (IJCV)](https://arxiv.org/abs/2504.07813) [Details](TOV_mmdetection/README.md)
