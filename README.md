@@ -7,7 +7,7 @@ P2BNet a newly proposed method for point-supervised object detection and instanc
 To date, It implements the following algorithms:
 * [P2Object: Single Point Supervised Object Detection and Instance Segmentation (IJCV)](https://arxiv.org/abs/2504.07813) [Details](TOV_mmdetection/README.md)
 * [Point-to-Box Network for Accurate Object Detection via Single Point Supervision (ECCV2022)](https://arxiv.org/abs/2207.06827) [Details](TOV_mmdetection/README.md)
-* Paper is avaliable here: [https://arxiv.org/abs/2207.06827](https://arxiv.org/abs/2207.06827)
+* Paper is avaliable here: [https://arxiv.org/abs/2504.07813](https://arxiv.org/abs/2504.07813)
 
 ## News
 
@@ -22,7 +22,8 @@ and Lingxi Xie and Zhenjun Han and Jianbin Jiao},
   journal      = {IJCV},
   year         = {2025},
 }
-
+```
+```
 @inproceedings{P2BNet,
   author    = {Pengfei Chen, Xuehui Yu, Xumeng Han, Najmul Hassan, Kai Wang, Jiachen
 Li, Jian Zhao, Humphrey Shi, Zhenjun Han, and Qixiang Ye},
